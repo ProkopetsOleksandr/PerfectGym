@@ -1,27 +1,38 @@
-import React from "react";
-import classes from './NavigationMenu.module.css';
-import HomeIcon from '@mui/icons-material/Home';
-import HistoryIcon from '@mui/icons-material/History';
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import AssessmentIcon from '@mui/icons-material/Assessment';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import HistoryIcon from '@mui/icons-material/History';
+import HomeIcon from '@mui/icons-material/Home';
+import React from "react";
+import { NavLink } from 'react-router-dom';
+import classes from './NavigationMenu.module.css';
 
 const NavigationMenu = () => {
+
+    function GetNavLinkClassName({ isActive }: {isActive: boolean}) {
+        let className = classes.navLink;
+        if (isActive) {
+            className += " " + classes.active
+        }
+
+        return className;
+    }
+
     return (
         <div className={classes.navMenuContainer}>
-            <nav className={`${classes.nav} container`}>
+            <nav className={classes.nav}>
                 <ul className={classes.navList}>
                     <li className={classes.navItem}>
-                        <a href="#" className={classes.navLink}>
-                            <HomeIcon/>
+                        <NavLink to="/" className={GetNavLinkClassName}>
+                            <HomeIcon className={classes.homeIcon} />
                             <span className={classes.navName}>Home</span>
-                        </a>
+                        </NavLink>
                     </li>
 
                     <li className={classes.navItem}>
-                        <a href="#" className={classes.navLink}>
-                            <FitnessCenterIcon />
+                        <NavLink to="/programs" className={GetNavLinkClassName}>
+                            <FitnessCenterIcon className={classes.programsIcon} />
                             <span className={classes.navName}>Programs</span>
-                        </a>
+                        </NavLink>
                     </li>
 
                     <li className={classes.navItem}>

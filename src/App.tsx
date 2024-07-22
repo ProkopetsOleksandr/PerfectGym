@@ -1,15 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import Home from './components/Home/Home';
 import NavigationMenu from './components/NavigationMenu/NavigationMenu';
+import Programs from './components/Programs/Programs';
 
 function App() {
     return (
-        <React.Fragment>
-            <NavigationMenu />
-        </React.Fragment>
+        <BrowserRouter>
+            <div id="app-wrapper">
+                <div id="app-content">
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+                        <Route path='/programs' element={<Programs />} />
+                    </Routes>
+                </div>
+                <div id="app-nav">
+                    <NavigationMenu />
+                </div>
+            </div>
+        </BrowserRouter>
     );
 }
 
