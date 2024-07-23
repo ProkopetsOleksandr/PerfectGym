@@ -31,8 +31,9 @@ a {
 }
 
 .container {
-    max-width: 968px;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    padding: 15px;
 }
 
+.margin-bottom-1 {
+    margin-bottom: 1rem;
+}

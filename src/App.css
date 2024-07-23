@@ -1,8 +1,4 @@
 #app-wrapper {
     max-height: calc(100vh - 4.5rem);
-    overflow: scroll;
-}
-
-#app-content {
-    padding: 10px;
+    overflow-x: auto;
 }

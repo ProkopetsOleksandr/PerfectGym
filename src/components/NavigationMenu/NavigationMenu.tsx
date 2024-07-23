@@ -29,9 +29,9 @@ const NavigationMenu = () => {
                     </li>
 
                     <li className={classes.navItem}>
-                        <NavLink to="/programs" className={GetNavLinkClassName}>
+                        <NavLink to="/workout" className={GetNavLinkClassName}>
                             <FitnessCenterIcon className={classes.programsIcon} />
-                            <span className={classes.navName}>Programs</span>
+                            <span className={classes.navName}>Workout</span>
                         </NavLink>
                     </li>
 
@@ -48,6 +48,7 @@ const NavigationMenu = () => {
                             <span className={classes.navName}>Stats</span>
                         </a>
                     </li>
+
                 </ul>
             </nav>
         </div>

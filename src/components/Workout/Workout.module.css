@@ -1,0 +1,54 @@
+/* WORKOUT PAGE */
+
+.workoutTabs {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 3rem;
+    gap: 3px;
+    position: fixed;
+    width: 100%;
+}
+
+.workoutContent {
+    padding-top: 3rem;
+}
+
+.workoutTabs a {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #272343;
+    border-top: 2px solid #e5e5de;
+    font-weight: bold;
+    background: #f8f8ee;
+}
+
+.workoutTabs a.active {
+    border-top: 2px solid #a4e3e3;
+}
+
+
+/* EXCERCISES PAGE */
+
+.exercise {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.exercise img {
+    width: 70px;
+}
+
+.excerciseInfo .name {
+    font-weight: bold;
+}
+
+.excerciseInfo .group {
+    font-size: small;
+}

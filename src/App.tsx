@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home/Home';
 import NavigationMenu from './components/NavigationMenu/NavigationMenu';
-import Programs from './components/Programs/Programs';
+import Workout from './components/Workout/Workout';
 
 function App() {
     return (
@@ -11,7 +11,7 @@ function App() {
                 <div id="app-content">
                     <Routes>
                         <Route path='/' element={<Home />} />
-                        <Route path='/programs' element={<Programs />} />
+                        <Route path='/workout/*' element={<Workout />} />
                     </Routes>
                 </div>
                 <div id="app-nav">
