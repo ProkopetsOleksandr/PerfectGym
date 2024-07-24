@@ -14,8 +14,8 @@ const Workout = () => {
             <div className={classes.workoutContent}>
                 <div className="container">
                     <Routes>
-                        <Route path='excercises' element={<Excercises />} />
                         <Route path='programs' element={<Programs />} />
+                        <Route path='excercises' element={<Excercises />} />
                     </Routes>
                 </div>
             </div>
