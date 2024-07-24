@@ -9,7 +9,7 @@ export const ExcerciseGroupLabel = new Map<number, string>([
 export interface IExcercise {
     id?: number,
     imageUrl?: string,
-    name: string,
+    title: string,
     description?: string,
     excerciseGroup: ExcerciseGroup
 }

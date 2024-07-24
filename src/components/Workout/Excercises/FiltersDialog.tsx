@@ -1,10 +1,14 @@
 import { Chip } from '@mui/material';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { FC } from 'react';
+
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DialogTransition from '../../Common/DialogTransition';
 
 interface IFiltersDialogProps {
     open: boolean,
@@ -13,10 +17,21 @@ interface IFiltersDialogProps {
 
 const FiltersDialog: FC<IFiltersDialogProps> = (props) => {
     return (
-        <Dialog open={props.open} fullWidth={true} onClose={props.handleClose}>
+        <Dialog open={props.open} fullWidth={true} fullScreen TransitionComponent={DialogTransition}>
+            <AppBar sx={{ position: 'relative', background: "#272343" }}>
+                <Toolbar>
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        onClick={props.handleClose}
+                        aria-label="close">
+                        <ArrowBackIcon />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
             <DialogTitle>Filters</DialogTitle>
             <DialogContent>
-                <div style={{display: "flex", gap: "10px", flexWrap: "wrap"}}>
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                     <Chip label="Chest" />
                     <Chip label="Neck" variant="outlined" />
                     <Chip label="Arms" />
@@ -25,10 +40,6 @@ const FiltersDialog: FC<IFiltersDialogProps> = (props) => {
                     <Chip label="Biceps" variant="outlined" />
                 </div>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={props.handleClose}>Cancel</Button>
-                <Button type="submit">OK</Button>
-            </DialogActions>
         </Dialog>
     )
 }

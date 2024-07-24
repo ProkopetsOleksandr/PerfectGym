@@ -9,18 +9,18 @@ const initialState = {
     excercises: [
         {
             id: 1,
-            name: "banch press",
+            title: "banch press",
             imageUrl: "https://www.lyfta.app/_next/image?url=https%3A%2F%2Flyfta.app%2Fimages%2Fexercises%2F00251101.png&w=640&q=10",
             excerciseGroup: ExcerciseGroup.Chest
         },
         {
             id: 2,
-            name: "dumbbel v storonu",
+            title: "dumbbel v storonu",
             excerciseGroup: ExcerciseGroup.Chest
         },
         {
             id: 3,
-            name: "Upraznenie 3",
+            title: "Upraznenie 3",
             excerciseGroup: ExcerciseGroup.Chest
         }
     ]

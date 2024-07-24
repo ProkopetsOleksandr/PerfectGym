@@ -6,6 +6,7 @@ import classes from '../Workout.module.css'
 import FiltersDialog from './FiltersDialog'
 import { useAppSelector } from '../../../core/redux/hook'
 import ExcerciseDialog from './ExcerciseDialog'
+import IconButton from '@mui/material/IconButton';
 
 function Excercises() {
     const defaultImageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
@@ -33,8 +34,8 @@ function Excercises() {
     return (
         <div>
             <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-                <Button style={{ color: "#272343", minWidth: "40px", width: "40px" }}><Search /></Button>
-                <Button style={{ color: "#272343", minWidth: "40px", width: "40px" }} onClick={openFiltersDialog}><FilterAlt /></Button>
+                <IconButton style={{ color: "#272343" }}><Search /></IconButton>
+                <IconButton style={{ color: "#272343" }} onClick={openFiltersDialog}><FilterAlt /></IconButton>
                 <Button variant='contained' style={{ background: "#272343" }} onClick={openExcericseDialog}>Add</Button>
             </div>
 
@@ -43,7 +44,7 @@ function Excercises() {
                     <li key={excercise.id} className={classes.exercise}>
                         <img src={excercise.imageUrl ?? defaultImageUrl} alt='excercise' />
                         <div className={classes.excerciseInfo}>
-                            <div className={classes.name}>{excercise.name}</div>
+                            <div className={classes.name}>{excercise.title}</div>
                             <div className={classes.group}>{ExcerciseGroupLabel.get(excercise.excerciseGroup)}</div>
                         </div>
                     </li>)}

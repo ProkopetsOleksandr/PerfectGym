@@ -1,4 +1,4 @@
-import { NavLink, Route, Routes } from 'react-router-dom'
+import { NavLink, Route, Routes, Navigate } from 'react-router-dom'
 import Excercises from './Excercises/Excercises'
 import Programs from './Programs/Programs'
 import classes from './Workout.module.css'
@@ -14,6 +14,7 @@ const Workout = () => {
             <div className={classes.workoutContent}>
                 <div className="container">
                     <Routes>
+                        <Route index element={<Navigate to="excercises" replace />}></Route>
                         <Route path='programs' element={<Programs />} />
                         <Route path='excercises' element={<Excercises />} />
                     </Routes>
