@@ -2,7 +2,7 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState, useRef } from 'react';
 import { IExcercise } from '../../../core/models/workout';
 import { useFormik } from 'formik';
 
@@ -11,7 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DialogTransition from '../../Common/DialogTransition';
-import { TextField } from '@mui/material';
+import { TextField, Menu, MenuItem } from '@mui/material';
 
 interface IExcerciseDialogProps {
     excercise?: IExcercise,
@@ -21,14 +21,19 @@ interface IExcerciseDialogProps {
 
 interface ExcerciseFormValues {
     title: string,
-    description?: string
+    description?: string,
+    imageUrl?: string
 }
 
 const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
+    const defaultImageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
+    const imageSelectorRef = useRef<HTMLInputElement>(null);
+
     const formik = useFormik({
         initialValues: {
             title: '',
-            description: ''
+            description: '',
+            imageUrl: ''
         },
         validate: validate,
         onSubmit: onSubmit
@@ -37,8 +42,10 @@ const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
     useEffect(() => {
         if (props.open) {
             formik.validateForm();
+            setSelectedFile(undefined);
+            setPreview(undefined);
         }
-    }, [props.open, formik])
+    }, [props.open])
 
     function validate(values: ExcerciseFormValues) {
         const errors: Partial<ExcerciseFormValues> = {};
@@ -59,11 +66,58 @@ const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
 
     function onSubmit(values: ExcerciseFormValues) {
         console.log(values);
+
+        console.log(imageSelectorRef.current)
     }
 
     function closeDialog() {
         props.handleClose();
         formik.resetForm();
+    }
+
+
+
+    /* FILE SELECT-related stuff should be moved to another component */
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const imageContextPopupOpen = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const handleChooseFileBtnClick = () => {
+        imageSelectorRef.current?.click();
+        handleClose();
+    }
+
+    const [selectedFile, setSelectedFile] = useState<File | undefined>();
+    const [preview, setPreview] = useState<string | undefined>();
+
+    // create a preview as a side effect, whenever selected file is changed
+    useEffect(() => {
+        if (!selectedFile) {
+            setPreview(undefined)
+            return
+        }
+
+        const objectUrl = URL.createObjectURL(selectedFile)
+        setPreview(objectUrl)
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }, [selectedFile])
+
+    function onImageChanged (e: React.FormEvent<HTMLInputElement>) {
+        const target = e.target as HTMLInputElement & { files: FileList };
+
+        if (!target.files || target.files.length === 0) {
+            setSelectedFile(undefined);
+            return;
+        }
+
+        // I've kept this example simple by using the first image instead of multiple
+        setSelectedFile(target.files[0]);
     }
 
     return (
@@ -85,6 +139,28 @@ const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
             <DialogTitle>{props.excercise ? "Update excerice" : "Add excercise"}</DialogTitle>
             <DialogContent style={{ paddingTop: "5px" }}>
                 <form onSubmit={formik.handleSubmit}>
+                    <div className="form-group">
+                        <Button id="basic-button" aria-controls={imageContextPopupOpen ? 'basic-menu' : undefined} aria-haspopup="true"
+                            aria-expanded={imageContextPopupOpen ? 'true' : undefined} onClick={handleClick} style={{ padding: "0" }}>
+                            <img src={preview ?? defaultImageUrl} alt="excercise" style={{ maxWidth: "100%" }} />
+                        </Button>
+                        <Menu id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={imageContextPopupOpen}
+                            onClose={handleClose}
+                            MenuListProps={{ 'aria-labelledby': 'basic-button' }}
+                            anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'center' }}
+                        >
+                            <MenuItem onClick={handleChooseFileBtnClick}>Choose a file</MenuItem>
+                            {props.excercise?.imageUrl && <MenuItem onClick={handleClose}>Delete</MenuItem>}
+                        </Menu>
+                    </div>
+
+                    <div hidden>
+                        <input type="file" accept="image/png, image/jpg" multiple={false} name="imageUrl" ref={imageSelectorRef}  onChange={onImageChanged}  />
+                    </div>
+
                     <div className="form-group">
                         <TextField
                             {...formik.getFieldProps('title')}

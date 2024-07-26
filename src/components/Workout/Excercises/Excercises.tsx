@@ -1,7 +1,7 @@
 import { FilterAlt, Search } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import { useState } from 'react'
-import { ExcerciseGroupLabel, IExcercise } from '../../../core/models/workout'
+import { ExcerciseGroupLabel } from '../../../core/models/workout'
 import classes from '../Workout.module.css'
 import FiltersDialog from './FiltersDialog'
 import { useAppSelector } from '../../../core/redux/hook'
@@ -10,33 +10,17 @@ import IconButton from '@mui/material/IconButton';
 
 function Excercises() {
     const defaultImageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
+
     const [isFiltersDialogOpen, setIsFiltersDialogOpen] = useState<boolean>(false);
     const [isExcerciseDialogOpen, setIsExcerciseDialogOpen] = useState<boolean>(false);
-
     const excercises = useAppSelector(store => store.workout.excercises);
-
-    function openFiltersDialog() : void {
-        setIsFiltersDialogOpen(true);
-    }
-
-    function closeFiltersDialog() : void {
-        setIsFiltersDialogOpen(false);
-    }
-
-    function openExcericseDialog() : void {
-        setIsExcerciseDialogOpen(true);
-    }
-
-    function closeExcericseDialog() : void {
-        setIsExcerciseDialogOpen(false);
-    }
 
     return (
         <div>
             <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
                 <IconButton style={{ color: "#272343" }}><Search /></IconButton>
-                <IconButton style={{ color: "#272343" }} onClick={openFiltersDialog}><FilterAlt /></IconButton>
-                <Button variant='contained' style={{ background: "#272343" }} onClick={openExcericseDialog}>Add</Button>
+                <IconButton style={{ color: "#272343" }} onClick={() => setIsFiltersDialogOpen(true)}><FilterAlt /></IconButton>
+                <Button variant='contained' style={{ background: "#272343" }} onClick={() => setIsExcerciseDialogOpen(true)}>Add</Button>
             </div>
 
             <ul>
@@ -50,8 +34,8 @@ function Excercises() {
                     </li>)}
             </ul>
 
-            <FiltersDialog open={isFiltersDialogOpen} handleClose={closeFiltersDialog} />
-            <ExcerciseDialog open={isExcerciseDialogOpen} handleClose={closeExcericseDialog} />
+            <FiltersDialog open={isFiltersDialogOpen} handleClose={() => setIsFiltersDialogOpen(false)} />
+            <ExcerciseDialog open={isExcerciseDialogOpen} handleClose={() => setIsExcerciseDialogOpen(false)} />
         </div>
     )
 }
