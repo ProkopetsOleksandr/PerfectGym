@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IExcercise, ExcerciseGroup } from "../models/workout";
+import { IExcercise, MuscleGroup } from "../models/workout";
 
 type WorkoutState = {
     excercises: IExcercise[]
@@ -11,17 +11,17 @@ const initialState = {
             id: 1,
             title: "banch press",
             imageUrl: "https://www.lyfta.app/_next/image?url=https%3A%2F%2Flyfta.app%2Fimages%2Fexercises%2F00251101.png&w=640&q=10",
-            excerciseGroup: ExcerciseGroup.Chest
+            muscleGroup: MuscleGroup.Chest
         },
         {
             id: 2,
             title: "dumbbel v storonu",
-            excerciseGroup: ExcerciseGroup.Chest
+            muscleGroup: MuscleGroup.Chest
         },
         {
             id: 3,
             title: "Upraznenie 3",
-            excerciseGroup: ExcerciseGroup.Chest
+            muscleGroup: MuscleGroup.Chest
         }
     ]
 }

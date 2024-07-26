@@ -1,9 +1,9 @@
-export enum ExcerciseGroup {
+export enum MuscleGroup {
     Chest = 1
 }
 
-export const ExcerciseGroupLabel = new Map<number, string>([
-    [ExcerciseGroup.Chest, 'Chest']
+export const MuscleGroupLabel = new Map<number, string>([
+    [MuscleGroup.Chest, 'Chest']
 ]);
 
 export interface IExcercise {
@@ -11,5 +11,5 @@ export interface IExcercise {
     imageUrl?: string,
     title: string,
     description?: string,
-    excerciseGroup: ExcerciseGroup
+    muscleGroup: MuscleGroup
 }

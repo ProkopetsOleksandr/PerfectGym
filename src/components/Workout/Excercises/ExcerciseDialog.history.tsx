@@ -25,7 +25,7 @@ interface ExcerciseFormValues {
     imageUrl?: string
 }
 
-const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
+const ExcerciseDialog123: FC<IExcerciseDialogProps> = (props) => {
     const defaultImageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
     const imageSelectorRef = useRef<HTMLInputElement>(null);
 
@@ -190,4 +190,4 @@ const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
     )
 }
 
-export default ExcerciseDialog
+export default ExcerciseDialog123

@@ -38,7 +38,7 @@ const ExcerciseDialog: FC<IExcerciseDialogProps> = (props) => {
         if (props.open) {
             formik.validateForm();
         }
-    }, [props.open, formik])
+    }, [props.open])
 
     function validate(values: ExcerciseFormValues) {
         const errors: Partial<ExcerciseFormValues> = {};
