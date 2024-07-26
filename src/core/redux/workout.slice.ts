@@ -1,40 +1,62 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IExcercise, MuscleGroup } from "../models/workout";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IExcercise, MeasurementCategory, MuscleGroup } from "../models/workout";
 
-type WorkoutState = {
-    excercises: IExcercise[]
+interface WorkoutState {
+    excercises: IExcercise[],
+    selectedExcercise?: IExcercise
 }
 
-const initialState = {
+const initialState: WorkoutState = {
     excercises: [
         {
             id: 1,
             title: "banch press",
             imageUrl: "https://www.lyfta.app/_next/image?url=https%3A%2F%2Flyfta.app%2Fimages%2Fexercises%2F00251101.png&w=640&q=10",
-            muscleGroup: MuscleGroup.Chest
+            muscleGroup: MuscleGroup.Chest,
+            measurementCategory: MeasurementCategory.WeightAndReps
         },
         {
             id: 2,
             title: "dumbbel v storonu",
-            muscleGroup: MuscleGroup.Chest
+            muscleGroup: MuscleGroup.Chest,
+            measurementCategory: MeasurementCategory.WeightAndReps
         },
         {
             id: 3,
             title: "Upraznenie 3",
-            muscleGroup: MuscleGroup.Chest
+            description: "Very helpful descripion",
+            muscleGroup: MuscleGroup.Chest,
+            measurementCategory: MeasurementCategory.WeightAndReps
         }
     ]
 }
+
+const addExcercise = createAsyncThunk<IExcercise, IExcercise, {}>(
+    "workout/addExcercise",
+    async function (payload) {
+        await new Promise(resolve => setTimeout(resolve, 1200));
+
+        payload.id = new Date().getTime();
+
+        return payload;
+    }
+);
 
 const workoutSlice = createSlice({
     name: 'workout',
     initialState: initialState,
     reducers: {
-        addExcercise(state: WorkoutState, action: PayloadAction<IExcercise>) {
-            state.excercises.push(action.payload);
+        setSelectedExcercise(state, action: PayloadAction<IExcercise | undefined>) {
+            state.selectedExcercise = action.payload;
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(addExcercise.fulfilled, function(state, action) {
+            state.excercises.push(action.payload);
+        });
     }
 });
 
-export const { addExcercise } = workoutSlice.actions;
 export default workoutSlice.reducer;
+
+export const WorkoutActions = { addExcercise, ...workoutSlice.actions };

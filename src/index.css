@@ -65,3 +65,15 @@ a {
     border: 1px solid gray;
     border-radius: 4px;
 }
+
+.screan-loader {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
