@@ -3,7 +3,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Exercise, MeasurementCategory, MeasurementCategoryLabel, MuscleGroup, MuscleGroupLabel } from '../../../../core/models/workout';
+import { Exercise, MeasurementCategoryLabel, MuscleGroupLabel } from '../../../../core/models/workout';
+import { MuscleGroup, MeasurementCategory } from '../../../../core/models/enums';
 
 import { useFormik, FormikErrors } from 'formik';
 import { TextField, Button } from '@mui/material';

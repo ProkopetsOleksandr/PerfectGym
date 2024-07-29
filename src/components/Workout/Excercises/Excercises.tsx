@@ -1,8 +1,6 @@
 import { FilterAlt, Search } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import { useState } from 'react'
-import { MuscleGroupLabel } from '../../../core/models/workout'
-import classes from '../Workout.module.css'
 import FiltersDialog from './FiltersDialog'
 import { useAppDispatch, useAppSelector } from '../../../core/redux/hook'
 import ExcerciseDialog from './ExcerciseDialog/ExcerciseDialog'

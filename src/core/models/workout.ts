@@ -1,16 +1,4 @@
-export enum MuscleGroup {
-    None = 0,
-    Chest = 1,
-    Arm = 2
-}
-
-export enum MeasurementCategory {
-    None = 0,
-    WeightAndReps = 1,
-    Reps = 2,
-    DistanceAndTime = 3,
-    Time = 4
-}
+import { MuscleGroup, MeasurementCategory } from "./enums";
 
 export const MuscleGroupLabel = new Map<number, string>([
     [MuscleGroup.Chest, 'Chest'],
@@ -21,7 +9,7 @@ export const MeasurementCategoryLabel = new Map<number, string>([
     [MeasurementCategory.WeightAndReps, 'Weight and repetitions'],
     [MeasurementCategory.Reps, 'Repetitions'],
     [MeasurementCategory.DistanceAndTime, 'Distance and time'],
-    [MeasurementCategory.Time, 'Time'],
+    [MeasurementCategory.Time, 'Time']
 ]);
 
 export interface Exercise {

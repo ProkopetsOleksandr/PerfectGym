@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Exercise, MeasurementCategory, MuscleGroup } from "../models/workout";
+import { Exercise } from "../models/workout";
+import { MuscleGroup, MeasurementCategory } from "../models/enums";
 
 interface WorkoutState {
     exercises: Exercise[],
