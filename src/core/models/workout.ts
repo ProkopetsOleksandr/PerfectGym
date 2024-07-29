@@ -24,7 +24,7 @@ export const MeasurementCategoryLabel = new Map<number, string>([
     [MeasurementCategory.Time, 'Time'],
 ]);
 
-export interface IExcercise {
+export interface Exercise {
     id?: number,
     imageUrl?: string,
     title: string,

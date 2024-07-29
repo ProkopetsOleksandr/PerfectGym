@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import workoutReducer from "./workout.slice";
+import applicationReducer from './application.slice';
 
 const store = configureStore({
     reducer: {
-        workout: workoutReducer
+        workout: workoutReducer,
+        application: applicationReducer
     }
 });
 

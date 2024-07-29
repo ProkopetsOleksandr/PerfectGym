@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IExcercise, MeasurementCategory, MuscleGroup } from "../models/workout";
+import { Exercise, MeasurementCategory, MuscleGroup } from "../models/workout";
 
 interface WorkoutState {
-    excercises: IExcercise[],
-    selectedExcercise?: IExcercise
+    exercises: Exercise[],
+    selectedExercise?: Exercise
 }
 
 const initialState: WorkoutState = {
-    excercises: [
+    exercises: [
         {
             id: 1,
             title: "banch press",
@@ -31,7 +31,7 @@ const initialState: WorkoutState = {
     ]
 }
 
-const addExcercise = createAsyncThunk<IExcercise, IExcercise, {}>(
+const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/addExcercise",
     async function (payload) {
         await new Promise(resolve => setTimeout(resolve, 1200));
@@ -42,21 +42,48 @@ const addExcercise = createAsyncThunk<IExcercise, IExcercise, {}>(
     }
 );
 
+const updateExercise = createAsyncThunk<Exercise, Exercise, {}>(
+    "workout/updateExercise",
+    async function (payload) {
+        await new Promise(resolve => setTimeout(resolve, 1200));
+
+        return payload;
+    }
+);
+
 const workoutSlice = createSlice({
     name: 'workout',
     initialState: initialState,
     reducers: {
-        setSelectedExcercise(state, action: PayloadAction<IExcercise | undefined>) {
-            state.selectedExcercise = action.payload;
+        setSelectedExcercise(state, action: PayloadAction<Exercise | undefined>) {
+            state.selectedExercise = action.payload;
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(addExcercise.fulfilled, function(state, action) {
-            state.excercises.push(action.payload);
+        builder.addCase(addExercise.fulfilled, function(state, action) {
+            state.exercises.push(action.payload);
+        });
+
+        builder.addCase(updateExercise.fulfilled, function(state, action) {
+            const exercise = state.exercises.find(e => e.id === action.payload.id);
+            if (!exercise) {
+                return;
+            }
+
+            exercise.title = action.payload.title;
+            exercise.description = action.payload.description;
+            exercise.muscleGroup = action.payload.muscleGroup;
+            exercise.measurementCategory = action.payload.measurementCategory;
+
+            state.selectedExercise = exercise;
         });
     }
 });
 
 export default workoutSlice.reducer;
 
-export const WorkoutActions = { addExcercise, ...workoutSlice.actions };
+export const WorkoutAction = {
+    addExcercise: addExercise,
+    updateExcercise: updateExercise,
+    ...workoutSlice.actions
+};

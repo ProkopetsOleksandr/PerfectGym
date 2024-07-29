@@ -1,0 +1,19 @@
+.exercise {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.exercise img {
+    width: 70px;
+}
+
+.excerciseInfo .name {
+    font-weight: bold;
+}
+
+.excerciseInfo .group {
+    font-size: small;
+}
