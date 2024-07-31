@@ -9,8 +9,6 @@ import ScreenLoader from './components/Common/ScreenLoader';
 function App() {
     const isLoading = useAppSelector(store => store.application.isLoading);
 
-    console.log(process.env);
-
     return (
         <BrowserRouter>
             <div id="app-wrapper">
