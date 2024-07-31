@@ -5,6 +5,13 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './core/redux/store';
+import AuthProvider from './components/Common/Contexts/AuthContext';
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+import { BrowserRouter } from 'react-router-dom';
+
+if (process.env.NODE_ENV === "production") {
+    disableReactDevTools();
+}
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -12,7 +19,11 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App />
+            <BrowserRouter>
+                <AuthProvider>
+                    <App />
+                </AuthProvider>
+            </BrowserRouter>
         </Provider>
     </React.StrictMode>
 );

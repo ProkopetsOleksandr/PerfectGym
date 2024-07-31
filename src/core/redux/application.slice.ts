@@ -1,11 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface ApplicationState {
-    isLoading: boolean
+    isLoading: boolean,
+    isInitialized: boolean,
+    initialization: {
+        firebaseInitialized: boolean
+    }
 }
 
 const initialState: ApplicationState = {
-    isLoading: false
+    isLoading: false,
+    isInitialized: false,
+    initialization: {
+        firebaseInitialized: false
+    }
 }
 
 const applicationSlice = createSlice({
@@ -18,8 +26,16 @@ const applicationSlice = createSlice({
         endLoading(state) {
             state.isLoading = false;
         },
+        firebaseInitialized(state) {
+            state.initialization.firebaseInitialized = true;
+            state.isInitialized = isAppInitialized(state);
+        }
     }
 });
+
+function isAppInitialized(state: ApplicationState) : boolean {
+    return state.initialization.firebaseInitialized;
+}
 
 export default applicationSlice.reducer;
 
