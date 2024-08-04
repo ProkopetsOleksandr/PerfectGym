@@ -20,9 +20,7 @@ export default class Auth_Global {
     }
 
     static signInWithGoogle = async (): Promise<void> => {
-        
         await signInWithPopup(auth, provider);
-
     }
 
     static signOut = () => {
