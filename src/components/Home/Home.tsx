@@ -1,4 +1,4 @@
-import Auth_Global from "../../core/firebase/Auth_Global";
+import Auth_Global from "../../core/firebase/auth_global";
 import { useAuth } from "../Common/Hooks/useAuth";
 
 const Home = () => {

@@ -1,63 +1,61 @@
-import EmailIcon from '@mui/icons-material/Email';
-import GoogleIcon from '@mui/icons-material/Google';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import Auth_Global from '../../core/firebase/Auth_Global';
+import Auth_Global from '../../core/firebase/auth_global';
 import { useAuth } from '../Common/Hooks/useAuth';
-
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import classes from './Authentication.module.css';
-import Login from './Login';
-import Registration from './Registration';
-
-import { Apple, Facebook, Microsoft } from '@mui/icons-material';
-import { Box, Button, Container, IconButton, Paper, Slide, Typography } from '@mui/material';
+import SignInForm from './SignInForm';
+import SignUpForm from './SignUpForm';
+import { Google, Apple, Facebook, Microsoft } from '@mui/icons-material';
+import { Box, Button, IconButton, Slide } from '@mui/material';
 
 const Authentication = () => {
-    const containerRef = React.useRef(null);
-
     const { isAuthenticated } = useAuth();
 
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [errorMessage, setErrorMessage] = useState<string>("");
     const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const [showLogin, setShowLogin] = useState<boolean>(true);
+    const [showForm, setShowForm] = useState<boolean>(true);
+    const [slideFormDirection, setSlideFormDirection] = useState<'left' | 'right'>('right');
+    const [activeForm, setActiveForm] = useState<'signIn' | 'signUp'>('signIn');
 
-    async function onSubmit() {
+    async function signInWithEmailAndPassword(email: string, password: string) {
         if (isSigningIn) {
             return;
         }
 
         setIsSigningIn(true);
-        await Auth_Global.signInWithEmailAndPassword(email, password)
-            .finally(() => setIsSigningIn(false));
+
+        try {
+            await Auth_Global.signInWithEmailAndPassword(email, password);
+        } catch(exception) {
+            console.log(exception);
+        } finally {
+            setIsSigningIn(false);
+        }
     }
 
-    function signInWithGoogle() {
+    async function signInWithGoogle() {
         if (isSigningIn) {
             return;
         }
 
         setIsSigningIn(true);
-        Auth_Global.signInWithGoogle()
-            .catch((error) => {
-                setIsSigningIn(false);
-                console.log(error);
-            });
+
+        try {
+            await Auth_Global.signInWithGoogle();
+        } catch (exception) {
+            console.log(exception);
+        } finally {
+            setIsSigningIn(false);
+        }
     }
 
-    const [slideContentDirection, setSlideContentDirection] = useState<'left' | 'right'>('right');
-    const [showContent, setShowContent] = useState<boolean>(true);
-
-    const togglePage = () => {
-        setShowContent(false);
+    const toggleForm = () => {
+        setShowForm(false);
 
         setTimeout(() => {
-            setSlideContentDirection(prev => prev == 'left' ? 'right' : 'left');
-            setShowLogin(!showLogin);
-            setShowContent(true);
+            setSlideFormDirection(prev => prev == 'left' ? 'right' : 'left');
+            setActiveForm(prev => prev === 'signIn' ? 'signUp' : 'signIn');
+            setShowForm(true);
         }, 350);
     };
 
@@ -65,44 +63,9 @@ const Authentication = () => {
         return (<Navigate to={'/'} replace={true} />);
     }
 
-    // return (
-    //    <div>
-    //         <div>
-    //             {`Is signing in: ${isSigningIn}`}
-    //         </div>
-    //         <br />
-
-    //         <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-    //         <input type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-    //         <button onClick={onSubmit}>Login</button>
-    //         <button onClick={onGoogleSignIn}>Login Google</button>
-    //    </div>
-    // )
-
-    // return (
-    //     <div id={classes.authContainer}>
-    //         <div style={{display: 'flex', justifyContent: "center", alignItems: "center" }}>
-    //             <Slide direction="left" in={showLogin} mountOnEnter unmountOnExit>
-    //                 <div style={{ position: "absolute" }}>
-    //                     <Login />
-    //                 </div>
-    //             </Slide>
-
-    //             <Slide direction="right" in={!showLogin} mountOnEnter unmountOnExit>
-    //                 <div style={{ position: "absolute" }}>
-    //                     <Registration />
-    //                 </div>
-    //             </Slide>
-    //         </div>
-    //     </div>
-    // );
-
-
-
     return (
         <Box position="relative" display="flex" justifyContent="center" alignItems="center" height="100vh" overflow={'hidden'}>
-            <Slide direction={slideContentDirection} in={showContent}>
+            <Slide direction={slideFormDirection} in={showForm}>
                 <div style={{ width: '100%', height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <div>
                         <div>
@@ -114,18 +77,20 @@ const Authentication = () => {
 
                         <div style={{ marginBottom: "200px" }}>
                             <div style={{ textAlign: "center", marginBottom: "1rem" }}>
-                                <span style={{ color: "rgb(39, 35, 67)" }}>{showLogin ? "Sign In" : "Sign Up"}</span>
+                                <span style={{ color: "rgb(39, 35, 67)" }}>{activeForm === 'signIn' ? "Sign In" : "Sign Up"}</span>
                             </div>
 
                             <div>
-                                {showLogin ? <Login /> : <Registration />}
+                                {activeForm === 'signIn'
+                                    ? <SignInForm signInWithEmailAndPassword={signInWithEmailAndPassword} />
+                                    : <SignUpForm />}
                             </div>
 
                             <div style={{ textAlign: "center", marginTop: "10px" }}>
 
                                 <div style={{margin: "10px 0"}}>
                                     <IconButton onClick={signInWithGoogle}>
-                                        <GoogleIcon fontSize='medium'/>
+                                        <Google fontSize='medium'/>
                                     </IconButton>
 
                                     <IconButton>
@@ -141,8 +106,8 @@ const Authentication = () => {
                                     </IconButton>
                                 </div>
 
-                                <Button onClick={togglePage} variant="outlined" fullWidth >
-                                    {showLogin ? "Create an account" : "Login to my account"}
+                                <Button onClick={toggleForm} variant="outlined" fullWidth >
+                                    {activeForm === 'signIn' ? "Create an account" : "Login to my account"}
                                 </Button>
                             </div>
                         </div>

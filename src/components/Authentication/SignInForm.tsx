@@ -2,43 +2,43 @@ import { Button, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 
-export interface LoginFormValues {
-    login: string,
+export interface SignInFormValues {
+    email: string,
     password: string
 }
 
-interface LoginProps {
-
+interface SignInFormProps {
+    signInWithEmailAndPassword: (email: string, password: string) => void
 }
 
-const Login: React.FC<LoginProps> = (props) => {
-    const formik = useFormik<LoginFormValues>({
+const SignInForm: React.FC<SignInFormProps> = (props) => {
+    const formik = useFormik<SignInFormValues>({
         initialValues: {
-            login: '',
+            email: '',
             password: ''
         },
         validate: validate,
         onSubmit: onSubmit
     });
 
-    function validate(values: LoginFormValues) {
+    function validate(values: SignInFormValues) {
         const errors = {};
 
         return errors;
     }
 
-    function onSubmit(values: LoginFormValues) {
-        console.log(values);
+    function onSubmit(values: SignInFormValues) {
+        props.signInWithEmailAndPassword(values.email, values.password);
     }
 
     return (
         <form onSubmit={formik.handleSubmit}>
             <div className="form-group">
                 <TextField
-                    {...formik.getFieldProps('login')}
-                    label="Login"
+                    {...formik.getFieldProps('email')}
+                    label="Email"
                     // error={Boolean(formik.errors.login && formik.touched.login)}
-                    helperText={formik.errors.login && formik.touched.login && String(formik.errors.login)}
+                    helperText={formik.errors.email && formik.touched.email && String(formik.errors.email)}
                     variant="outlined"
                     fullWidth />
             </div>
@@ -59,4 +59,4 @@ const Login: React.FC<LoginProps> = (props) => {
     )
 }
 
-export default Login;
+export default SignInForm;
