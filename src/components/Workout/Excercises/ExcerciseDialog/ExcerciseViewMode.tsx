@@ -1,5 +1,5 @@
 import { Delete, Edit } from '@mui/icons-material'
-import { Button, IconButton } from '@mui/material'
+import { IconButton } from '@mui/material'
 import React from 'react'
 import { Exercise, MeasurementCategoryLabel, MuscleGroupLabel } from '../../../../core/models/workout'
 

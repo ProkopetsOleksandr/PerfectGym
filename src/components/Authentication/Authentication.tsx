@@ -2,7 +2,7 @@ import { Apple, Facebook, Google, Microsoft } from '@mui/icons-material';
 import { Box, Button, IconButton, Slide } from '@mui/material';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import Auth_Global from '../../core/firebase/auth_global';
+import AuthApi from '../../core/firebase/authApi';
 import { useAuth } from '../Common/Hooks/useAuth';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
@@ -25,7 +25,7 @@ const Authentication = () => {
         setIsSigningIn(true);
 
         try {
-            await Auth_Global.signInWithEmailAndPassword(email, password);
+            await AuthApi.signInWithEmailAndPassword(email, password);
         } catch(exception) {
             console.log(exception);
         } finally {
@@ -41,7 +41,7 @@ const Authentication = () => {
         setIsSigningIn(true);
 
         try {
-            await Auth_Global.signInWithGoogle();
+            await AuthApi.signInWithGoogle();
         } catch (exception) {
             console.log(exception);
         } finally {

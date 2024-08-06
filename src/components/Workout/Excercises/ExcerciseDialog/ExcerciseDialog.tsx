@@ -1,13 +1,10 @@
 import { FC, useState } from 'react';
 import { Exercise } from '../../../../core/models/workout';
-
+import { ApplicationAction } from '../../../../core/redux/application.slice';
 import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
 import { WorkoutAction } from '../../../../core/redux/workout.slice';
 import AppDialog from '../../../Common/AppDialog';
-import { ExcerciseFormValues } from './ExcerciseForm';
-
-import { ApplicationAction } from '../../../../core/redux/application.slice';
-import ExcerciseForm from './ExcerciseForm';
+import ExcerciseForm, { ExcerciseFormValues } from './ExcerciseForm';
 import ExcerciseViewMode from './ExcerciseViewMode';
 
 interface ExcerciseDialogProps {

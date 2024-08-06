@@ -1,4 +1,4 @@
-import Auth_Global from "../../core/firebase/auth_global";
+import AuthApi from "../../core/firebase/authApi";
 import { useAuth } from "../Common/Hooks/useAuth";
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
 
             <div>Hello, {currentUser!.displayName ? currentUser!.displayName : currentUser!.email}</div>
 
-            <button onClick={() => Auth_Global.signOut()}>Sign out</button>
+            <button onClick={() => AuthApi.signOut()}>Sign out</button>
         </div>
     );
 }

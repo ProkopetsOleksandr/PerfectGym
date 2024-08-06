@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { firestore } from "../firebase/firebase";
-import { MeasurementCategory, MuscleGroup } from "../models/enums";
 import { Exercise } from "../models/workout";
 
 interface WorkoutState {
@@ -12,28 +11,7 @@ interface WorkoutState {
 const exerciseCollection = collection(firestore, "exercises");
 
 const initialState: WorkoutState = {
-    exercises: [
-        // {
-        //     id: 1,
-        //     title: "banch press",
-        //     imageUrl: "https://www.lyfta.app/_next/image?url=https%3A%2F%2Flyfta.app%2Fimages%2Fexercises%2F00251101.png&w=640&q=10",
-        //     muscleGroup: MuscleGroup.Chest,
-        //     measurementCategory: MeasurementCategory.WeightAndReps
-        // },
-        // {
-        //     id: 2,
-        //     title: "dumbbel v storonu",
-        //     muscleGroup: MuscleGroup.Chest,
-        //     measurementCategory: MeasurementCategory.WeightAndReps
-        // },
-        // {
-        //     id: 3,
-        //     title: "Upraznenie 3",
-        //     description: "Very helpful descripion",
-        //     muscleGroup: MuscleGroup.Chest,
-        //     measurementCategory: MeasurementCategory.WeightAndReps
-        // }
-    ]
+    exercises: []
 }
 
 const loadExercises = createAsyncThunk<Exercise[], void, {}>(

@@ -10,7 +10,7 @@ import { auth } from "./firebase";
 
 const provider = new GoogleAuthProvider();
 
-export default class Auth_Global {
+export default class AuthApi {
     static createUserWithEmailAndPassword = async (email: string, password: string): Promise<UserCredential> => {
         return createUserWithEmailAndPassword(auth, email, password)
     }
