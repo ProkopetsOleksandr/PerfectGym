@@ -1,4 +1,4 @@
-import { MuscleGroup, MeasurementCategory } from "./enums";
+import { MeasurementCategory, MuscleGroup } from "./enums";
 
 export const MuscleGroupLabel = new Map<number, string>([
     [MuscleGroup.Chest, 'Chest'],
@@ -13,7 +13,7 @@ export const MeasurementCategoryLabel = new Map<number, string>([
 ]);
 
 export interface Exercise {
-    id?: number,
+    id?: string,
     imageUrl?: string,
     title: string,
     description?: string,

@@ -1,13 +1,13 @@
 import { FC, useState } from 'react';
 import { Exercise } from '../../../../core/models/workout';
 
-import { WorkoutAction } from '../../../../core/redux/workout.slice';
 import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
+import { WorkoutAction } from '../../../../core/redux/workout.slice';
 import AppDialog from '../../../Common/AppDialog';
 import { ExcerciseFormValues } from './ExcerciseForm';
 
-import ExcerciseForm from './ExcerciseForm';
 import { ApplicationAction } from '../../../../core/redux/application.slice';
+import ExcerciseForm from './ExcerciseForm';
 import ExcerciseViewMode from './ExcerciseViewMode';
 
 interface ExcerciseDialogProps {
@@ -48,6 +48,15 @@ const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
                 });
         }
     }
+
+    function deleteExercise() {
+        if (!selectedExercise) {
+            return;
+        }
+
+        dispatch(WorkoutAction.deleteExercise(selectedExercise.id!));
+        closeDialog();
+    }
     
     function closeDialog() {
         if (editMode && selectedExercise) {
@@ -63,7 +72,7 @@ const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
     return (
         <AppDialog open={props.open} onClose={closeDialog}>
             {selectedExercise && !editMode
-                ? <ExcerciseViewMode selectedExercise={selectedExercise} setEditMode={() => setEditMode(true)} />
+                ? <ExcerciseViewMode selectedExercise={selectedExercise} setEditMode={() => setEditMode(true)} deleteExercise={deleteExercise} />
                 : <ExcerciseForm selectedExercise={selectedExercise} onSubmit={onSubmit} /> }
         </AppDialog>
     )

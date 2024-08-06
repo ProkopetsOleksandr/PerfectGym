@@ -1,13 +1,12 @@
-import { FC, useEffect } from 'react'
+import { Button, TextField } from '@mui/material';
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { FormikErrors, useFormik } from 'formik';
+import { FC, useEffect } from 'react';
+import { MeasurementCategory, MuscleGroup } from '../../../../core/models/enums';
 import { Exercise, MeasurementCategoryLabel, MuscleGroupLabel } from '../../../../core/models/workout';
-import { MuscleGroup, MeasurementCategory } from '../../../../core/models/enums';
-
-import { useFormik, FormikErrors } from 'formik';
-import { TextField, Button } from '@mui/material';
 
 export interface ExcerciseFormValues {
     title: string,

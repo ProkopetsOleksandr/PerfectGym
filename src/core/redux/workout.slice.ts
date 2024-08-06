@@ -1,45 +1,85 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import { firestore } from "../firebase/firebase";
+import { MeasurementCategory, MuscleGroup } from "../models/enums";
 import { Exercise } from "../models/workout";
-import { MuscleGroup, MeasurementCategory } from "../models/enums";
 
 interface WorkoutState {
     exercises: Exercise[],
     selectedExercise?: Exercise
 }
 
+const exerciseCollection = collection(firestore, "exercises");
+
 const initialState: WorkoutState = {
     exercises: [
-        {
-            id: 1,
-            title: "banch press",
-            imageUrl: "https://www.lyfta.app/_next/image?url=https%3A%2F%2Flyfta.app%2Fimages%2Fexercises%2F00251101.png&w=640&q=10",
-            muscleGroup: MuscleGroup.Chest,
-            measurementCategory: MeasurementCategory.WeightAndReps
-        },
-        {
-            id: 2,
-            title: "dumbbel v storonu",
-            muscleGroup: MuscleGroup.Chest,
-            measurementCategory: MeasurementCategory.WeightAndReps
-        },
-        {
-            id: 3,
-            title: "Upraznenie 3",
-            description: "Very helpful descripion",
-            muscleGroup: MuscleGroup.Chest,
-            measurementCategory: MeasurementCategory.WeightAndReps
-        }
+        // {
+        //     id: 1,
+        //     title: "banch press",
+        //     imageUrl: "https://www.lyfta.app/_next/image?url=https%3A%2F%2Flyfta.app%2Fimages%2Fexercises%2F00251101.png&w=640&q=10",
+        //     muscleGroup: MuscleGroup.Chest,
+        //     measurementCategory: MeasurementCategory.WeightAndReps
+        // },
+        // {
+        //     id: 2,
+        //     title: "dumbbel v storonu",
+        //     muscleGroup: MuscleGroup.Chest,
+        //     measurementCategory: MeasurementCategory.WeightAndReps
+        // },
+        // {
+        //     id: 3,
+        //     title: "Upraznenie 3",
+        //     description: "Very helpful descripion",
+        //     muscleGroup: MuscleGroup.Chest,
+        //     measurementCategory: MeasurementCategory.WeightAndReps
+        // }
     ]
 }
 
+const loadExercises = createAsyncThunk<Exercise[], void, {}>(
+    "workout/loadExercises",
+    async function () : Promise<Exercise[]> {
+        const data = await getDocs(exerciseCollection);
+        const filteredData = data.docs.map(doc => {
+            const data = doc.data();
+
+            const exercise: Exercise = {
+                id: doc.id,
+                title: data.title,
+                description: data.descripion,
+                muscleGroup: data.muscleGroup,
+                measurementCategory: data.measurementCategory,
+                imageUrl: data.imageUrl
+            }
+
+            return exercise;
+        });
+
+        console.log(filteredData);
+
+        return filteredData;
+    }
+);
+
 const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/addExcercise",
-    async function (payload) {
-        await new Promise(resolve => setTimeout(resolve, 1200));
+    async function (exercise) {
+        const {id, ...newExercise} = exercise;
 
-        payload.id = new Date().getTime();
+        const result = await addDoc(exerciseCollection, newExercise);
 
-        return payload;
+        exercise.id = result.id;
+
+        return exercise;
+    }
+);
+
+const deleteExercise = createAsyncThunk<string, string, {}>(
+    "workout/deleteExercise",
+    async function(id: string) {
+        const exerciseDoc = doc(firestore, "exercises", id);
+        await deleteDoc(exerciseDoc);
+        return id;
     }
 );
 
@@ -61,11 +101,19 @@ const workoutSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(addExercise.fulfilled, function(state, action) {
+        builder.addCase(loadExercises.fulfilled, function (state, action) {
+            state.exercises = action.payload;
+        });
+
+        builder.addCase(addExercise.fulfilled, function (state, action) {
             state.exercises.push(action.payload);
         });
 
-        builder.addCase(updateExercise.fulfilled, function(state, action) {
+        builder.addCase(deleteExercise.fulfilled, function (state, action) {
+            state.exercises = state.exercises.filter(exercise => exercise.id !== action.payload);
+        });
+
+        builder.addCase(updateExercise.fulfilled, function (state, action) {
             const exercise = state.exercises.find(e => e.id === action.payload.id);
             if (!exercise) {
                 return;
@@ -84,7 +132,9 @@ const workoutSlice = createSlice({
 export default workoutSlice.reducer;
 
 export const WorkoutAction = {
+    ...workoutSlice.actions,
     addExcercise: addExercise,
     updateExcercise: updateExercise,
-    ...workoutSlice.actions
+    loadExercises: loadExercises,
+    deleteExercise: deleteExercise
 };

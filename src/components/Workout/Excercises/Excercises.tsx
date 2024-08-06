@@ -1,21 +1,26 @@
 import { FilterAlt, Search } from '@mui/icons-material'
 import { Button } from '@mui/material'
-import { useState } from 'react'
-import FiltersDialog from './FiltersDialog'
-import { useAppDispatch, useAppSelector } from '../../../core/redux/hook'
-import ExcerciseDialog from './ExcerciseDialog/ExcerciseDialog'
-import IconButton from '@mui/material/IconButton';
+import IconButton from '@mui/material/IconButton'
+import { useEffect, useState } from 'react'
 import { Exercise } from '../../../core/models/workout'
+import { useAppDispatch, useAppSelector } from '../../../core/redux/hook'
 import { WorkoutAction } from '../../../core/redux/workout.slice'
+import ExcerciseDialog from './ExcerciseDialog/ExcerciseDialog'
 import ExerciseList from './ExerciseList/ExerciseList'
+import FiltersDialog from './FiltersDialog'
 
 function Excercises() {
-    
     const [isFiltersDialogOpen, setIsFiltersDialogOpen] = useState<boolean>(false);
     const [isExcerciseDialogOpen, setIsExcerciseDialogOpen] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
     const exercises = useAppSelector(store => store.workout.exercises);
+    
+    useEffect(() => {
+        if (!exercises.length) {
+            dispatch(WorkoutAction.loadExercises());
+        }
+    }, []);
 
     function openExcercise(exercise: Exercise) {
         dispatch(WorkoutAction.setSelectedExcercise(exercise));

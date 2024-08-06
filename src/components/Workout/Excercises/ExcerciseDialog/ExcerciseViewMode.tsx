@@ -1,23 +1,27 @@
+import { Delete, Edit } from '@mui/icons-material'
+import { Button, IconButton } from '@mui/material'
 import React from 'react'
 import { Exercise, MeasurementCategoryLabel, MuscleGroupLabel } from '../../../../core/models/workout'
-import { Button } from '@mui/material'
 
 interface ExcerciseViewModeProps {
     selectedExercise: Exercise,
-    setEditMode: () => void
+    setEditMode: () => void,
+    deleteExercise: () => void
 }
 
-const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise, setEditMode }) => {
+const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise, setEditMode, deleteExercise }) => {
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2rem" }}>
-                <div>
-                    <strong style={{fontSize: "1.3rem"}}>{selectedExercise.title}</strong>
-                </div>
-                <Button variant='contained' style={{ background: "#272343" }} onClick={() => setEditMode()}>Edit</Button>
+            <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "1rem" }}>
+                <IconButton style={{ color: "#272343" }} onClick={() => setEditMode()}><Edit /></IconButton>
+                <IconButton style={{ color: "#272343" }} onClick={() => deleteExercise()}><Delete /></IconButton>
             </div>
 
             <div>
+                <div style={{ marginBottom: "2rem" }}>
+                    <strong style={{ fontSize: "1.3rem" }}>{selectedExercise.title}</strong>
+                </div>
+
                 {selectedExercise.description &&
                     <div className='margin-bottom-1'>
                         <div><strong>Description:</strong></div>
