@@ -1,11 +1,11 @@
+import { Apple, Facebook, Google, Microsoft } from '@mui/icons-material';
+import { Box, Button, IconButton, Slide } from '@mui/material';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Auth_Global from '../../core/firebase/auth_global';
 import { useAuth } from '../Common/Hooks/useAuth';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
-import { Google, Apple, Facebook, Microsoft } from '@mui/icons-material';
-import { Box, Button, IconButton, Slide } from '@mui/material';
 
 const Authentication = () => {
     const { isAuthenticated } = useAuth();
