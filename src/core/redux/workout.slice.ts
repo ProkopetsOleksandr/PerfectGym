@@ -1,14 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { firestore } from "../firebase/firebase";
+import firestoreApi from "../firebase/firestoreApi";
 import { Exercise } from "../models/workout";
 
 interface WorkoutState {
     exercises: Exercise[],
     selectedExercise?: Exercise
 }
-
-const exerciseCollection = collection(firestore, "exercises");
 
 const initialState: WorkoutState = {
     exercises: []
@@ -17,36 +14,20 @@ const initialState: WorkoutState = {
 const loadExercises = createAsyncThunk<Exercise[], void, {}>(
     "workout/loadExercises",
     async function () : Promise<Exercise[]> {
-        const data = await getDocs(exerciseCollection);
-        const filteredData = data.docs.map(doc => {
-            const data = doc.data();
+        const exercises = await firestoreApi.exercises.getAllExercisesAsync();
+        console.log(exercises);
 
-            const exercise: Exercise = {
-                id: doc.id,
-                title: data.title,
-                description: data.descripion,
-                muscleGroup: data.muscleGroup,
-                measurementCategory: data.measurementCategory,
-                imageUrl: data.imageUrl
-            }
-
-            return exercise;
-        });
-
-        console.log(filteredData);
-
-        return filteredData;
+        return exercises;
     }
 );
 
 const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/addExcercise",
     async function (exercise) {
-        const {id, ...newExercise} = exercise;
+        console.log("Start trunk");
 
-        const result = await addDoc(exerciseCollection, newExercise);
-
-        exercise.id = result.id;
+        const id = await firestoreApi.exercises.addExerciseAsync(exercise);
+        exercise.id = id;
 
         return exercise;
     }
@@ -55,8 +36,7 @@ const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
 const deleteExercise = createAsyncThunk<string, string, {}>(
     "workout/deleteExercise",
     async function(id: string) {
-        const exerciseDoc = doc(firestore, "exercises", id);
-        await deleteDoc(exerciseDoc);
+        await firestoreApi.exercises.deleteExerciseAsync(id);
         return id;
     }
 );
@@ -111,8 +91,8 @@ export default workoutSlice.reducer;
 
 export const WorkoutAction = {
     ...workoutSlice.actions,
+    loadExercises: loadExercises,
     addExcercise: addExercise,
     updateExcercise: updateExercise,
-    loadExercises: loadExercises,
     deleteExercise: deleteExercise
 };
