@@ -1,14 +1,37 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firestoreApi from "../firebase/firestoreApi";
-import { Exercise } from "../models/workout";
+import { Exercise, Program } from "../models/workout";
 
 interface WorkoutState {
     exercises: Exercise[],
-    selectedExercise?: Exercise
+    selectedExercise?: Exercise,
+    programs: Program[]
 }
 
 const initialState: WorkoutState = {
-    exercises: []
+    exercises: [],
+    programs: [
+        {
+            id: '1',
+            title: 'New Gym. First program',
+            description: 'My first program',
+            programDays: [
+                {
+                    exerciseIds: ["lFM4uP9GpS9jarDiJHw5"]
+                }
+            ]
+        },
+        {
+            id: '2',
+            title: 'New Gym. Second program',
+            description: 'Program based on youtube videos',
+            programDays: [
+                {
+                    exerciseIds: ["lFM4uP9GpS9jarDiJHw5"]
+                }
+            ]
+        }
+    ]
 }
 
 const loadExercises = createAsyncThunk<Exercise[], void, {}>(
@@ -24,8 +47,6 @@ const loadExercises = createAsyncThunk<Exercise[], void, {}>(
 const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/addExcercise",
     async function (exercise) {
-        console.log("Start trunk");
-
         const id = await firestoreApi.exercises.addExerciseAsync(exercise);
         exercise.id = id;
 
@@ -82,7 +103,7 @@ const workoutSlice = createSlice({
             exercise.muscleGroup = action.payload.muscleGroup;
             exercise.measurementCategory = action.payload.measurementCategory;
 
-            state.selectedExercise = exercise;
+            state.selectedExercise = {...exercise};
         });
     }
 });

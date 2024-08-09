@@ -20,3 +20,15 @@ export interface Exercise {
     muscleGroup: MuscleGroup,
     measurementCategory: MeasurementCategory
 }
+
+export interface ProgramDay {
+    //dayNumber: number,
+    exerciseIds?: string[]
+}
+
+export interface Program {
+    id?: string,
+    title: string,
+    description?: string,
+    programDays: ProgramDay[]
+}

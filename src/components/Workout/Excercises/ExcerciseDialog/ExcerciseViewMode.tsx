@@ -22,13 +22,6 @@ const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise,
                     <strong style={{ fontSize: "1.3rem" }}>{selectedExercise.title}</strong>
                 </div>
 
-                {selectedExercise.description &&
-                    <div className='margin-bottom-1'>
-                        <div><strong>Description:</strong></div>
-                        <div>{selectedExercise.description}</div>
-                    </div>
-                }
-
                 <div className='margin-bottom-1'>
                     <strong>Myscle Group:</strong> {MuscleGroupLabel.get(selectedExercise.muscleGroup)}
                 </div>
@@ -36,6 +29,13 @@ const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise,
                 <div className='margin-bottom-1'>
                     <strong>Category:</strong> {MeasurementCategoryLabel.get(selectedExercise.measurementCategory)}
                 </div>
+
+                {selectedExercise.description &&
+                    <div className='margin-bottom-1'>
+                        <div><strong>Description:</strong></div>
+                        <div>{selectedExercise.description}</div>
+                    </div>
+                }
             </div>
         </div>
     )

@@ -1,0 +1,16 @@
+.program {
+    display: flex;
+    align-items: center;
+    column-gap: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ebebeb;
+    padding: 15px;
+}
+
+.programInfo .title {
+    font-weight: bold;
+}
+
+.excerciseInfo .description {
+    font-size: small;
+}
