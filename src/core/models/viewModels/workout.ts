@@ -1,4 +1,4 @@
-import { MeasurementCategory, MuscleGroup } from "./enums";
+import { MeasurementCategory, MuscleGroup } from "../enums";
 
 export const MuscleGroupLabel = new Map<number, string>([
     [MuscleGroup.Chest, 'Chest'],
@@ -12,7 +12,7 @@ export const MeasurementCategoryLabel = new Map<number, string>([
     [MeasurementCategory.Time, 'Time']
 ]);
 
-export interface Exercise {
+export interface ExerciseViewModel {
     id?: string,
     imageUrl?: string,
     title: string,
@@ -21,14 +21,24 @@ export interface Exercise {
     measurementCategory: MeasurementCategory
 }
 
-export interface ProgramDay {
-    //dayNumber: number,
-    exerciseIds?: string[]
+export interface ProgramDayExerciseSettingViewModel {
+    sets: number,
+    reps: number,
+    weight: number
 }
 
-export interface Program {
+export interface ProgramDayExerciseViewModel {
+    exerciseId: string,
+    setting: ProgramDayExerciseSettingViewModel
+}
+
+export interface ProgramDayViewModel {
+    exercises: ProgramDayExerciseViewModel[]
+}
+
+export interface ProgramViewModel {
     id?: string,
     title: string,
     description?: string,
-    programDays: ProgramDay[]
+    programDays: ProgramDayViewModel[]
 }

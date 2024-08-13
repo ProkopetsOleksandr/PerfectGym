@@ -1,11 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firestoreApi from "../firebase/firestoreApi";
-import { Exercise, Program } from "../models/workout";
+import { ExerciseViewModel, ProgramViewModel } from "../models/viewModels/workout";
 
 interface WorkoutState {
-    exercises: Exercise[],
-    selectedExercise?: Exercise,
-    programs: Program[]
+    exercises: ExerciseViewModel[],
+    selectedExercise?: ExerciseViewModel,
+    programs: ProgramViewModel[],
+    selectedProgram?: ProgramViewModel
 }
 
 const initialState: WorkoutState = {
@@ -17,7 +18,28 @@ const initialState: WorkoutState = {
             description: 'My first program',
             programDays: [
                 {
-                    exerciseIds: ["lFM4uP9GpS9jarDiJHw5"]
+                    exercises: [
+                        {
+                            exerciseId: 'lFM4uP9GpS9jarDiJHw5',
+                            setting: {
+                                sets: 3,
+                                reps: 10,
+                                weight: 10
+                            }
+                        }
+                    ]
+                },
+                {
+                    exercises: [
+                        {
+                            exerciseId: 'lFM4uP9GpS9jarDiJHw5',
+                            setting: {
+                                sets: 2,
+                                reps: 5,
+                                weight: 6
+                            }
+                        }
+                    ]
                 }
             ]
         },
@@ -27,16 +49,25 @@ const initialState: WorkoutState = {
             description: 'Program based on youtube videos',
             programDays: [
                 {
-                    exerciseIds: ["lFM4uP9GpS9jarDiJHw5"]
+                    exercises: [
+                        {
+                            exerciseId: 'lFM4uP9GpS9jarDiJHw5',
+                            setting: {
+                                sets: 3,
+                                reps: 10,
+                                weight: 10
+                            }
+                        }
+                    ]
                 }
             ]
         }
     ]
 }
 
-const loadExercises = createAsyncThunk<Exercise[], void, {}>(
+const loadExercises = createAsyncThunk<ExerciseViewModel[], void, {}>(
     "workout/loadExercises",
-    async function () : Promise<Exercise[]> {
+    async function () : Promise<ExerciseViewModel[]> {
         const exercises = await firestoreApi.exercises.getAllExercisesAsync();
         console.log(exercises);
 
@@ -44,7 +75,7 @@ const loadExercises = createAsyncThunk<Exercise[], void, {}>(
     }
 );
 
-const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
+const addExercise = createAsyncThunk<ExerciseViewModel, ExerciseViewModel, {}>(
     "workout/addExcercise",
     async function (exercise) {
         const id = await firestoreApi.exercises.addExerciseAsync(exercise);
@@ -62,7 +93,7 @@ const deleteExercise = createAsyncThunk<string, string, {}>(
     }
 );
 
-const updateExercise = createAsyncThunk<Exercise, Exercise, {}>(
+const updateExercise = createAsyncThunk<ExerciseViewModel, ExerciseViewModel, {}>(
     "workout/updateExercise",
     async function (payload) {
         await new Promise(resolve => setTimeout(resolve, 1200));
@@ -75,7 +106,7 @@ const workoutSlice = createSlice({
     name: 'workout',
     initialState: initialState,
     reducers: {
-        setSelectedExcercise(state, action: PayloadAction<Exercise | undefined>) {
+        setSelectedExcercise(state, action: PayloadAction<ExerciseViewModel | undefined>) {
             state.selectedExercise = action.payload;
         }
     },

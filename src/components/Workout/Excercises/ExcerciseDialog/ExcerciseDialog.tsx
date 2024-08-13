@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { Exercise } from '../../../../core/models/workout';
+import { ExerciseViewModel } from '../../../../core/models/viewModels/workout';
 import { ApplicationAction } from '../../../../core/redux/application.slice';
 import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
 import { WorkoutAction } from '../../../../core/redux/workout.slice';
@@ -21,7 +21,7 @@ const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
     const dispatch = useAppDispatch();
 
     function onSubmit(values: ExcerciseFormValues) {
-        const excercise: Exercise = {
+        const excercise: ExerciseViewModel = {
             id: selectedExercise?.id,
             title: values.title,
             description: values.description,

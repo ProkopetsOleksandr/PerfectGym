@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 import { useState } from 'react';
-import { Program } from '../../../core/models/workout';
+import { ProgramViewModel } from '../../../core/models/viewModels/workout';
 import { useAppSelector } from '../../../core/redux/hook';
 import ProgramDialog from './ProgramDialog/ProgramDialog';
 import ProgramList from './ProgramList/ProgramList';
@@ -10,7 +10,7 @@ function Programs() {
 
     const { programs, exercises } = useAppSelector(store => store.workout);
 
-    function onProgramSelected(program: Program) {
+    function onProgramSelected(program: ProgramViewModel) {
         setIsProgramDialogOpen(true);
     }
 
