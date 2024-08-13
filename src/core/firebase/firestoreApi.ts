@@ -1,4 +1,4 @@
-import ExerciseApi from "./firestore/exerciseApi";
+import ExerciseApi from './firestore/exerciseApi';
 
 const firestoreApi = {
     exercises: ExerciseApi

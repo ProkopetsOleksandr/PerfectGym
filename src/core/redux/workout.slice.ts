@@ -1,52 +1,54 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { firestore } from "../firebase/firebase";
-import { Exercise } from "../models/workout";
+import firestoreApi from "../firebase/firestoreApi";
+import { Exercise, Program } from "../models/workout";
 
 interface WorkoutState {
     exercises: Exercise[],
-    selectedExercise?: Exercise
+    selectedExercise?: Exercise,
+    programs: Program[]
 }
 
-const exerciseCollection = collection(firestore, "exercises");
-
 const initialState: WorkoutState = {
-    exercises: []
+    exercises: [],
+    programs: [
+        {
+            id: '1',
+            title: 'New Gym. First program',
+            description: 'My first program',
+            programDays: [
+                {
+                    exerciseIds: ["lFM4uP9GpS9jarDiJHw5"]
+                }
+            ]
+        },
+        {
+            id: '2',
+            title: 'New Gym. Second program',
+            description: 'Program based on youtube videos',
+            programDays: [
+                {
+                    exerciseIds: ["lFM4uP9GpS9jarDiJHw5"]
+                }
+            ]
+        }
+    ]
 }
 
 const loadExercises = createAsyncThunk<Exercise[], void, {}>(
     "workout/loadExercises",
     async function () : Promise<Exercise[]> {
-        const data = await getDocs(exerciseCollection);
-        const filteredData = data.docs.map(doc => {
-            const data = doc.data();
+        const exercises = await firestoreApi.exercises.getAllExercisesAsync();
+        console.log(exercises);
 
-            const exercise: Exercise = {
-                id: doc.id,
-                title: data.title,
-                description: data.descripion,
-                muscleGroup: data.muscleGroup,
-                measurementCategory: data.measurementCategory,
-                imageUrl: data.imageUrl
-            }
-
-            return exercise;
-        });
-
-        console.log(filteredData);
-
-        return filteredData;
+        return exercises;
     }
 );
 
 const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/addExcercise",
     async function (exercise) {
-        const {id, ...newExercise} = exercise;
-
-        const result = await addDoc(exerciseCollection, newExercise);
-
-        exercise.id = result.id;
+        const id = await firestoreApi.exercises.addExerciseAsync(exercise);
+        exercise.id = id;
 
         return exercise;
     }
@@ -55,8 +57,7 @@ const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
 const deleteExercise = createAsyncThunk<string, string, {}>(
     "workout/deleteExercise",
     async function(id: string) {
-        const exerciseDoc = doc(firestore, "exercises", id);
-        await deleteDoc(exerciseDoc);
+        await firestoreApi.exercises.deleteExerciseAsync(id);
         return id;
     }
 );
@@ -102,7 +103,7 @@ const workoutSlice = createSlice({
             exercise.muscleGroup = action.payload.muscleGroup;
             exercise.measurementCategory = action.payload.measurementCategory;
 
-            state.selectedExercise = exercise;
+            state.selectedExercise = {...exercise};
         });
     }
 });
@@ -111,8 +112,8 @@ export default workoutSlice.reducer;
 
 export const WorkoutAction = {
     ...workoutSlice.actions,
+    loadExercises: loadExercises,
     addExcercise: addExercise,
     updateExcercise: updateExercise,
-    loadExercises: loadExercises,
     deleteExercise: deleteExercise
 };

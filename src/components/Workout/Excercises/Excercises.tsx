@@ -32,7 +32,7 @@ function Excercises() {
             <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
                 <IconButton style={{ color: "#272343" }}><Search /></IconButton>
                 <IconButton style={{ color: "#272343" }} onClick={() => setIsFiltersDialogOpen(true)}><FilterAlt /></IconButton>
-                <Button variant='contained' style={{ background: "#272343" }} onClick={() => setIsExcerciseDialogOpen(true)}>Add</Button>
+                <Button variant='contained' style={{ background: "#272343" }} onClick={() => setIsExcerciseDialogOpen(true)}>Create exercise</Button>
             </div>
 
             <ExerciseList exercises={exercises} openExercise={openExcercise} />
