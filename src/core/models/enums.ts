@@ -11,3 +11,15 @@ export enum MeasurementCategory {
     DistanceAndTime = 3,
     Time = 4
 }
+
+export const MuscleGroupLabel = new Map<number, string>([
+    [MuscleGroup.Chest, 'Chest'],
+    [MuscleGroup.Arm, 'Arm']
+]);
+
+export const MeasurementCategoryLabel = new Map<number, string>([
+    [MeasurementCategory.WeightAndReps, 'Weight and repetitions'],
+    [MeasurementCategory.Reps, 'Repetitions'],
+    [MeasurementCategory.DistanceAndTime, 'Distance and time'],
+    [MeasurementCategory.Time, 'Time']
+]);

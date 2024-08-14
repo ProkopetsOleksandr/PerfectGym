@@ -1,10 +1,11 @@
 import React from 'react';
-import { ExerciseViewModel, MuscleGroupLabel } from '../../../../core/models/viewModels/workout';
+import { MuscleGroupLabel } from '../../../../core/models/enums';
+import { Exercise } from '../../../../core/models/workout';
 import classes from './ExerciseList.module.css';
 
 interface ExerciseListProps {
-    exercises: ExerciseViewModel[],
-    openExercise: (exercise: ExerciseViewModel) => void
+    exercises: Exercise[],
+    openExercise: (exercise: Exercise) => void
 }
 
 const ExerciseList: React.FC<ExerciseListProps> = ({ exercises, openExercise }) => {

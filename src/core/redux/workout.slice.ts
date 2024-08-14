@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firestoreApi from "../firebase/firestoreApi";
-import { ExerciseViewModel, ProgramViewModel } from "../models/viewModels/workout";
+import { Exercise, Program } from "../models/workout";
 
 interface WorkoutState {
-    exercises: ExerciseViewModel[],
-    selectedExercise?: ExerciseViewModel,
-    programs: ProgramViewModel[],
-    selectedProgram?: ProgramViewModel
+    exercises: Exercise[],
+    selectedExercise?: Exercise,
+    programs: Program[],
+    selectedProgram?: Program
 }
 
 const initialState: WorkoutState = {
@@ -65,9 +65,9 @@ const initialState: WorkoutState = {
     ]
 }
 
-const loadExercises = createAsyncThunk<ExerciseViewModel[], void, {}>(
+const loadExercises = createAsyncThunk<Exercise[], void, {}>(
     "workout/loadExercises",
-    async function () : Promise<ExerciseViewModel[]> {
+    async function () : Promise<Exercise[]> {
         const exercises = await firestoreApi.exercises.getAllExercisesAsync();
         console.log(exercises);
 
@@ -75,7 +75,7 @@ const loadExercises = createAsyncThunk<ExerciseViewModel[], void, {}>(
     }
 );
 
-const addExercise = createAsyncThunk<ExerciseViewModel, ExerciseViewModel, {}>(
+const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/addExcercise",
     async function (exercise) {
         const id = await firestoreApi.exercises.addExerciseAsync(exercise);
@@ -93,7 +93,7 @@ const deleteExercise = createAsyncThunk<string, string, {}>(
     }
 );
 
-const updateExercise = createAsyncThunk<ExerciseViewModel, ExerciseViewModel, {}>(
+const updateExercise = createAsyncThunk<Exercise, Exercise, {}>(
     "workout/updateExercise",
     async function (payload) {
         await new Promise(resolve => setTimeout(resolve, 1200));
@@ -106,8 +106,11 @@ const workoutSlice = createSlice({
     name: 'workout',
     initialState: initialState,
     reducers: {
-        setSelectedExcercise(state, action: PayloadAction<ExerciseViewModel | undefined>) {
-            state.selectedExercise = action.payload;
+        setSelectedExcercise(state, action: PayloadAction<Exercise | undefined>) {
+            state.selectedExercise = action.payload ? {...action.payload} : action.payload;
+        },
+        setSelectedProgram(state, action: PayloadAction<Program | undefined>) {
+            state.selectedProgram = action.payload ? {...action.payload} : action.payload;
         }
     },
     extraReducers: (builder) => {

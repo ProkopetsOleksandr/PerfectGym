@@ -1,10 +1,10 @@
 import React from 'react';
-import { ProgramViewModel } from '../../../../core/models/viewModels/workout';
+import { Program } from '../../../../core/models/workout';
 import classes from './ProgramList.module.css';
 
 interface ProgramListProps {
-    programs: ProgramViewModel[],
-    onProgramSelected: (program: ProgramViewModel) => void
+    programs: Program[],
+    onProgramSelected: (program: Program) => void
 }
 
 const ProgramList: React.FC<ProgramListProps> = ({ programs, onProgramSelected }) => {

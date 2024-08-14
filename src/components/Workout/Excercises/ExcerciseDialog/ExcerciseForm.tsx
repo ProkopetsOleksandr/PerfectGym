@@ -5,8 +5,8 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import { FormikErrors, useFormik } from 'formik';
 import { FC, useEffect } from 'react';
-import { MeasurementCategory, MuscleGroup } from '../../../../core/models/enums';
-import { ExerciseViewModel, MeasurementCategoryLabel, MuscleGroupLabel } from '../../../../core/models/viewModels/workout';
+import { MeasurementCategory, MeasurementCategoryLabel, MuscleGroup, MuscleGroupLabel } from '../../../../core/models/enums';
+import { Exercise } from '../../../../core/models/workout';
 
 export interface ExcerciseFormValues {
     title: string,
@@ -16,7 +16,7 @@ export interface ExcerciseFormValues {
 }
 
 interface ExcerciseFormProps {
-    selectedExercise?: ExerciseViewModel,
+    selectedExercise?: Exercise,
     onSubmit: (values: ExcerciseFormValues) => void
 }
 

@@ -2,7 +2,7 @@ import { FilterAlt, Search } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import { useEffect, useState } from 'react'
-import { ExerciseViewModel } from '../../../core/models/viewModels/workout'
+import { Exercise } from '../../../core/models/workout'
 import { useAppDispatch, useAppSelector } from '../../../core/redux/hook'
 import { WorkoutAction } from '../../../core/redux/workout.slice'
 import ExcerciseDialog from './ExcerciseDialog/ExcerciseDialog'
@@ -22,7 +22,7 @@ function Excercises() {
         }
     }, []);
 
-    function openExcercise(exercise: ExerciseViewModel) {
+    function openExcercise(exercise: Exercise) {
         dispatch(WorkoutAction.setSelectedExcercise(exercise));
         setIsExcerciseDialogOpen(true);
     }

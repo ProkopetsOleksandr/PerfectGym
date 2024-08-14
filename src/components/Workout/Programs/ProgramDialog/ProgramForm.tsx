@@ -1,7 +1,7 @@
 import { Button, TextField } from '@mui/material';
 import { FormikErrors, useFormik } from 'formik';
 import React from 'react';
-import { ProgramViewModel } from '../../../../core/models/viewModels/workout';
+import { Program } from '../../../../core/models/workout';
 
 export interface ProgramFormValues {
     title: string,
@@ -9,7 +9,7 @@ export interface ProgramFormValues {
 }
 
 interface ProgramFormProps {
-    selectedProgram?: ProgramViewModel
+    selectedProgram?: Program
     onSubmit: (values: ProgramFormValues) => void
 }
 
