@@ -1,19 +1,23 @@
 import { Delete, Edit } from '@mui/icons-material';
-import { IconButton, Tabs } from '@mui/material';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import React from 'react';
-import { Program } from '../../../../core/models/workout';
+import { Chip, IconButton, Tabs } from '@mui/material';
+import React, { useState } from 'react';
+import { IProgram } from '../../../../core/models/workout';
+import { useAppDispatch } from '../../../../core/redux/hook';
+import { WorkoutAction } from '../../../../core/redux/workout.slice';
+import ProgramDayDialog from './ProgramDayDialog';
 
 interface ProgramViewModeProps {
-    program: Program
+    program: IProgram
 }
 
 const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ program }) => {
-    const [activeTab, setActiveTab] = React.useState<number>(0);
+    const [isProgramDayDialogOpen, setIsProgramDayDialogOpen] = useState<boolean>(false);
 
-    function onActiveTabChanged(event: React.SyntheticEvent, newValue: number) {
-        setActiveTab(newValue);
+    const dispatch = useAppDispatch();
+
+    function openSelectedProgramDayDialog(selectedProgramDayIndex: number) {
+        dispatch(WorkoutAction.setSelectedProgramDayIndex(selectedProgramDayIndex));
+        setIsProgramDayDialogOpen(true);
     }
 
     return (
@@ -35,27 +39,31 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ program }) => {
                     </div>
                 }
 
-                <div>
-                    <Box sx={{ width: '100%', typography: 'body1' }}>
-                        <Tabs value={activeTab} onChange={onActiveTabChanged} variant="scrollable">
-                            <Tab label="Day 1" />
-                            <Tab label="Day 2" />
-                            <Tab label="Day 3" />
-                            <Tab label="Day 4" />
-                            <Tab label="Day 5" />
-                            <Tab label="Day 6" />
-                            <Tab label="Day 7" />
+                {/* <div>
+                    {program.programDays?.length > 0 &&
+                        <Box sx={{ width: '100%', typography: 'body1' }}>
 
-                            {program.programDays.map((day) => {
-                                return <Tab label="Day 1" />
-                            })}
-                        </Tabs>
-                        <div style={{border: "1px solid black"}}>
-                            {activeTab}
-                        </div>
-                    </Box>
-                </div>
+                            <Tabs value={activeProgramDayTab} onChange={onActiveTabChanged} variant="scrollable">
+                               {program.programDays.map((day, index) => <Tab key={index} label={`Day ${index+1}`} />)}
+                            </Tabs>
+
+                            {activeProgramDay && <ProgramDay programDay={activeProgramDay} />}
+                        </Box>}
+                </div> */}
+
+                {program.trainingPrograms?.length > 0 &&
+                    <ul>
+                        {program.trainingPrograms.map((programDay, index) =>
+                            <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3", padding: "10px" }} onClick={() => openSelectedProgramDayDialog(index)}>
+                                <div>
+                                    <Chip label={`Day ${index + 1}`} /> <strong>{programDay.title}</strong>
+                                </div>
+                                <div style={{ marginTop: "10px" }}>{`${programDay.workout.length} exercises`}</div>
+                            </li>)}
+                    </ul>}
             </div>
+
+            <ProgramDayDialog open={isProgramDayDialogOpen} handleClose={() => setIsProgramDayDialogOpen(false)} />
         </div>
     )
 }

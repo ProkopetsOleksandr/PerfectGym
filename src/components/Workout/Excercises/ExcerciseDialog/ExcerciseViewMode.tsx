@@ -2,10 +2,10 @@ import { Delete, Edit } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import React from 'react'
 import { MeasurementCategoryLabel, MuscleGroupLabel } from '../../../../core/models/enums'
-import { Exercise } from '../../../../core/models/workout'
+import { IExercise } from '../../../../core/models/workout'
 
 interface ExcerciseViewModeProps {
-    selectedExercise: Exercise,
+    selectedExercise: IExercise,
     setEditMode: () => void,
     deleteExercise: () => void
 }

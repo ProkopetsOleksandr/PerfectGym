@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import firestoreApi from "../firebase/firestoreApi";
-import { Exercise, Program } from "../models/workout";
+import { MeasurementCategory, MuscleGroup } from "../models/enums";
+import { IExercise, IProgram, IWorkout } from "../models/workout";
 
 interface WorkoutState {
-    exercises: Exercise[],
-    selectedExercise?: Exercise,
-    programs: Program[],
-    selectedProgram?: Program
+    exercises: IExercise[],
+    selectedExercise?: IExercise,
+    programs: IProgram[],
+    selectedProgram?: IProgram,
+    selectedProgramDayIndex?: number
 }
 
 const initialState: WorkoutState = {
@@ -16,27 +18,77 @@ const initialState: WorkoutState = {
             id: '1',
             title: 'New Gym. First program',
             description: 'My first program',
-            programDays: [
+            trainingPrograms: [
                 {
-                    exercises: [
+                    title: "foot, back",
+                    workout: [
                         {
-                            exerciseId: 'lFM4uP9GpS9jarDiJHw5',
-                            setting: {
-                                sets: 3,
-                                reps: 10,
-                                weight: 10
+                            info: [
+                                {
+                                    exerciseDetails: {
+                                        id: '1',
+                                        title: 'My fake exercise 1',
+                                        description: "short description",
+                                        muscleGroup: MuscleGroup.Arm,
+                                        measurementCategory: MeasurementCategory.WeightAndReps
+                                    },
+                                    setting: {
+                                        sets: 3,
+                                        reps: 10,
+                                        weight: 10
+                                    }
+                                },
+                                {
+                                    exerciseDetails: {
+                                        id: '5',
+                                        title: 'My fake exercise 5',
+                                        description: "short description 5",
+                                        muscleGroup: MuscleGroup.Arm,
+                                        measurementCategory: MeasurementCategory.WeightAndReps
+                                    },
+                                    setting: {
+                                        sets: 3,
+                                        reps: 10,
+                                        weight: 10
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            info: {
+                                exerciseDetails: {
+                                    id: '2',
+                                    title: 'My fake exercise 2',
+                                    description: "short description 2",
+                                    muscleGroup: MuscleGroup.Chest,
+                                    measurementCategory: MeasurementCategory.WeightAndReps
+                                },
+                                setting: {
+                                    sets: 2,
+                                    reps: 5,
+                                    weight: 6
+                                }
                             }
                         }
                     ]
                 },
                 {
-                    exercises: [
+                    title: "biceps, triceps",
+                    workout: [
                         {
-                            exerciseId: 'lFM4uP9GpS9jarDiJHw5',
-                            setting: {
-                                sets: 2,
-                                reps: 5,
-                                weight: 6
+                            info: {
+                                exerciseDetails: {
+                                    id: '3',
+                                    title: 'My fake exercise 3',
+                                    description: "short description 3",
+                                    muscleGroup: MuscleGroup.Chest,
+                                    measurementCategory: MeasurementCategory.WeightAndReps
+                                },
+                                setting: {
+                                    sets: 2,
+                                    reps: 5,
+                                    weight: 6
+                                }
                             }
                         }
                     ]
@@ -47,15 +99,24 @@ const initialState: WorkoutState = {
             id: '2',
             title: 'New Gym. Second program',
             description: 'Program based on youtube videos',
-            programDays: [
+            trainingPrograms: [
                 {
-                    exercises: [
+                    title: "chest, arms",
+                    workout: [
                         {
-                            exerciseId: 'lFM4uP9GpS9jarDiJHw5',
-                            setting: {
-                                sets: 3,
-                                reps: 10,
-                                weight: 10
+                            info: {
+                                exerciseDetails: {
+                                    id: '4',
+                                    title: 'My fake exercise 4',
+                                    description: "short description 4",
+                                    muscleGroup: MuscleGroup.Chest,
+                                    measurementCategory: MeasurementCategory.WeightAndReps
+                                },
+                                setting: {
+                                    sets: 3,
+                                    reps: 10,
+                                    weight: 10
+                                }
                             }
                         }
                     ]
@@ -65,9 +126,9 @@ const initialState: WorkoutState = {
     ]
 }
 
-const loadExercises = createAsyncThunk<Exercise[], void, {}>(
+const loadExercises = createAsyncThunk<IExercise[], void, {}>(
     "workout/loadExercises",
-    async function () : Promise<Exercise[]> {
+    async function () : Promise<IExercise[]> {
         const exercises = await firestoreApi.exercises.getAllExercisesAsync();
         console.log(exercises);
 
@@ -75,7 +136,7 @@ const loadExercises = createAsyncThunk<Exercise[], void, {}>(
     }
 );
 
-const addExercise = createAsyncThunk<Exercise, Exercise, {}>(
+const addExercise = createAsyncThunk<IExercise, IExercise, {}>(
     "workout/addExcercise",
     async function (exercise) {
         const id = await firestoreApi.exercises.addExerciseAsync(exercise);
@@ -93,7 +154,7 @@ const deleteExercise = createAsyncThunk<string, string, {}>(
     }
 );
 
-const updateExercise = createAsyncThunk<Exercise, Exercise, {}>(
+const updateExercise = createAsyncThunk<IExercise, IExercise, {}>(
     "workout/updateExercise",
     async function (payload) {
         await new Promise(resolve => setTimeout(resolve, 1200));
@@ -106,11 +167,14 @@ const workoutSlice = createSlice({
     name: 'workout',
     initialState: initialState,
     reducers: {
-        setSelectedExcercise(state, action: PayloadAction<Exercise | undefined>) {
+        setSelectedExcercise(state, action: PayloadAction<IExercise | undefined>) {
             state.selectedExercise = action.payload ? {...action.payload} : action.payload;
         },
-        setSelectedProgram(state, action: PayloadAction<Program | undefined>) {
+        setSelectedProgram(state, action: PayloadAction<IProgram | undefined>) {
             state.selectedProgram = action.payload ? {...action.payload} : action.payload;
+        },
+        setSelectedProgramDayIndex(state, action: PayloadAction<number | undefined>) {
+            state.selectedProgramDayIndex = action.payload;
         }
     },
     extraReducers: (builder) => {

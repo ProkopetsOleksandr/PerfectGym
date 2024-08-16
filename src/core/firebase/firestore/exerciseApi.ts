@@ -1,9 +1,9 @@
 import { addDoc, collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { Exercise } from "../../models/workout";
+import { IExercise } from "../../models/workout";
 import { auth, db } from "../firebase";
 
 export default class ExerciseApi {
-    static getAllExercisesAsync = async (): Promise<Exercise[]> => {
+    static getAllExercisesAsync = async (): Promise<IExercise[]> => {
         const exerciseCollectionRef = collection(db, `users/${auth.currentUser?.uid!}/exercises`);
 
         const querySnapshot = await getDocs(exerciseCollectionRef);
@@ -11,7 +11,7 @@ export default class ExerciseApi {
         const exercises = querySnapshot.docs.map(doc => {
             const data = doc.data();
 
-            const exercise: Exercise = {
+            const exercise: IExercise = {
                 id: doc.id,
                 title: data.title,
                 description: data.descripion,
@@ -26,7 +26,7 @@ export default class ExerciseApi {
         return exercises;
     }
 
-    static addExerciseAsync = async (exercise: Exercise): Promise<string> => {
+    static addExerciseAsync = async (exercise: IExercise): Promise<string> => {
         console.log("Start")
 
         const { id, ...newExercise } = exercise;
