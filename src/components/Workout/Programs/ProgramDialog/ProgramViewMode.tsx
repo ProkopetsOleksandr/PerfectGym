@@ -7,10 +7,10 @@ import { WorkoutAction } from '../../../../core/redux/workout.slice';
 import TrainingProgramDialog from './TrainingProgramDialog';
 
 interface ProgramViewModeProps {
-    program: IProgram
+    selectedProgram: IProgram
 }
 
-const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ program }) => {
+const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram }) => {
     const [isProgramDayDialogOpen, setIsProgramDayDialogOpen] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
@@ -29,36 +29,24 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ program }) => {
 
             <div>
                 <div style={{ marginBottom: "2rem" }}>
-                    <strong style={{ fontSize: "1.3rem" }}>{program.title}</strong>
+                    <strong style={{ fontSize: "1.3rem" }}>{selectedProgram.title}</strong>
                 </div>
 
-                {program.description &&
+                {selectedProgram.description &&
                     <div className='margin-bottom-1'>
                         <div><strong>Description:</strong></div>
-                        <div>{program.description}</div>
+                        <div>{selectedProgram.description}</div>
                     </div>
                 }
 
-                {/* <div>
-                    {program.programDays?.length > 0 &&
-                        <Box sx={{ width: '100%', typography: 'body1' }}>
-
-                            <Tabs value={activeProgramDayTab} onChange={onActiveTabChanged} variant="scrollable">
-                               {program.programDays.map((day, index) => <Tab key={index} label={`Day ${index+1}`} />)}
-                            </Tabs>
-
-                            {activeProgramDay && <ProgramDay programDay={activeProgramDay} />}
-                        </Box>}
-                </div> */}
-
-                {program.trainingPrograms?.length > 0 &&
+                {selectedProgram.trainingPrograms?.length > 0 &&
                     <ul>
-                        {program.trainingPrograms.map((programDay, index) =>
+                        {selectedProgram.trainingPrograms.map((trainingProgram, index) =>
                             <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3", padding: "10px" }} onClick={() => openSelectedProgramDayDialog(index)}>
                                 <div>
-                                    <Chip label={`Day ${index + 1}`} /> <strong>{programDay.title}</strong>
+                                    <Chip label={`Day ${index + 1}`} /> <strong>{trainingProgram.title}</strong>
                                 </div>
-                                <div style={{ marginTop: "10px" }}>{`${programDay.workout.length} exercises`}</div>
+                                <div style={{ marginTop: "10px" }}>{`${trainingProgram.workout.length} exercises`}</div>
                             </li>)}
                     </ul>}
             </div>

@@ -20,7 +20,7 @@ function Programs() {
     return (
         <div>
             <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-                <Button variant='contained' style={{ background: "#272343" }} onClick={() => setIsProgramDialogOpen(true)}>Create program</Button>
+                <Button variant='contained' style={{ background: "#272343", textTransform: "none" }} onClick={() => setIsProgramDialogOpen(true)}>Create</Button>
             </div>
 
             <ProgramList programs={programs} onProgramSelected={onProgramSelected} />

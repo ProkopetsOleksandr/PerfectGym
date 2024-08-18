@@ -1,11 +1,20 @@
-import { Button, TextField } from '@mui/material';
+import { Add, Search } from '@mui/icons-material';
+import { Button, IconButton, TextField } from '@mui/material';
 import { FormikErrors, useFormik } from 'formik';
 import React from 'react';
 import { IProgram } from '../../../../core/models/workout';
 
 export interface ProgramFormValues {
     title: string,
-    description?: string
+    description?: string,
+    trainingPrograms?: {
+        dayNumber: number,
+        title: string,
+        workout: {
+            orderNumber: number,
+            exerciseSet: {exerciseId: string, sets: number, reps: number, weight: number}[]
+        }[]
+    }
 }
 
 interface ProgramFormProps {
@@ -61,7 +70,9 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) 
                         rows={4} />
                 </div>
 
-                
+                <div className="margin-bottom-1" style={{ textAlign: "center" }}>
+                    Training programs: <IconButton style={{ color: "#272343" }}><Add /></IconButton>
+                </div>
 
                 {formik.isValid &&
                     <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
