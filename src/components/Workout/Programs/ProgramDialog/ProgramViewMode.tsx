@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { IProgram } from '../../../../core/models/workout';
 import { useAppDispatch } from '../../../../core/redux/hook';
 import { WorkoutAction } from '../../../../core/redux/workout.slice';
-import ProgramDayDialog from './ProgramDayDialog';
+import TrainingProgramDialog from './TrainingProgramDialog';
 
 interface ProgramViewModeProps {
     program: IProgram
@@ -16,7 +16,7 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ program }) => {
     const dispatch = useAppDispatch();
 
     function openSelectedProgramDayDialog(selectedProgramDayIndex: number) {
-        dispatch(WorkoutAction.setSelectedProgramDayIndex(selectedProgramDayIndex));
+        dispatch(WorkoutAction.setSelectedTrainingProgramIndex(selectedProgramDayIndex));
         setIsProgramDayDialogOpen(true);
     }
 
@@ -63,7 +63,7 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ program }) => {
                     </ul>}
             </div>
 
-            <ProgramDayDialog open={isProgramDayDialogOpen} handleClose={() => setIsProgramDayDialogOpen(false)} />
+            <TrainingProgramDialog open={isProgramDayDialogOpen} handleClose={() => setIsProgramDayDialogOpen(false)} />
         </div>
     )
 }

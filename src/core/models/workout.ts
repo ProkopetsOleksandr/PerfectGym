@@ -16,20 +16,20 @@ export interface IProgram {
     trainingPrograms: ITrainingProgram[]
 }
 
+export interface ITrainingProgram {
+    dayNumber: number,
+    title: string,
+    workout: IWorkout[]
+}
+
+export interface IWorkout {
+    orderNumber: number,
+    exerciseSet: IWorkoutExerciseSet | IWorkoutExerciseSet[]
+}
+
 export interface IWorkoutExerciseSet {
-    exercise: IExercise,
+    exerciseDetails: IExercise,
     sets: number,
     reps: number,
     weight: number
 }
-
-export interface IWorkout {
-    exerciseSets: IWorkoutExerciseSet | IWorkoutExerciseSet[]
-}
-
-export interface ITrainingProgram {
-    dayNumber: number,
-    title: string,
-    workout: IWorkout
-}
-

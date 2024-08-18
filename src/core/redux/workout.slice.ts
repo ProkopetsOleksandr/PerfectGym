@@ -8,7 +8,7 @@ interface WorkoutState {
     selectedExercise?: IExercise,
     programs: IProgram[],
     selectedProgram?: IProgram,
-    selectedProgramDayIndex?: number
+    selectedTrainingProgramIndex?: number
 }
 
 const initialState: WorkoutState = {
@@ -20,10 +20,12 @@ const initialState: WorkoutState = {
             description: 'My first program',
             trainingPrograms: [
                 {
+                    dayNumber: 1,
                     title: "foot, back",
                     workout: [
                         {
-                            info: [
+                            orderNumber: 1,
+                            exerciseSet: [
                                 {
                                     exerciseDetails: {
                                         id: '1',
@@ -32,91 +34,73 @@ const initialState: WorkoutState = {
                                         muscleGroup: MuscleGroup.Arm,
                                         measurementCategory: MeasurementCategory.WeightAndReps
                                     },
-                                    setting: {
-                                        sets: 3,
-                                        reps: 10,
-                                        weight: 10
-                                    }
+                                    sets: 3,
+                                    reps: 10,
+                                    weight: 10
                                 },
                                 {
                                     exerciseDetails: {
-                                        id: '5',
-                                        title: 'My fake exercise 5',
-                                        description: "short description 5",
+                                        id: '2',
+                                        title: 'My fake exercise 2',
+                                        description: "short description",
                                         muscleGroup: MuscleGroup.Arm,
                                         measurementCategory: MeasurementCategory.WeightAndReps
                                     },
-                                    setting: {
-                                        sets: 3,
-                                        reps: 10,
-                                        weight: 10
-                                    }
+                                    sets: 3,
+                                    reps: 10,
+                                    weight: 10
                                 }
                             ]
                         },
                         {
-                            info: {
+                            orderNumber: 2,
+                            exerciseSet: {
                                 exerciseDetails: {
-                                    id: '2',
-                                    title: 'My fake exercise 2',
-                                    description: "short description 2",
-                                    muscleGroup: MuscleGroup.Chest,
+                                    id: '3',
+                                    title: 'My fake exercise 3',
+                                    description: "short description",
+                                    muscleGroup: MuscleGroup.Arm,
                                     measurementCategory: MeasurementCategory.WeightAndReps
                                 },
-                                setting: {
-                                    sets: 2,
-                                    reps: 5,
-                                    weight: 6
-                                }
+                                sets: 3,
+                                reps: 10,
+                                weight: 10
                             }
                         }
                     ]
                 },
                 {
-                    title: "biceps, triceps",
+                    dayNumber: 2,
+                    title: "foot, back",
                     workout: [
                         {
-                            info: {
-                                exerciseDetails: {
-                                    id: '3',
-                                    title: 'My fake exercise 3',
-                                    description: "short description 3",
-                                    muscleGroup: MuscleGroup.Chest,
-                                    measurementCategory: MeasurementCategory.WeightAndReps
-                                },
-                                setting: {
-                                    sets: 2,
-                                    reps: 5,
-                                    weight: 6
-                                }
-                            }
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: '2',
-            title: 'New Gym. Second program',
-            description: 'Program based on youtube videos',
-            trainingPrograms: [
-                {
-                    title: "chest, arms",
-                    workout: [
-                        {
-                            info: {
+                            orderNumber: 1,
+                            exerciseSet: {
                                 exerciseDetails: {
                                     id: '4',
                                     title: 'My fake exercise 4',
-                                    description: "short description 4",
-                                    muscleGroup: MuscleGroup.Chest,
+                                    description: "short description",
+                                    muscleGroup: MuscleGroup.Arm,
                                     measurementCategory: MeasurementCategory.WeightAndReps
                                 },
-                                setting: {
-                                    sets: 3,
-                                    reps: 10,
-                                    weight: 10
-                                }
+                                sets: 3,
+                                reps: 10,
+                                weight: 10
+                            }
+                        },
+                        {
+                            orderNumber: 2,
+                            exerciseSet: {
+                                exerciseDetails: {
+                                    id: '5',
+                                    title: 'My fake exercise 5',
+                                    description: "short description",
+                                    muscleGroup: MuscleGroup.Arm,
+                                    measurementCategory: MeasurementCategory.WeightAndReps
+                                },
+                                sets: 3,
+                                reps: 10,
+                                weight: 10
                             }
                         }
                     ]
@@ -128,7 +112,7 @@ const initialState: WorkoutState = {
 
 const loadExercises = createAsyncThunk<IExercise[], void, {}>(
     "workout/loadExercises",
-    async function () : Promise<IExercise[]> {
+    async function (): Promise<IExercise[]> {
         const exercises = await firestoreApi.exercises.getAllExercisesAsync();
         console.log(exercises);
 
@@ -148,7 +132,7 @@ const addExercise = createAsyncThunk<IExercise, IExercise, {}>(
 
 const deleteExercise = createAsyncThunk<string, string, {}>(
     "workout/deleteExercise",
-    async function(id: string) {
+    async function (id: string) {
         await firestoreApi.exercises.deleteExerciseAsync(id);
         return id;
     }
@@ -168,13 +152,13 @@ const workoutSlice = createSlice({
     initialState: initialState,
     reducers: {
         setSelectedExcercise(state, action: PayloadAction<IExercise | undefined>) {
-            state.selectedExercise = action.payload ? {...action.payload} : action.payload;
+            state.selectedExercise = action.payload ? { ...action.payload } : action.payload;
         },
         setSelectedProgram(state, action: PayloadAction<IProgram | undefined>) {
-            state.selectedProgram = action.payload ? {...action.payload} : action.payload;
+            state.selectedProgram = action.payload ? { ...action.payload } : action.payload;
         },
-        setSelectedProgramDayIndex(state, action: PayloadAction<number | undefined>) {
-            state.selectedProgramDayIndex = action.payload;
+        setSelectedTrainingProgramIndex(state, action: PayloadAction<number | undefined>) {
+            state.selectedTrainingProgramIndex = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -201,7 +185,7 @@ const workoutSlice = createSlice({
             exercise.muscleGroup = action.payload.muscleGroup;
             exercise.measurementCategory = action.payload.measurementCategory;
 
-            state.selectedExercise = {...exercise};
+            state.selectedExercise = { ...exercise };
         });
     }
 });
