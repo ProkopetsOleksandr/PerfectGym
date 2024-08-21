@@ -22,7 +22,7 @@ const ProgramDialog: React.FC<ProgramDialogProps> = (props) => {
     }
 
     function onSubmit(values: ProgramFormValues) {
-
+        console.log(values);
     }
 
     return (

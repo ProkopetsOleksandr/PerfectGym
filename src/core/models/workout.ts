@@ -17,13 +17,11 @@ export interface IProgram {
 }
 
 export interface ITrainingProgram {
-    dayNumber: number,
     title: string,
     workout: IWorkout[]
 }
 
 export interface IWorkout {
-    orderNumber: number,
     exerciseSet: IWorkoutExerciseSet | IWorkoutExerciseSet[]
 }
 

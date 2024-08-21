@@ -20,11 +20,9 @@ const initialState: WorkoutState = {
             description: 'My first program',
             trainingPrograms: [
                 {
-                    dayNumber: 1,
                     title: "foot, back",
                     workout: [
                         {
-                            orderNumber: 1,
                             exerciseSet: [
                                 {
                                     exerciseDetails: {
@@ -53,7 +51,6 @@ const initialState: WorkoutState = {
                             ]
                         },
                         {
-                            orderNumber: 2,
                             exerciseSet: {
                                 exerciseDetails: {
                                     id: '3',
@@ -70,11 +67,9 @@ const initialState: WorkoutState = {
                     ]
                 },
                 {
-                    dayNumber: 2,
                     title: "foot, back",
                     workout: [
                         {
-                            orderNumber: 1,
                             exerciseSet: {
                                 exerciseDetails: {
                                     id: '4',
@@ -89,7 +84,6 @@ const initialState: WorkoutState = {
                             }
                         },
                         {
-                            orderNumber: 2,
                             exerciseSet: {
                                 exerciseDetails: {
                                     id: '5',

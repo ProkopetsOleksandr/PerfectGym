@@ -1,20 +1,19 @@
 import { Add, Search } from '@mui/icons-material';
-import { Button, IconButton, TextField } from '@mui/material';
+import { Button, Chip, IconButton, TextField } from '@mui/material';
 import { FormikErrors, useFormik } from 'formik';
-import React from 'react';
-import { IProgram } from '../../../../core/models/workout';
+import React, { useState } from 'react';
+import { IProgram, ITrainingProgram } from '../../../../core/models/workout';
 
 export interface ProgramFormValues {
     title: string,
     description?: string,
-    trainingPrograms?: {
-        dayNumber: number,
-        title: string,
-        workout: {
-            orderNumber: number,
-            exerciseSet: {exerciseId: string, sets: number, reps: number, weight: number}[]
-        }[]
-    }
+    trainingPrograms: ITrainingProgram[]
+    // trainingPrograms?: {
+    //     title: string,
+    //     workout: {
+    //         exerciseSet: { exerciseId: string, sets: number, reps: number, weight: number }[]
+    //     }[]
+    // }[]
 }
 
 interface ProgramFormProps {
@@ -23,15 +22,22 @@ interface ProgramFormProps {
 }
 
 const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) => {
+    const [trainingPrograms, setTrainingPrograms] = useState<ITrainingProgram[]>([]);
+
     const initialValues: ProgramFormValues = {
         title: '',
-        description: ''
+        description: '',
+        trainingPrograms: []
     };
 
     const formik = useFormik({
         initialValues: initialValues,
         validate: validate,
-        onSubmit: onSubmit
+        onSubmit: (values: ProgramFormValues) => {
+            values.trainingPrograms = trainingPrograms;
+
+            onSubmit(values);
+        }
     });
 
     function validate(values: ProgramFormValues) {
@@ -39,6 +45,26 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) 
 
 
         return errors;
+    }
+
+    function addTrainingProgram() {
+        const newTrainingProgram: ITrainingProgram = {
+            title: 'Chest, foot',
+            workout: []
+        };
+
+        setTrainingPrograms(prev => [...prev, newTrainingProgram]);
+
+        console.log(trainingPrograms);
+    }
+
+    function onTrainingProgramTitleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, programIndex: number) {
+        setTrainingPrograms(prev => {
+            const programs = [...prev];
+            programs[programIndex].title = event.target.value;
+
+            return programs;
+        })
     }
 
     return (
@@ -70,13 +96,29 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) 
                         rows={4} />
                 </div>
 
-                <div className="margin-bottom-1" style={{ textAlign: "center" }}>
-                    Training programs: <IconButton style={{ color: "#272343" }}><Add /></IconButton>
+                <div className="margin-bottom-1">
+                    Training programs: <IconButton style={{ color: "#272343" }} onClick={addTrainingProgram}><Add /></IconButton>
                 </div>
 
+                {trainingPrograms &&
+                    <ul>
+                        {trainingPrograms.map((tp, index) => {
+                            return (
+                                <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3", padding: "10px" }}>
+                                    <div>
+                                        <span>{`${index + 1} training day`} ({`${tp.workout.length} exercises`})</span>
+                                    </div>
+                                    <div style={{ marginTop: "10px" }}>
+                                        <strong>{tp.title}</strong>
+                                    </div>
+                                </li>
+                            )
+                        })}
+                    </ul>}
+
                 {formik.isValid &&
-                    <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-                        <Button variant='contained' type='submit' style={{ background: "#272343" }}>Save</Button>
+                    <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "2rem" }}>
+                        <Button variant='contained' type='submit' style={{ background: "#272343" }} fullWidth>Save</Button>
                     </div>
                 }
             </form>
