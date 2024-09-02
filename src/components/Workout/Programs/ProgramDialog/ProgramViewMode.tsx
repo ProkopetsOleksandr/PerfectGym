@@ -3,7 +3,7 @@ import { Chip, IconButton, Tabs } from '@mui/material';
 import React, { useState } from 'react';
 import { IProgram } from '../../../../core/models/workout';
 import { useAppDispatch } from '../../../../core/redux/hook';
-import { WorkoutAction } from '../../../../core/redux/workout.slice';
+import { ProgramAction } from '../../../../core/redux/programs.slice';
 import TrainingProgramDialog from './TrainingProgramDialog';
 
 interface ProgramViewModeProps {
@@ -16,7 +16,7 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram }) =>
     const dispatch = useAppDispatch();
 
     function openSelectedProgramDayDialog(selectedProgramDayIndex: number) {
-        dispatch(WorkoutAction.setSelectedTrainingProgramIndex(selectedProgramDayIndex));
+        dispatch(ProgramAction.setSelectedTrainingProgramIndex(selectedProgramDayIndex));
         setIsProgramDayDialogOpen(true);
     }
 

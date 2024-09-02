@@ -1,5 +1,5 @@
-import { Add, Search } from '@mui/icons-material';
-import { Button, Chip, IconButton, TextField } from '@mui/material';
+import { Add } from '@mui/icons-material';
+import { Button, IconButton, TextField } from '@mui/material';
 import { FormikErrors, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { IProgram, ITrainingProgram } from '../../../../core/models/workout';
@@ -8,12 +8,6 @@ export interface ProgramFormValues {
     title: string,
     description?: string,
     trainingPrograms: ITrainingProgram[]
-    // trainingPrograms?: {
-    //     title: string,
-    //     workout: {
-    //         exerciseSet: { exerciseId: string, sets: number, reps: number, weight: number }[]
-    //     }[]
-    // }[]
 }
 
 interface ProgramFormProps {

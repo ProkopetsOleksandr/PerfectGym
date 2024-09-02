@@ -9,7 +9,7 @@ interface TrainingProgramDialogProps {
 }
 
 const TrainingProgramDialog: React.FC<TrainingProgramDialogProps> = (props) => {
-    const { selectedProgram, selectedTrainingProgramIndex } = useAppSelector(state => state.workout);
+    const { selectedProgram, selectedTrainingProgramIndex } = useAppSelector(state => state.programs);
     const selectedTrainingProgram = selectedProgram?.trainingPrograms[selectedTrainingProgramIndex!];
 
     function onDialogClose() {

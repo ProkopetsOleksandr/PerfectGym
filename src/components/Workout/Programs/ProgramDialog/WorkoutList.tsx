@@ -1,16 +1,16 @@
 import React from 'react';
 import { MuscleGroupLabel } from '../../../../core/models/enums';
-import { IWorkout, IWorkoutExerciseSet } from '../../../../core/models/workout';
+import { ITrainingProgramExercise, ITrainingProgramWorkout } from '../../../../core/models/workout';
 import classes from '../../Excercises/ExerciseList/ExerciseList.module.css';
 
 interface ProgramDayExerciseListProps {
-    workout: IWorkout[],
+    workout: ITrainingProgramWorkout[],
 }
 
 const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout }) => {
     const defaultImageUrl = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg";
 
-    function ExerciseRow({ exerciseSet }: { exerciseSet: IWorkoutExerciseSet }) {
+    function ExerciseRow({ exerciseSet }: { exerciseSet: ITrainingProgramExercise }) {
         return (
             <React.Fragment>
                 <li className={classes.exercise}>

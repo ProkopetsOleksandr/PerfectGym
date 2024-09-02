@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
 import { IExercise } from '../../../../core/models/workout';
 import { ApplicationAction } from '../../../../core/redux/application.slice';
+import { ExerciseAction } from '../../../../core/redux/exercises.slice';
 import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
-import { WorkoutAction } from '../../../../core/redux/workout.slice';
+import { ProgramAction } from '../../../../core/redux/programs.slice';
 import AppDialog from '../../../Common/AppDialog';
 import ExcerciseForm, { ExcerciseFormValues } from './ExcerciseForm';
 import ExcerciseViewMode from './ExcerciseViewMode';
@@ -16,7 +17,7 @@ interface ExcerciseDialogProps {
 const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
     const [editMode, setEditMode] = useState<boolean>(false);
     
-    const selectedExercise = useAppSelector(store => store.workout.selectedExercise);
+    const selectedExercise = useAppSelector(store => store.exercises.selectedExercise);
 
     const dispatch = useAppDispatch();
 
@@ -32,13 +33,13 @@ const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
         dispatch(ApplicationAction.startLoading());
 
         if (selectedExercise) {
-            dispatch(WorkoutAction.updateExcercise(excercise))
+            dispatch(ExerciseAction.updateExcercise(excercise))
                 .then(() => {
                     dispatch(ApplicationAction.endLoading());
                     setEditMode(false);
                 });
         } else {
-            dispatch(WorkoutAction.addExcercise(excercise))
+            dispatch(ExerciseAction.addExcercise(excercise))
                 .then(() => {
                     dispatch(ApplicationAction.endLoading());
                     closeDialog();
@@ -51,7 +52,7 @@ const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
             return;
         }
 
-        dispatch(WorkoutAction.deleteExercise(selectedExercise.id!));
+        dispatch(ExerciseAction.deleteExercise(selectedExercise.id!));
         closeDialog();
     }
     
@@ -62,7 +63,7 @@ const ExcerciseDialog: FC<ExcerciseDialogProps> = (props) => {
         } 
 
         props.handleClose();
-        dispatch(WorkoutAction.setSelectedExcercise(undefined));
+        dispatch(ExerciseAction.setSelectedExcercise(undefined));
         setEditMode(false);
     }
 

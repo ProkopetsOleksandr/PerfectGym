@@ -1,7 +1,7 @@
 import { MeasurementCategory, MuscleGroup } from "./enums";
 
 export interface IExercise {
-    id?: string,
+    id?: number,
     imageUrl?: string,
     title: string,
     description?: string,
@@ -10,24 +10,32 @@ export interface IExercise {
 }
 
 export interface IProgram {
-    id?: string,
+    id: number,
     title: string,
     description?: string,
     trainingPrograms: ITrainingProgram[]
 }
 
 export interface ITrainingProgram {
+    id?: number,
+    programId?: number,
     title: string,
-    workout: IWorkout[]
+    //order: number,
+    workout: ITrainingProgramWorkout[]
 }
 
-export interface IWorkout {
-    exerciseSet: IWorkoutExerciseSet | IWorkoutExerciseSet[]
+export interface ITrainingProgramWorkout {
+    id: number,
+    //order: number,
+    exerciseSet: ITrainingProgramExercise[]
 }
 
-export interface IWorkoutExerciseSet {
-    exerciseDetails: IExercise,
+export interface ITrainingProgramExercise {
+    id: number,
+    // order: number,
+    // exerciseId: number,
     sets: number,
     reps: number,
-    weight: number
+    weight: number,
+    exerciseDetails: IExercise,
 }
