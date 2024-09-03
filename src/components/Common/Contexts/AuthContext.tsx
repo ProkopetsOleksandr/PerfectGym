@@ -1,8 +1,8 @@
-import { ReactNode, FC, useEffect, useState, createContext } from "react"
-import { auth } from "../../../core/firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { useAppDispatch } from "../../../core/redux/hook";
+import { createContext, FC, ReactNode, useEffect, useState } from "react";
+import { auth } from "../../../core/firebase/firebase";
 import { ApplicationAction } from "../../../core/redux/application.slice";
+import { useAppDispatch } from "../../../core/redux/hook";
 
 interface User {
     displayName: string | null
@@ -34,6 +34,14 @@ const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
                     displayName: user.displayName,
                     email: user.email
                 });
+
+                user.getIdToken(true).then(function(idToken) {
+                    // Отправьте этот токен на ваш сервер для проверки
+                    console.log("JWT Token:", idToken);
+                  }).catch(function(error) {
+                    // Обработка ошибок
+                    console.error(error);
+                  });
             } else {
                 setIsAuthenticated(false);
                 setCurrentUser(undefined);
