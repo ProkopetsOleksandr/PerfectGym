@@ -27,8 +27,8 @@ const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout }) => {
     return (
         <ul>
             {workout.map((currentWorkout, index) => {
-                if (!Array.isArray(currentWorkout.exerciseSet)) {
-                    return <ExerciseRow key={index} exerciseSet={currentWorkout.exerciseSet} />
+                if (currentWorkout.exerciseSet.length === 1) {
+                    return <ExerciseRow key={index} exerciseSet={currentWorkout.exerciseSet[0]} />
                 }
 
                 return <li className={classes.superset} key={index}>

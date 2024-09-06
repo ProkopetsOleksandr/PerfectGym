@@ -74,7 +74,7 @@ const initialState: ProgramsState = {
                 {
                     id: 2,
                     programId: 1,
-                    title: "foot, back",
+                    title: "chest, arms",
                     workout: [
                         {
                             id: 3,

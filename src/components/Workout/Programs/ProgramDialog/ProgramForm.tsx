@@ -1,8 +1,13 @@
-import { Add } from '@mui/icons-material';
-import { Button, IconButton, TextField } from '@mui/material';
+import styled from '@emotion/styled';
+import { Add, Edit } from '@mui/icons-material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Box, Button, Card, CardContent, CardHeader, Chip, IconButton, Menu, MenuItem, TextField, Typography } from '@mui/material';
 import { FormikErrors, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { IProgram, ITrainingProgram } from '../../../../core/models/workout';
+import Carousel from '../../../Common/Carousel/Carousel';
+import CarouselItem from '../../../Common/Carousel/CarouselItem';
+import WorkoutList from './WorkoutList';
 
 export interface ProgramFormValues {
     title: string,
@@ -16,11 +21,15 @@ interface ProgramFormProps {
 }
 
 const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) => {
-    const [trainingPrograms, setTrainingPrograms] = useState<ITrainingProgram[]>([]);
+    const [trainingPrograms, setTrainingPrograms] = useState<ITrainingProgram[]>(() => {
+        return selectedProgram?.trainingPrograms ?? [];
+    });
+
+    console.log(selectedProgram);
 
     const initialValues: ProgramFormValues = {
-        title: '',
-        description: '',
+        title: selectedProgram?.title ?? "",
+        description: selectedProgram?.description ?? "",
         trainingPrograms: []
     };
 
@@ -61,6 +70,26 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) 
         })
     }
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const handleMenuOpen = (event: any) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
+        const newTrainingPrograms = structuredClone(trainingPrograms);
+        const trainingProgram = newTrainingPrograms.at(index);
+        if (trainingProgram) {
+            trainingProgram.title = event.target.value;
+        }
+
+        setTrainingPrograms(newTrainingPrograms);
+    };
+
     return (
         <div>
             <div style={{ marginBottom: "2rem" }}>
@@ -94,21 +123,73 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) 
                     Training programs: <IconButton style={{ color: "#272343" }} onClick={addTrainingProgram}><Add /></IconButton>
                 </div>
 
+
                 {trainingPrograms &&
+                    <Carousel>
+                        {trainingPrograms.map((trainingProgram, index) => {
+                            return <div>
+                                <CarouselItem key={index}>
+                                    <Card>
+                                        <Box sx={{ backgroundColor: '#f5f5f5', p: 1 }}> {/* Цвет фона заголовка */}
+                                            <CardHeader
+                                                title={
+                                                    <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
+                                                        <Chip label={`Day ${index + 1}`} color="primary" />
+                                                        <TextField
+                                                            variant="standard"
+                                                            value={trainingProgram.title}
+                                                            onChange={(e) => handleTitleChange(e, index)}
+                                                            size="small"
+                                                        />
+                                                    </div>
+
+                                                }
+                                                action={
+                                                    <IconButton onClick={handleMenuOpen}>
+                                                        <MoreVertIcon />
+                                                    </IconButton>
+                                                }
+                                            />
+                                        </Box>
+                                        <Menu
+                                            anchorEl={anchorEl}
+                                            open={Boolean(anchorEl)}
+                                            onClose={handleMenuClose}
+                                        >
+                                            <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
+                                            <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
+                                        </Menu>
+                                        <CardContent>
+                                            <WorkoutList workout={trainingProgram.workout} />
+                                        </CardContent>
+                                    </Card>
+                                </CarouselItem>
+                            </div>
+                        })}
+                    </Carousel>}
+
+                {/* {trainingPrograms &&
                     <ul>
-                        {trainingPrograms.map((tp, index) => {
+                        {trainingPrograms.map((trainingProgram, index) => {
                             return (
-                                <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3", padding: "10px" }}>
-                                    <div>
-                                        <span>{`${index + 1} training day`} ({`${tp.workout.length} exercises`})</span>
+                                <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3" }}>
+                                    <div style={{ textAlign: "center", padding: "10px", background: "rgb(39, 35, 67)", color: "white" }}>Day {index + 1}</div>
+                                    <div style={{ textAlign: "center", padding: "15px 10px", fontSize: "19px" }}>
+                                        <TextField
+                                            label="Title"
+                                            variant="outlined"
+                                            fullWidth
+                                            value={trainingProgram.title}/>
                                     </div>
-                                    <div style={{ marginTop: "10px" }}>
-                                        <strong>{tp.title}</strong>
+                                    <div style={{ textAlign: "center", fontSize: "15px" }}>
+                                        <Button variant="text" endIcon={<Edit />} style={{color: "#272343"}}>
+                                            manage exercises ({trainingProgram.workout.length})
+                                        </Button>
                                     </div>
                                 </li>
                             )
                         })}
-                    </ul>}
+                    </ul>} */}
 
                 {formik.isValid &&
                     <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "2rem" }}>

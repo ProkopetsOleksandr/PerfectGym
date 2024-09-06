@@ -7,10 +7,11 @@ import { ProgramAction } from '../../../../core/redux/programs.slice';
 import TrainingProgramDialog from './TrainingProgramDialog';
 
 interface ProgramViewModeProps {
-    selectedProgram: IProgram
+    selectedProgram: IProgram,
+    switchToEditMode: () => void
 }
 
-const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram }) => {
+const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram, switchToEditMode }) => {
     const [isProgramDayDialogOpen, setIsProgramDayDialogOpen] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
@@ -23,31 +24,35 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram }) =>
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "1rem" }}>
-                <IconButton style={{ color: "#272343" }}><Edit /></IconButton>
+                <IconButton style={{ color: "#272343" }} onClick={switchToEditMode}><Edit /></IconButton>
                 <IconButton style={{ color: "#272343" }}><Delete /></IconButton>
             </div>
 
             <div>
                 <div style={{ marginBottom: "2rem" }}>
-                    <strong style={{ fontSize: "1.3rem" }}>{selectedProgram.title}</strong>
-                </div>
-
-                {selectedProgram.description &&
-                    <div className='margin-bottom-1'>
-                        <div><strong>Description:</strong></div>
-                        <div>{selectedProgram.description}</div>
+                    <div>
+                        <strong style={{ fontSize: "1.3rem" }}>{selectedProgram.title}</strong>
                     </div>
-                }
+                    {selectedProgram.description &&
+                        <div className="margin-top-1">
+                            <div>{selectedProgram.description}</div>
+                        </div>
+                    }
+                </div>
 
                 {selectedProgram.trainingPrograms?.length > 0 &&
                     <ul>
                         {selectedProgram.trainingPrograms.map((trainingProgram, index) =>
-                            <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3", padding: "10px" }} onClick={() => openSelectedProgramDayDialog(index)}>
-                                <div>
-                                    <Chip label={`Day ${index + 1}`} /> <strong>{trainingProgram.title}</strong>
+                            <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3"}} onClick={() => openSelectedProgramDayDialog(index)}>
+                                <div style={{textAlign: "center", padding: "10px", background: "rgb(39, 35, 67)", color: "white"}}>Day {index + 1}</div>
+                                <div style={{textAlign: "center", padding: "15px 10px", fontSize: "19px"}}>
+                                    <strong>{trainingProgram.title}</strong>
                                 </div>
-                                <div style={{ marginTop: "10px" }}>{`${trainingProgram.workout.length} exercises`}</div>
-                            </li>)}
+                                <div style={{ textAlign: "center", fontSize: "15px" }}>
+                                    ({`${trainingProgram.workout.length} exercises`})
+                                </div>
+                            </li>
+                        )}
                     </ul>}
             </div>
 

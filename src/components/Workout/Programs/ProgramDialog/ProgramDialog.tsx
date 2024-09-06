@@ -17,18 +17,28 @@ const ProgramDialog: React.FC<ProgramDialogProps> = (props) => {
     const dispatch = useAppDispatch();
 
     function closeDialog() {
+        if (editMode && selectedProgram) {
+            setEditMode(false);
+            return;
+        }
+
         props.handleClose();
         dispatch(ProgramAction.setSelectedProgram(undefined));
+        setEditMode(false);
     }
 
     function onSubmit(values: ProgramFormValues) {
         console.log(values);
     }
 
+    function switchToEditMode() {
+        setEditMode(true);
+    }
+
     return (
         <AppDialog open={props.open} onClose={closeDialog}>            
             {selectedProgram && !editMode
-                ? <ProgramViewMode selectedProgram={selectedProgram} />
+                ? <ProgramViewMode selectedProgram={selectedProgram} switchToEditMode={switchToEditMode} />
                 : <ProgramForm selectedProgram={selectedProgram} onSubmit={onSubmit} />}
         </AppDialog>
     )

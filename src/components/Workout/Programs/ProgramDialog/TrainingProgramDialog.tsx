@@ -17,9 +17,7 @@ const TrainingProgramDialog: React.FC<TrainingProgramDialogProps> = (props) => {
     }
 
     if (!selectedTrainingProgram) {
-        return (
-            <div>No data</div>
-        )
+        return <div></div>;
     }
 
     return (
