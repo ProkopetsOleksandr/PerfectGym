@@ -14,8 +14,11 @@ const mainTheme = createTheme({
             default: '#F4F4F4', // цвет фона приложения
         },
         text: {
-            primary: '#212121', // основной цвет текста
+            primary: 'var(--mui-primary-main)', // основной цвет текста
         },
+        action: {
+            active: "var(--mui-primary-main)"
+        }
     },
     typography: {
         button: {

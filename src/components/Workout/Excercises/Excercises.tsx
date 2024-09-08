@@ -1,7 +1,7 @@
 import { FilterAlt, Search } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { IExercise } from '../../../core/models/workout'
 import { ExerciseAction } from '../../../core/redux/exercises.slice'
 import { useAppDispatch, useAppSelector } from '../../../core/redux/hook'
@@ -20,7 +20,7 @@ function Excercises() {
         }
     }, [status]);
 
-    function openExcercise(exercise?: IExercise) {
+    function openExcerciseDialog(exercise?: IExercise) {
         dispatch(ExerciseAction.openExerciseDialog(exercise));
     }
 
@@ -30,13 +30,13 @@ function Excercises() {
 
     return (
         <div>
-            <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-                <IconButton style={{ color: "#272343" }}><Search /></IconButton>
-                <IconButton style={{ color: "#272343" }} onClick={openFilterDialog}><FilterAlt /></IconButton>
-                <Button variant='contained' style={{ background: "#272343", textTransform: "none" }} onClick={() => openExcercise()}>Create</Button>
+            <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", columnGap: "10px" }}>
+                <IconButton style={{ padding: '4px 8px' }}><Search /></IconButton>
+                <IconButton style={{ padding: '4px 8px' }} onClick={openFilterDialog}><FilterAlt /></IconButton>
+                <Button variant='contained' onClick={() => openExcerciseDialog()}>Create</Button>
             </div>
 
-            <ExerciseList exercises={exercises} openExercise={openExcercise} />
+            <ExerciseList exercises={exercises} openExercise={openExcerciseDialog} />
 
             <FiltersDialog />
             <ExcerciseDialog />

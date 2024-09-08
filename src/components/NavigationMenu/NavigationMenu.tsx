@@ -2,15 +2,12 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import HistoryIcon from '@mui/icons-material/History';
 import HomeIcon from '@mui/icons-material/Home';
-import { styled, useTheme } from '@mui/material/styles';
+import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { NavLink } from 'react-router-dom';
 import classes from './NavigationMenu.module.css';
 
 const NavigationMenu = () => {
-    const style = useTheme();
-
-    console.log(style.palette.secondary.main);
-
     const StyledNavLink = styled(NavLink)(({ theme }) => ({
         '&.active': {
             color: theme.palette.secondary.main, // Цвет текста для активной ссылки
@@ -23,28 +20,28 @@ const NavigationMenu = () => {
                 <li className={classes.navItem}>
                     <StyledNavLink to="/" className={classes.navLink}>
                         <HomeIcon className={classes.homeIcon} />
-                        <span className={classes.navName}>Home</span>
+                        <Typography variant='subtitle2'>Home</Typography>
                     </StyledNavLink>
                 </li>
 
                 <li className={classes.navItem}>
                     <StyledNavLink to="/workout" className={classes.navLink}>
                         <FitnessCenterIcon className={classes.programsIcon} />
-                        <span className={classes.navName}>Workout</span>
+                        <Typography variant='subtitle2'>Workout</Typography>
                     </StyledNavLink>
                 </li>
 
                 <li className={classes.navItem}>
                     <a href="#" className={classes.navLink}>
                         <HistoryIcon />
-                        <span className={classes.navName}>History</span>
+                        <Typography variant='subtitle2'>History</Typography>
                     </a>
                 </li>
 
                 <li className={classes.navItem}>
                     <a href="#" className={classes.navLink}>
                         <AssessmentIcon />
-                        <span className={classes.navName}>Stats</span>
+                        <Typography variant='subtitle2'>Stats</Typography>
                     </a>
                 </li>
 
