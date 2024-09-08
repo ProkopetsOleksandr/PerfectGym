@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material/styles';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Authentication from './components/Authentication/Authentication';
@@ -11,7 +12,8 @@ import { useAppSelector } from './core/redux/hook';
 
 function App() {
     const { isInitialized, isLoading } = useAppSelector(store => store.application);
-    const {isAuthenticated} = useAuth();
+    const { isAuthenticated } = useAuth();
+    const theme = useTheme();
 
     if (!isInitialized) {
         return (
@@ -26,7 +28,6 @@ function App() {
     return (
         <div id="app-wrapper">
             <div id="app-content">
-                
                 <Routes>
                     <Route path='/' element={<Home />} />
                     <Route path='/workout/*' element={<Workout />} />

@@ -1,14 +1,27 @@
-import { NavLink, Route, Routes, Navigate } from 'react-router-dom'
+import { styled } from '@mui/material/styles'
+import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import Excercises from './Excercises/Excercises'
 import Programs from './Programs/Programs'
 import classes from './Workout.module.css'
 
 const Workout = () => {
+    const StyledNavLink = styled(NavLink)(({ theme }) => ({
+        '&::before': {
+            backgroundColor: theme.palette.secondary.main
+        },
+
+        '&.active': {
+            '&::before': {
+                transform: 'translateX(-50%) scaleX(1)', // Показать эффект подчеркивания
+            },
+        }
+    }));
+
     return (
         <div>
             <div className={classes.workoutTabs}>
-                <NavLink to="programs" className={({ isActive }) => isActive ? classes.active : ""}>Programs</NavLink>
-                <NavLink to="excercises" className={({ isActive }) => isActive ? classes.active : ""}>Excercises</NavLink>
+                <StyledNavLink to="programs" className={classes.tab}>Programs</StyledNavLink>
+                <StyledNavLink to="excercises" className={classes.tab}>Excercises</StyledNavLink>
             </div>
 
             <div className={classes.workoutContent}>
@@ -21,7 +34,6 @@ const Workout = () => {
                 </div>
             </div>
         </div>
-
     )
 }
 

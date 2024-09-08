@@ -2,30 +2,28 @@
 
 .workoutTabs {
     display: flex;
-    align-items: center;
     justify-content: space-around;
-    height: 3rem;
-    gap: 3px;
-    position: fixed;
+    padding: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+}
+
+.workoutTabs .tab {
+    text-decoration: none;
+    font-weight: 500;
+    background-color: transparent;
+    position: relative;
+    overflow: hidden;
+    padding: 8px 24px;
+}
+
+.workoutTabs .tab::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
     width: 100%;
-}
-
-.workoutContent {
-    padding-top: 3rem;
-}
-
-.workoutTabs a {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #272343;
-    border-top: 2px solid #e5e5de;
-    font-weight: bold;
-    background: #f8f8ee;
-}
-
-.workoutTabs a.active {
-    border-top: 2px solid #a4e3e3;
+    height: 4px;
+    transform: translateX(-50%) scaleX(0);
+    transition: transform 0.3s;
 }

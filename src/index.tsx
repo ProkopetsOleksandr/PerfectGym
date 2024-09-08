@@ -1,13 +1,16 @@
+import { disableReactDevTools } from '@fvilers/disable-react-devtools';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import store from './core/redux/store';
-import AuthProvider from './components/Common/Contexts/AuthContext';
-import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import AuthProvider from './components/Common/Contexts/AuthContext';
+import store from './core/redux/store';
+import mainTheme from './core/themes/mainTheme';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
 
 if (process.env.NODE_ENV === "production") {
     disableReactDevTools();
@@ -21,7 +24,10 @@ root.render(
         <Provider store={store}>
             <BrowserRouter>
                 <AuthProvider>
-                    <App />
+                    <ThemeProvider theme={mainTheme}>
+                        <CssBaseline />
+                        <App />
+                    </ThemeProvider>
                 </AuthProvider>
             </BrowserRouter>
         </Provider>

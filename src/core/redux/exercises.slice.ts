@@ -3,12 +3,26 @@ import { MeasurementCategory, MuscleGroup } from "../models/enums";
 import { IExercise } from "../models/workout";
 
 interface ExercisesState {
+    status: 'idle' | 'loading' | 'succeeded' | 'failed'
     exercises: IExercise[],
-    selectedExercise?: IExercise
+    filterDialog: {
+        isOpen: boolean
+    },
+    exerciseDialog: {
+        isOpen: boolean,
+        selectedExercise?: IExercise
+    }
 }
 
 const initialState: ExercisesState = {
-    exercises: []
+    status: 'idle',
+    exercises: [],
+    filterDialog: {
+        isOpen: false
+    },
+    exerciseDialog: {
+        isOpen: false
+    }
 }
 
 const loadExercises = createAsyncThunk<IExercise[], void, {}>(
@@ -73,13 +87,21 @@ const exercisesSlice = createSlice({
     name: 'exercises',
     initialState: initialState,
     reducers: {
-        setSelectedExcercise(state, action: PayloadAction<IExercise | undefined>) {
-            state.selectedExercise = action.payload ? { ...action.payload } : action.payload;
+        openFilterDialog(state) { state.filterDialog.isOpen = true; },
+        closeFilterDialog(state) { state.filterDialog.isOpen = false; },
+        openExerciseDialog(state, action: PayloadAction<IExercise | undefined>) {
+            state.exerciseDialog.selectedExercise = action.payload;
+            state.exerciseDialog.isOpen = true;
+        },
+        closeExerciseDialog(state) {
+            state.exerciseDialog.isOpen = false;
+            state.exerciseDialog.selectedExercise = undefined;
         }
     },
     extraReducers: (builder) => {
         builder.addCase(loadExercises.fulfilled, function (state, action) {
             state.exercises = action.payload;
+            state.status = 'succeeded';
         });
 
         builder.addCase(addExercise.fulfilled, function (state, action) {
@@ -101,7 +123,7 @@ const exercisesSlice = createSlice({
             exercise.muscleGroup = action.payload.muscleGroup;
             exercise.measurementCategory = action.payload.measurementCategory;
 
-            state.selectedExercise = { ...exercise };
+            state.exerciseDialog.selectedExercise = { ...exercise };
         });
     }
 });

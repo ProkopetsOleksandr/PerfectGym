@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
 import { ProgramAction } from '../../../../core/redux/programs.slice';
-import AppDialog from '../../../Common/AppDialog';
+import AppDialog from '../../../Common/AppDialog/AppDialog';
 import ProgramForm, { ProgramFormValues } from './ProgramForm';
 import ProgramViewMode from './ProgramViewMode';
 

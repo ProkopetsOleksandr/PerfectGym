@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAppSelector } from '../../../../core/redux/hook';
-import AppDialog from '../../../Common/AppDialog';
+import AppDialog from '../../../Common/AppDialog/AppDialog';
 import WorkoutList from './WorkoutList';
 
 interface TrainingProgramDialogProps {

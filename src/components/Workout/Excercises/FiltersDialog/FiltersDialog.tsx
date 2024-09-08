@@ -1,29 +1,31 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Chip } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { FC } from 'react';
-
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import DialogTransition from '../../Common/DialogTransition';
+import Toolbar from '@mui/material/Toolbar';
+import { ExerciseAction } from '../../../../core/redux/exercises.slice';
+import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
+import DialogTransition from '../../../Common/AppDialog/DialogTransition';
 
-interface IFiltersDialogProps {
-    open: boolean,
-    handleClose: () => void
-}
+const FiltersDialog = () => {
+    const isOpen = useAppSelector(state => state.exercises.filterDialog.isOpen);
+    const dispatch = useAppDispatch();
 
-const FiltersDialog: FC<IFiltersDialogProps> = (props) => {
+    function closeFilterDialog() {
+        dispatch(ExerciseAction.closeFilterDialog());
+    }
+
     return (
-        <Dialog open={props.open} fullWidth={true} fullScreen TransitionComponent={DialogTransition}>
+        <Dialog open={isOpen} fullWidth={true} fullScreen TransitionComponent={DialogTransition}>
             <AppBar sx={{ position: 'relative', background: "#272343" }}>
                 <Toolbar>
                     <IconButton
                         edge="start"
                         color="inherit"
-                        onClick={props.handleClose}
+                        onClick={closeFilterDialog}
                         aria-label="close">
                         <ArrowBackIcon />
                     </IconButton>

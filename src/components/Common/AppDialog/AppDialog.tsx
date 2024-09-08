@@ -21,11 +21,7 @@ const AppDialog: FC<AppDialogProps> = (props) => {
         <Dialog open={props.open} onClose={props.onClose} fullScreen TransitionComponent={DialogTransition}>
             <AppBar style={{ position: 'relative', background: "#272343" }}>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={props.onClose}
-                        aria-label="close">
+                    <IconButton edge="start" color="inherit" onClick={props.onClose} aria-label="close">
                         <ArrowBackIcon />
                     </IconButton>
                     {props.title &&
