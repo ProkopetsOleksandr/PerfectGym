@@ -25,6 +25,15 @@ const mainTheme = createTheme({
             textTransform: 'none', // убирает заглавные буквы у кнопок
         },
     },
+    components: {
+        MuiDialogContent: {
+            styleOverrides: {
+                root: {
+                    padding: '15px'
+                }
+            }
+        }
+    }
 });
 
 export default mainTheme;

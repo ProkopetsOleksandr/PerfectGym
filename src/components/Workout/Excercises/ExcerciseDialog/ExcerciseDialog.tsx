@@ -8,9 +8,7 @@ import ExcerciseForm, { ExcerciseFormValues } from './ExcerciseForm';
 import ExcerciseViewMode from './ExcerciseViewMode';
 
 const ExcerciseDialog = () => {
-    const [editMode, setEditMode] = useState<boolean>(false);
-    
-    const {isOpen, selectedExercise} = useAppSelector(store => store.exercises.exerciseDialog);
+    const { isOpen, selectedExercise, mode } = useAppSelector(store => store.exercises.exerciseDialog);
 
     const dispatch = useAppDispatch();
 
@@ -23,21 +21,21 @@ const ExcerciseDialog = () => {
             measurementCategory: values.measurementCategory
         };
 
-        dispatch(ApplicationAction.startLoading());
+        // dispatch(ApplicationAction.startLoading());
 
-        if (selectedExercise) {
-            dispatch(ExerciseAction.updateExcercise(excercise))
-                .then(() => {
-                    dispatch(ApplicationAction.endLoading());
-                    setEditMode(false);
-                });
-        } else {
-            dispatch(ExerciseAction.addExcercise(excercise))
-                .then(() => {
-                    dispatch(ApplicationAction.endLoading());
-                    closeExerciseDialog();
-                });
-        }
+        // if (selectedExercise) {
+        //     dispatch(ExerciseAction.updateExcercise(excercise))
+        //         .then(() => {
+        //             dispatch(ApplicationAction.endLoading());
+        //             setEditMode(false);
+        //         });
+        // } else {
+        //     dispatch(ExerciseAction.addExcercise(excercise))
+        //         .then(() => {
+        //             dispatch(ApplicationAction.endLoading());
+        //             closeExerciseDialog();
+        //         });
+        // }
     }
 
     function deleteExercise() {
@@ -48,20 +46,25 @@ const ExcerciseDialog = () => {
         dispatch(ExerciseAction.deleteExercise(selectedExercise.id!));
         closeExerciseDialog();
     }
-    
-    function closeExerciseDialog() {
-        setEditMode(false);
 
-        if (!editMode || !selectedExercise) {
+    function closeExerciseDialog() {
+        if (mode === 'create' || mode === 'view') {
             dispatch(ExerciseAction.closeExerciseDialog());
+            return;
         }
+
+        switchExerciseDialogEditMode();
+    }
+
+    function switchExerciseDialogEditMode() {
+        dispatch(ExerciseAction.switchExerciseDialogEditMode());
     }
 
     return (
-        <AppDialog open={isOpen} onClose={closeExerciseDialog}>
-            {selectedExercise && !editMode
-                ? <ExcerciseViewMode selectedExercise={selectedExercise} setEditMode={() => setEditMode(true)} deleteExercise={deleteExercise} />
-                : <ExcerciseForm selectedExercise={selectedExercise} onSubmit={onSubmit} /> }
+        <AppDialog open={isOpen} onClose={closeExerciseDialog} title={mode === 'create' ? "Add exercise" : mode === 'edit' ? "Edit exercise" : ""}>
+            {mode === 'view'
+                ? <ExcerciseViewMode selectedExercise={selectedExercise!} setEditMode={switchExerciseDialogEditMode} deleteExercise={deleteExercise} />
+                : <ExcerciseForm selectedExercise={selectedExercise} onSubmit={onSubmit} />}
         </AppDialog>
     )
 }

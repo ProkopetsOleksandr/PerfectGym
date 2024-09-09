@@ -14,8 +14,8 @@ const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise,
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "1rem" }}>
-                <IconButton style={{ color: "#272343" }} onClick={() => setEditMode()}><Edit /></IconButton>
-                <IconButton style={{ color: "#272343" }} onClick={() => deleteExercise()}><Delete /></IconButton>
+                <IconButton onClick={() => setEditMode()}><Edit /></IconButton>
+                <IconButton onClick={() => deleteExercise()}><Delete /></IconButton>
             </div>
 
             <div>

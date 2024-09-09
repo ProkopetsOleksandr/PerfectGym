@@ -71,10 +71,6 @@ const ExcerciseForm: FC<ExcerciseFormProps> = (({ selectedExercise, onSubmit }) 
 
     return (
         <div>
-            <div style={{ marginBottom: "2rem" }}>
-                <strong style={{ fontSize: "1.3rem" }}>{selectedExercise ? "Edit Exercise" : "Add Exercise"}</strong>
-            </div>
-
             <form onSubmit={formik.handleSubmit}>
                 <div className="form-group">
                     <TextField

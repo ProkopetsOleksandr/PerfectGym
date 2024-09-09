@@ -11,6 +11,8 @@ interface ExercisesState {
     exerciseDialog: {
         isOpen: boolean,
         selectedExercise?: IExercise
+        mode: 'view' | 'create' | 'edit',
+        isFormValid: boolean
     }
 }
 
@@ -21,7 +23,9 @@ const initialState: ExercisesState = {
         isOpen: false
     },
     exerciseDialog: {
-        isOpen: false
+        isOpen: false,
+        mode: 'view',
+        isFormValid: false
     }
 }
 
@@ -92,10 +96,13 @@ const exercisesSlice = createSlice({
         openExerciseDialog(state, action: PayloadAction<IExercise | undefined>) {
             state.exerciseDialog.selectedExercise = action.payload;
             state.exerciseDialog.isOpen = true;
+            state.exerciseDialog.mode = action.payload === undefined ? 'create' : 'view';
         },
         closeExerciseDialog(state) {
             state.exerciseDialog.isOpen = false;
-            state.exerciseDialog.selectedExercise = undefined;
+        },
+        switchExerciseDialogEditMode(state) {
+            state.exerciseDialog.mode = state.exerciseDialog.mode === 'view' ? 'edit' : 'view';
         }
     },
     extraReducers: (builder) => {
