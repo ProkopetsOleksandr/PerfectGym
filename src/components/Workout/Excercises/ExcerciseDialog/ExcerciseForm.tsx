@@ -17,36 +17,28 @@ export interface ExcerciseFormValues {
 
 interface ExcerciseFormProps {
     selectedExercise?: IExercise,
-    onSubmit: (values: ExcerciseFormValues) => void
+    onSubmit: (values: ExcerciseFormValues) => void,
+    onFormValidChange: (isValid: boolean) => void
 }
 
-const ExcerciseForm: FC<ExcerciseFormProps> = (({ selectedExercise, onSubmit }) => {
+const ExcerciseForm: FC<ExcerciseFormProps> = (({ selectedExercise, onSubmit, onFormValidChange }) => {
     const initialValues: ExcerciseFormValues = {
-        title: '',
-        description: '',
-        muscleGroup: MuscleGroup.None,
-        measurementCategory: MeasurementCategory.None
+        title: selectedExercise?.title || "",
+        description: selectedExercise?.description || "",
+        muscleGroup: selectedExercise?.muscleGroup || MuscleGroup.None,
+        measurementCategory: selectedExercise?.measurementCategory || MeasurementCategory.None
     };
 
     const formik = useFormik({
         initialValues: initialValues,
         validate: validate,
-        onSubmit: onSubmit
+        onSubmit: onSubmit,
+        validateOnMount: true
     });
 
     useEffect(() => {
-        formik.validateForm();
-
-        if (!selectedExercise) {
-            return;
-        }
-
-        formik.values.title = selectedExercise.title;
-        formik.values.description = selectedExercise.description;
-        formik.values.muscleGroup = selectedExercise.muscleGroup;
-        formik.values.measurementCategory = selectedExercise.measurementCategory;
-
-    }, []);
+        onFormValidChange(formik.isValid);
+    }, [formik.isValid]);
 
     function validate(values: ExcerciseFormValues) {
         const errors: FormikErrors<ExcerciseFormValues> = {};
@@ -87,7 +79,7 @@ const ExcerciseForm: FC<ExcerciseFormProps> = (({ selectedExercise, onSubmit }) 
                         {...formik.getFieldProps('description')}
                         label="Description"
                         error={Boolean(formik.errors.description && formik.touched.description)}
-                        helperText={formik.errors.description && formik.touched.description && String(formik.errors.description)}
+                        helperText={formik.errors.description && formik.touched.description && formik.errors.description}
                         variant="outlined"
                         fullWidth
                         multiline
@@ -124,11 +116,11 @@ const ExcerciseForm: FC<ExcerciseFormProps> = (({ selectedExercise, onSubmit }) 
                     </FormControl>
                 </div>
 
-                {formik.isValid &&
+                {/* {formik.isValid &&
                     <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
                         <Button variant='contained' type='submit' style={{ background: "#272343" }}>Save</Button>
                     </div>
-                }
+                } */}
             </form>
         </div>
     );

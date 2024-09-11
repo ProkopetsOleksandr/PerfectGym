@@ -9,10 +9,10 @@ interface ExercisesState {
         isOpen: boolean
     },
     exerciseDialog: {
-        isOpen: boolean,
+        open: boolean,
         selectedExercise?: IExercise
-        mode: 'view' | 'create' | 'edit',
-        isFormValid: boolean
+        editMode: boolean,
+        formValid: boolean
     }
 }
 
@@ -22,15 +22,14 @@ const initialState: ExercisesState = {
     filterDialog: {
         isOpen: false
     },
-    exerciseDialog: {
-        isOpen: false,
-        mode: 'view',
-        isFormValid: false
+    exerciseDialog: { 
+        open: false,
+        editMode: false,
+        formValid: false
     }
 }
 
-const loadExercises = createAsyncThunk<IExercise[], void, {}>(
-    "workout/loadExercises",
+const loadExercises = createAsyncThunk<IExercise[], void, {}>("workout/loadExercises",
     async function (): Promise<IExercise[]> {
         // const exercises = await firestoreApi.exercises.getAllExercisesAsync();
         // console.log(exercises);
@@ -60,8 +59,7 @@ const loadExercises = createAsyncThunk<IExercise[], void, {}>(
     }
 );
 
-const addExercise = createAsyncThunk<IExercise, IExercise, {}>(
-    "workout/addExcercise",
+const addExercise = createAsyncThunk<IExercise, IExercise, {}>("workout/addExcercise",
     async function (exercise) {
         // const id = await firestoreApi.exercises.addExerciseAsync(exercise);
         // exercise.id = id;
@@ -70,16 +68,14 @@ const addExercise = createAsyncThunk<IExercise, IExercise, {}>(
     }
 );
 
-const deleteExercise = createAsyncThunk<number, number, {}>(
-    "workout/deleteExercise",
+const deleteExercise = createAsyncThunk<number, number, {}>("workout/deleteExercise",
     async function (id: number) {
         // await firestoreApi.exercises.deleteExerciseAsync(id);
         return id;
     }
 );
 
-const updateExercise = createAsyncThunk<IExercise, IExercise, {}>(
-    "workout/updateExercise",
+const updateExercise = createAsyncThunk<IExercise, IExercise, {}>("workout/updateExercise",
     async function (payload) {
         await new Promise(resolve => setTimeout(resolve, 1200));
 
@@ -91,18 +87,25 @@ const exercisesSlice = createSlice({
     name: 'exercises',
     initialState: initialState,
     reducers: {
-        openFilterDialog(state) { state.filterDialog.isOpen = true; },
-        closeFilterDialog(state) { state.filterDialog.isOpen = false; },
+        openFilterDialog(state) {
+            state.filterDialog.isOpen = true;
+        },
+        closeFilterDialog(state) {
+            state.filterDialog.isOpen = false;
+        },
         openExerciseDialog(state, action: PayloadAction<IExercise | undefined>) {
             state.exerciseDialog.selectedExercise = action.payload;
-            state.exerciseDialog.isOpen = true;
-            state.exerciseDialog.mode = action.payload === undefined ? 'create' : 'view';
+            state.exerciseDialog.open = true;
+            state.exerciseDialog.editMode = action.payload === undefined;
         },
         closeExerciseDialog(state) {
-            state.exerciseDialog.isOpen = false;
+            state.exerciseDialog.open = false;
         },
         switchExerciseDialogEditMode(state) {
-            state.exerciseDialog.mode = state.exerciseDialog.mode === 'view' ? 'edit' : 'view';
+            state.exerciseDialog.editMode = !state.exerciseDialog.editMode;
+        },
+        setExerciseDialogFormValid(state, action: PayloadAction<boolean>) {
+            state.exerciseDialog.formValid = action.payload;
         }
     },
     extraReducers: (builder) => {

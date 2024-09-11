@@ -8,26 +8,20 @@ import TrainingProgramDialog from './TrainingProgramDialog';
 
 interface ProgramViewModeProps {
     selectedProgram: IProgram,
-    switchToEditMode: () => void
 }
 
-const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram, switchToEditMode }) => {
+const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram }) => {
     const [isProgramDayDialogOpen, setIsProgramDayDialogOpen] = useState<boolean>(false);
 
     const dispatch = useAppDispatch();
 
-    function openSelectedProgramDayDialog(selectedProgramDayIndex: number) {
-        dispatch(ProgramAction.setSelectedTrainingProgramIndex(selectedProgramDayIndex));
-        setIsProgramDayDialogOpen(true);
-    }
+    // function openSelectedProgramDayDialog(selectedProgramDayIndex: number) {
+    //     dispatch(ProgramAction.setSelectedTrainingProgramIndex(selectedProgramDayIndex));
+    //     setIsProgramDayDialogOpen(true);
+    // }
 
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "1rem" }}>
-                <IconButton style={{ color: "#272343" }} onClick={switchToEditMode}><Edit /></IconButton>
-                <IconButton style={{ color: "#272343" }}><Delete /></IconButton>
-            </div>
-
             <div>
                 <div style={{ marginBottom: "2rem" }}>
                     <div>
@@ -38,9 +32,12 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram, swit
                             <div>{selectedProgram.description}</div>
                         </div>
                     }
+                    <div className='margin-top-1'>
+                        <strong>Created At:</strong> {selectedProgram.createdAt.toDateString()}
+                    </div>
                 </div>
 
-                {selectedProgram.trainingPrograms?.length > 0 &&
+                {/* {selectedProgram.trainingPrograms?.length > 0 &&
                     <ul>
                         {selectedProgram.trainingPrograms.map((trainingProgram, index) =>
                             <li key={index} style={{ marginTop: "1rem", backgroundColor: "#f3f3f3"}} onClick={() => openSelectedProgramDayDialog(index)}>
@@ -53,7 +50,7 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram, swit
                                 </div>
                             </li>
                         )}
-                    </ul>}
+                    </ul>} */}
             </div>
 
             <TrainingProgramDialog open={isProgramDayDialogOpen} handleClose={() => setIsProgramDayDialogOpen(false)} />

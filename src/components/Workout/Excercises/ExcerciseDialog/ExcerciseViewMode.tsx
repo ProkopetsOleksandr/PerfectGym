@@ -6,17 +6,16 @@ import { IExercise } from '../../../../core/models/workout'
 
 interface ExcerciseViewModeProps {
     selectedExercise: IExercise,
-    setEditMode: () => void,
     deleteExercise: () => void
 }
 
-const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise, setEditMode, deleteExercise }) => {
+const ExcerciseViewMode: React.FC<ExcerciseViewModeProps> = ({ selectedExercise, deleteExercise }) => {
     return (
         <div>
-            <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "1rem" }}>
+            {/* <div style={{ display: "flex", justifyContent: "end", alignItems: "center", marginBottom: "1rem" }}>
                 <IconButton onClick={() => setEditMode()}><Edit /></IconButton>
                 <IconButton onClick={() => deleteExercise()}><Delete /></IconButton>
-            </div>
+            </div> */}
 
             <div>
                 <div style={{ marginBottom: "2rem" }}>

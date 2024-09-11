@@ -2,9 +2,9 @@ import { MeasurementCategory, MuscleGroup } from "./enums";
 
 export interface IExercise {
     id?: number,
-    imageUrl?: string,
     title: string,
     description?: string,
+    imageUrl?: string,
     muscleGroup: MuscleGroup,
     measurementCategory: MeasurementCategory
 }
@@ -13,12 +13,14 @@ export interface IProgram {
     id: number,
     title: string,
     description?: string,
+    imageUrl?: string,
     trainingPrograms: ITrainingProgram[]
+    createdAt: Date
 }
 
 export interface ITrainingProgram {
     id?: number,
-    programId?: number,
+    //programId?: number, // нужна ли эта переменная в этой модели?
     title: string,
     //order: number,
     workout: ITrainingProgramWorkout[]

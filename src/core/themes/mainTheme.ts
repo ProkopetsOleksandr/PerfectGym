@@ -12,12 +12,13 @@ const mainTheme = createTheme({
         },
         background: {
             default: '#F4F4F4', // цвет фона приложения
+            paper: '#fdfdfd'
         },
         text: {
-            primary: 'var(--mui-primary-main)', // основной цвет текста
+            primary: 'var(--mui-palette-primary-main)', // основной цвет текст
         },
         action: {
-            active: "var(--mui-primary-main)"
+            active: "var(--mui-palette-primary-main)"
         }
     },
     typography: {
@@ -29,7 +30,8 @@ const mainTheme = createTheme({
         MuiDialogContent: {
             styleOverrides: {
                 root: {
-                    padding: '15px'
+                    padding: '15px',
+                    background: 'var(--mui-palette-background-default)'
                 }
             }
         }

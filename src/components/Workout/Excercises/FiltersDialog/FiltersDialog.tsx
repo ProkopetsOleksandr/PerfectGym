@@ -1,9 +1,8 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Chip } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import Toolbar from '@mui/material/Toolbar';
 import { ExerciseAction } from '../../../../core/redux/exercises.slice';
@@ -20,18 +19,21 @@ const FiltersDialog = () => {
 
     return (
         <Dialog open={isOpen} fullWidth={true} fullScreen TransitionComponent={DialogTransition}>
-            <AppBar sx={{ position: 'relative', background: "#272343" }}>
-                <Toolbar>
+            <AppBar sx={{ position: 'relative' }}>
+                <Toolbar sx={{ display: "flex", justifyContent: "center" }}>
                     <IconButton
-                        edge="start"
+                        sx={{ position: "absolute", left: "5px" }}
                         color="inherit"
                         onClick={closeFilterDialog}
                         aria-label="close">
                         <ArrowBackIcon />
                     </IconButton>
+
+                    <Typography variant="body1" component="div">
+                        Filters
+                    </Typography>
                 </Toolbar>
             </AppBar>
-            <DialogTitle>Filters</DialogTitle>
             <DialogContent>
                 <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                     <Chip label="Chest" />

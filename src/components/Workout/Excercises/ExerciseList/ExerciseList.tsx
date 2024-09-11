@@ -18,7 +18,8 @@ const ExerciseList: React.FC<ExerciseListProps> = ({ exercises, openExercise }) 
         columnGap: '15px',
         marginBottom: '10px',
         borderBottom: '2px solid rgba(0, 0, 0, 0.12)',
-        boxShadow: '0 1px 8px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 1px 8px rgba(0, 0, 0, 0.1)',
+        backgroundColor: theme.palette.background.paper
     }));
 
     if (!exercises || !exercises.length) {

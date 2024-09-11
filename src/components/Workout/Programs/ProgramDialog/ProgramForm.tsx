@@ -16,10 +16,9 @@ export interface ProgramFormValues {
 
 interface ProgramFormProps {
     selectedProgram?: IProgram
-    onSubmit: (values: ProgramFormValues) => void
 }
 
-const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) => {
+const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
     const [trainingPrograms, setTrainingPrograms] = useState<ITrainingProgram[]>(() => {
         return selectedProgram?.trainingPrograms ?? [];
     });
@@ -35,16 +34,11 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram, onSubmit }) 
     const formik = useFormik({
         initialValues: initialValues,
         validate: validate,
-        onSubmit: (values: ProgramFormValues) => {
-            values.trainingPrograms = trainingPrograms;
-
-            onSubmit(values);
-        }
+        onSubmit: (values: ProgramFormValues) => {}
     });
 
     function validate(values: ProgramFormValues) {
         const errors: FormikErrors<ProgramFormValues> = {};
-
 
         return errors;
     }
