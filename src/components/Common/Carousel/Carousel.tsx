@@ -7,7 +7,7 @@ interface CarouselProps {
 
 const Carousel: React.FC<CarouselProps> = ({ children }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [deltaX, setDeltaX] = useState(0); // Для отслеживания смещения во время свайпа
+    const [deltaX, setDeltaX] = useState(0);
     const totalSlides = Children.count(children);
 
     const handleSwipe = (direction: 'LEFT' | 'RIGHT') => {
@@ -16,25 +16,23 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
         } else if (direction === 'RIGHT' && currentIndex > 0) {
             setCurrentIndex((prevIndex) => prevIndex - 1);
         }
-        setDeltaX(0); // Сброс смещения после завершения свайпа
+        setDeltaX(0);
     };
 
     const swipeHandlers = useSwipeable({
         onSwipedLeft: () => handleSwipe('LEFT'),
         onSwipedRight: () => handleSwipe('RIGHT'),
         onSwiping: (eventData) => {
-            // Ограничение смещения на первом и последнем элементах
             if (
-                (currentIndex === 0 && eventData.deltaX > 0) || // Влево на первом элементе
-                (currentIndex === totalSlides - 1 && eventData.deltaX < 0) // Вправо на последнем элементе
+                (currentIndex === 0 && eventData.deltaX > 0) ||
+                (currentIndex === totalSlides - 1 && eventData.deltaX < 0)
             ) {
-                setDeltaX(0); // Блокировка смещения
+                setDeltaX(0);
             } else {
-                setDeltaX(eventData.deltaX); // Отслеживание смещения в реальном времени
+                setDeltaX(eventData.deltaX);
             }
         },
-        //preventDefaultTouchmoveEvent: true,
-        trackMouse: true, // Опционально: поддержка свайпа мышью
+        trackMouse: true,
     });
 
     return (
@@ -61,7 +59,15 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
                     />
                 ))}
             </div>
-            <div {...swipeHandlers} style={{ overflow: 'hidden', width: '100%' }}>
+            <div
+                {...swipeHandlers}
+                style={{
+                    overflow: 'hidden',
+                    width: '100%',
+                    background: '#fdfdfd',
+                    borderRadius: '12px',
+                }}
+            >
                 <div
                     style={{
                         display: 'flex',
@@ -75,6 +81,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
                             style={{
                                 minWidth: '100%',
                                 boxSizing: 'border-box',
+                                padding: '10px', // Добавляем отступы к слайдам
                             }}
                         >
                             {child}

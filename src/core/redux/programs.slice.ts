@@ -34,7 +34,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                 id: 1,
                 title: 'New Gym. First program',
                 description: 'My first program',
-                createdAt: new Date(Date.now()),
+                //createdAt: date,
                 trainingPrograms: [
                     {
                         id: 1,

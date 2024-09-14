@@ -33,7 +33,7 @@ const ProgramViewMode: React.FC<ProgramViewModeProps> = ({ selectedProgram }) =>
                         </div>
                     }
                     <div className='margin-top-1'>
-                        <strong>Created At:</strong> {selectedProgram.createdAt.toDateString()}
+                        <strong>Created At:</strong> {selectedProgram.createdAt?.toDateString()}
                     </div>
                 </div>
 

@@ -15,7 +15,7 @@ export interface IProgram {
     description?: string,
     imageUrl?: string,
     trainingPrograms: ITrainingProgram[]
-    createdAt: Date
+    createdAt?: Date // временно nullable
 }
 
 export interface ITrainingProgram {

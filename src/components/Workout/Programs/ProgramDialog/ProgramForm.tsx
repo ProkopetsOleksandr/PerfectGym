@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { IProgram, ITrainingProgram } from '../../../../core/models/workout';
 import Carousel from '../../../Common/Carousel/Carousel';
 import CarouselItem from '../../../Common/Carousel/CarouselItem';
+import MoreVertMenu from '../../../Common/MoreVertMenu/MoreVertMenu';
 import WorkoutList from './WorkoutList';
 
 export interface ProgramFormValues {
@@ -23,8 +24,6 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
         return selectedProgram?.trainingPrograms ?? [];
     });
 
-    console.log(selectedProgram);
-
     const initialValues: ProgramFormValues = {
         title: selectedProgram?.title ?? "",
         description: selectedProgram?.description ?? "",
@@ -34,7 +33,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
     const formik = useFormik({
         initialValues: initialValues,
         validate: validate,
-        onSubmit: (values: ProgramFormValues) => {}
+        onSubmit: (values: ProgramFormValues) => { }
     });
 
     function validate(values: ProgramFormValues) {
@@ -63,16 +62,6 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
         })
     }
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const handleMenuOpen = (event: any) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index: number) => {
         const newTrainingPrograms = structuredClone(trainingPrograms);
         const trainingProgram = newTrainingPrograms.at(index);
@@ -84,13 +73,9 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
     };
 
     return (
-        <div>
-            <div style={{ marginBottom: "2rem" }}>
-                <strong style={{ fontSize: "1.3rem" }}>{selectedProgram ? "Edit Program" : "Add Program"}</strong>
-            </div>
-
+        <Box>
             <form onSubmit={formik.handleSubmit}>
-                <div className="form-group">
+                <Box className="form-group">
                     <TextField
                         {...formik.getFieldProps('title')}
                         label="Title"
@@ -98,9 +83,9 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                         helperText={formik.errors.title && formik.touched.title && String(formik.errors.title)}
                         variant="outlined"
                         fullWidth />
-                </div>
+                </Box>
 
-                <div className="form-group">
+                <Box className="form-group">
                     <TextField
                         {...formik.getFieldProps('description')}
                         label="Description"
@@ -110,54 +95,43 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                         fullWidth
                         multiline
                         rows={4} />
-                </div>
+                </Box>
 
-                <div className="margin-bottom-1">
-                    Training programs: <IconButton style={{ color: "#272343" }} onClick={addTrainingProgram}><Add /></IconButton>
-                </div>
-
+                <Box className="margin-bottom-1" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Typography variant='subtitle1'>
+                        Training programs:
+                    </Typography>
+                    <IconButton sx={{ backgroundColor: 'secondary.main', color: 'primary.contrastText' }} onClick={addTrainingProgram}>
+                        <Add />
+                    </IconButton>
+                </Box>
 
                 {trainingPrograms &&
                     <Carousel>
                         {trainingPrograms.map((trainingProgram, index) => {
-                            return <div>
-                                <CarouselItem key={index}>
-                                    <Card>
-                                        <Box sx={{ backgroundColor: '#f5f5f5', p: 1 }}> {/* Цвет фона заголовка */}
-                                            <CardHeader
-                                                title={
-                                                    <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
-                                                        <Chip label={`Day ${index + 1}`} color="primary" />
-                                                        <TextField
-                                                            variant="standard"
-                                                            value={trainingProgram.title}
-                                                            onChange={(e) => handleTitleChange(e, index)}
-                                                            size="small"
-                                                        />
-                                                    </div>
+                            return <CarouselItem key={index}>
+                                <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                    <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
 
-                                                }
-                                                action={
-                                                    <IconButton onClick={handleMenuOpen}>
-                                                        <MoreVertIcon />
-                                                    </IconButton>
-                                                }
-                                            />
-                                        </Box>
-                                        <Menu
-                                            anchorEl={anchorEl}
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleMenuClose}
-                                        >
-                                            <MenuItem onClick={handleMenuClose}>Edit</MenuItem>
-                                            <MenuItem onClick={handleMenuClose}>Delete</MenuItem>
-                                        </Menu>
-                                        <CardContent>
-                                            <WorkoutList workout={trainingProgram.workout} />
-                                        </CardContent>
-                                    </Card>
-                                </CarouselItem>
-                            </div>
+                                    <MoreVertMenu menuName={'training-program-menu-' + index} sx={{ color: 'primary.main', position: "absolute", right: "5px" }}>
+                                        <MenuItem>Change order</MenuItem>
+                                        <MenuItem>Delete</MenuItem>
+                                    </MoreVertMenu>
+                                </Box>
+
+                                <Box className="margin-bottom-1" sx={{ padding: '0 10px' }}>
+                                    <TextField
+                                        label='Name'
+                                        variant="standard"
+                                        value={trainingProgram.title}
+                                        onChange={(e) => handleTitleChange(e, index)}
+                                        size="small"
+                                        fullWidth
+                                    />
+                                </Box>
+
+                                <WorkoutList workout={trainingProgram.workout} />
+                            </CarouselItem>
                         })}
                     </Carousel>}
 
@@ -184,13 +158,13 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                         })}
                     </ul>} */}
 
-                {formik.isValid &&
+                {/* {formik.isValid &&
                     <div className="margin-bottom-1" style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "2rem" }}>
                         <Button variant='contained' type='submit' style={{ background: "#272343" }} fullWidth>Save</Button>
                     </div>
-                }
+                } */}
             </form>
-        </div>
+        </Box>
     )
 }
 
