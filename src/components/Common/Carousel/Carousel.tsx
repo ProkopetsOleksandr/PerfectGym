@@ -75,18 +75,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
                         transform: `translateX(calc(-${currentIndex * 100}% + ${deltaX}px))`,
                     }}
                 >
-                    {Children.map(children, (child, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                minWidth: '100%',
-                                boxSizing: 'border-box',
-                                padding: '10px', // Добавляем отступы к слайдам
-                            }}
-                        >
-                            {child}
-                        </div>
-                    ))}
+                    {children}
                 </div>
             </div>
         </div>

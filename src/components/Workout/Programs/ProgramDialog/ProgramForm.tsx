@@ -110,10 +110,10 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                     <Carousel>
                         {trainingPrograms.map((trainingProgram, index) => {
                             return <CarouselItem key={index}>
-                                <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
                                     <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
 
-                                    <MoreVertMenu menuName={'training-program-menu-' + index} sx={{ color: 'primary.main', position: "absolute", right: "5px" }}>
+                                    <MoreVertMenu key={index} menuName={'training-program-menu-' + index} sx={{ color: 'primary.main' }}>
                                         <MenuItem>Change order</MenuItem>
                                         <MenuItem>Delete</MenuItem>
                                     </MoreVertMenu>
