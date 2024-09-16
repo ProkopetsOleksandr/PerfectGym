@@ -4,15 +4,13 @@ import React from 'react';
 
 interface MoreVertMenuProps {
     menuName: string,
-    children: React.ReactNode[]
+    children?: React.ReactNode
     sx?: object
 }
 
 const MoreVertMenu: React.FC<MoreVertMenuProps> = ({ menuName, children, sx }) => {
     const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
     const menuOpen = Boolean(menuAnchorEl);
-
-    console.log(menuName);
 
     const openMenu = (event: React.MouseEvent<HTMLElement>) => {
         setMenuAnchorEl(event.currentTarget);

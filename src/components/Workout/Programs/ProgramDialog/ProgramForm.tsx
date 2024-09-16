@@ -94,7 +94,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                         variant="outlined"
                         fullWidth
                         multiline
-                        rows={4} />
+                        rows={2} />
                 </Box>
 
                 <Box className="margin-bottom-1" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -131,6 +131,8 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                                 </Box>
 
                                 <WorkoutList workout={trainingProgram.workout} />
+
+                                <Button variant='contained' fullWidth>Add exercise</Button>
                             </CarouselItem>
                         })}
                     </Carousel>}

@@ -34,6 +34,20 @@ const mainTheme = createTheme({
                     background: 'var(--mui-palette-background-default)'
                 }
             }
+        },
+        MuiList: {
+            styleOverrides: {
+                root: {
+                    padding: '0'
+                }
+            }
+        },
+        MuiListItem: {
+            styleOverrides: {
+                root: {
+                    padding: '0'
+                }
+            }
         }
     }
 });
