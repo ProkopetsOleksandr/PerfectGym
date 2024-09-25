@@ -126,7 +126,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                                     <WorkoutList workout={trainingProgram.workout} />
                                 </Box>
 
-                                <Button variant='contained' fullWidth>Add exercise</Button>
+                                <Button variant='contained' fullWidth sx={{ marginTop: '10px' }}>Add exercise</Button>
                             </CarouselItem>
                         })}
                     </Carousel>}

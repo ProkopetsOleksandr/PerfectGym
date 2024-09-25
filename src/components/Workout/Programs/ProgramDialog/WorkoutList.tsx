@@ -52,7 +52,7 @@ const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout, sx }) => 
     }
 
     return (
-        <List>
+        <List sx={{ padding: '3px' }}>
             {workout.map((currentWorkout, index) => {
                 if (currentWorkout.exerciseSet.length === 1) {
                     return <TrainingProgramExerciseListItem key={index} exerciseSet={currentWorkout.exerciseSet[0]} />
@@ -69,7 +69,7 @@ const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout, sx }) => 
                                 <MenuItem>Change</MenuItem>
                             </MoreVertMenu>
                         </Box>
-                        <List sx={{marginBottom: '-10px'}}>
+                        <List sx={{ marginBottom: '-10px' }}>
                             {currentWorkout.exerciseSet.map((supersetExerciseSet, supersetExerciseSetIndex) =>
                                 <TrainingProgramExerciseListItem key={`${index}-${supersetExerciseSetIndex}`} exerciseSet={supersetExerciseSet} />)}
                         </List>
