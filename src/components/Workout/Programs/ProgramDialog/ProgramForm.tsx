@@ -73,8 +73,8 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
     };
 
     return (
-        <Box>
-            <form onSubmit={formik.handleSubmit}>
+        <Box sx={{ height: '100%' }}>
+            <form onSubmit={formik.handleSubmit} style={{ height: '100%' }}>
                 <Box className="form-group">
                     <TextField
                         {...formik.getFieldProps('title')}

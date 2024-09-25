@@ -1,3 +1,4 @@
+import { Box, SxProps, Theme } from '@mui/material';
 import React, { Children, ReactNode, useState } from 'react';
 import { useSwipeable } from 'react-swipeable';
 
@@ -23,62 +24,44 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
         onSwipedLeft: () => handleSwipe('LEFT'),
         onSwipedRight: () => handleSwipe('RIGHT'),
         onSwiping: (eventData) => {
-            if (
-                (currentIndex === 0 && eventData.deltaX > 0) ||
-                (currentIndex === totalSlides - 1 && eventData.deltaX < 0)
-            ) {
+            if ((currentIndex === 0 && eventData.deltaX > 0) || (currentIndex === totalSlides - 1 && eventData.deltaX < 0)) {
                 setDeltaX(0);
             } else {
                 setDeltaX(eventData.deltaX);
             }
         },
-        trackMouse: true,
+        trackMouse: true
     });
 
     return (
-        <div style={{ position: 'relative', width: '100%' }}>
+        <Box sx={{ position: 'relative', width: '100%' }}>
             {/* Индикаторы */}
-            <div
-                style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    marginBottom: '10px',
-                }}
-            >
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginBottom: '10px'
+            }}>
                 {Array.from({ length: totalSlides }).map((_, index) => (
-                    <div
-                        key={index}
-                        style={{
-                            width: '10px',
-                            height: '10px',
-                            borderRadius: '50%',
-                            margin: '0 5px',
-                            backgroundColor: currentIndex === index ? '#000' : '#ddd',
-                            transition: 'background-color 0.3s ease',
-                        }}
-                    />
+                    <Box key={index} sx={{
+                        width: '10px',
+                        height: '10px',
+                        borderRadius: '50%',
+                        margin: '0 5px',
+                        backgroundColor: currentIndex === index ? '#000' : '#ddd',
+                        transition: 'background-color 0.3s ease',
+                    }} />
                 ))}
-            </div>
-            <div
-                {...swipeHandlers}
-                style={{
-                    overflow: 'hidden',
-                    width: '100%',
-                    background: '#fdfdfd',
-                    borderRadius: '12px',
-                }}
-            >
-                <div
-                    style={{
-                        display: 'flex',
-                        transition: deltaX === 0 ? 'transform 0.3s ease-out' : 'none',
-                        transform: `translateX(calc(-${currentIndex * 100}% + ${deltaX}px))`,
-                    }}
-                >
+            </Box>
+            <Box {...swipeHandlers} style={{ overflow: 'hidden', width: '100%', background: '#fdfdfd', borderRadius: '12px' }}>
+                <Box style={{
+                    display: 'flex',
+                    transition: deltaX === 0 ? 'transform 0.3s ease-out' : 'none',
+                    transform: `translateX(calc(-${currentIndex * 100}% + ${deltaX}px))`,
+                }}>
                     {children}
-                </div>
-            </div>
-        </div>
+                </Box>
+            </Box>
+        </Box>
     );
 };
 
