@@ -202,6 +202,78 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                                         weight: 10
                                     }
                                 ]
+                            },
+                            {
+                                id: 3,
+                                exerciseSet: [
+                                    {
+                                        id: 4,
+                                        exerciseDetails: {
+                                            id: 4,
+                                            title: 'My fake exercise 4',
+                                            description: "short description",
+                                            muscleGroup: MuscleGroup.Arm,
+                                            measurementCategory: MeasurementCategory.WeightAndReps
+                                        },
+                                        sets: 3,
+                                        reps: 10,
+                                        weight: 10
+                                    }
+                                ]
+                            },
+                            {
+                                id: 4,
+                                exerciseSet: [
+                                    {
+                                        id: 5,
+                                        exerciseDetails: {
+                                            id: 5,
+                                            title: 'My fake exercise 5',
+                                            description: "short description",
+                                            muscleGroup: MuscleGroup.Arm,
+                                            measurementCategory: MeasurementCategory.WeightAndReps
+                                        },
+                                        sets: 3,
+                                        reps: 10,
+                                        weight: 10
+                                    }
+                                ]
+                            },
+                            {
+                                id: 3,
+                                exerciseSet: [
+                                    {
+                                        id: 4,
+                                        exerciseDetails: {
+                                            id: 4,
+                                            title: 'My fake exercise 4',
+                                            description: "short description",
+                                            muscleGroup: MuscleGroup.Arm,
+                                            measurementCategory: MeasurementCategory.WeightAndReps
+                                        },
+                                        sets: 3,
+                                        reps: 10,
+                                        weight: 10
+                                    }
+                                ]
+                            },
+                            {
+                                id: 4,
+                                exerciseSet: [
+                                    {
+                                        id: 5,
+                                        exerciseDetails: {
+                                            id: 5,
+                                            title: 'My fake exercise 5',
+                                            description: "short description",
+                                            muscleGroup: MuscleGroup.Arm,
+                                            measurementCategory: MeasurementCategory.WeightAndReps
+                                        },
+                                        sets: 3,
+                                        reps: 10,
+                                        weight: 10
+                                    }
+                                ]
                             }
                         ]
                     }

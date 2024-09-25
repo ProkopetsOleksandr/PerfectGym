@@ -32,7 +32,7 @@ const ProgramList: React.FC<ProgramListProps> = ({ programs, openProgram }) => {
         <ul>
             {programs.map(program =>
                 <ListItem key={program.id} onClick={() => openProgram(program)}>
-                    <img src={program.imageUrl ?? defaultImageUrl} style={{maxWidth: '70px'}} alt='excercise' />
+                    <img src={program.imageUrl ?? defaultImageUrl} style={{width: '70px', height: '70px'}} alt='excercise' />
                     <div>
                         <Typography variant='subtitle1' sx={{ color: 'secondary.main', fontWeight: 'bold' }}>
                             {program.title}
