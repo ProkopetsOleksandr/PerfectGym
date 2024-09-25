@@ -74,7 +74,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
 
     return (
         <Box sx={{ height: '100%' }}>
-            <form onSubmit={formik.handleSubmit} style={{ height: '100%' }}>
+            <form onSubmit={formik.handleSubmit} style={{ height: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
                 <Box className="form-group">
                     <TextField
                         {...formik.getFieldProps('title')}
@@ -105,7 +105,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                     <Carousel>
                         {trainingPrograms.map((trainingProgram, index) => {
                             return <CarouselItem key={index}>
-                                <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
+                                <Box className="margin-bottom-1" sx={{ flex: '0 0 auto', display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
                                     <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
 
                                     <TextField
@@ -122,7 +122,9 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                                     </MoreVertMenu>
                                 </Box>
 
-                                <WorkoutList workout={trainingProgram.workout} />
+                                <Box sx={{ flex: '1 1 auto', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+                                    <WorkoutList workout={trainingProgram.workout} />
+                                </Box>
 
                                 <Button variant='contained' fullWidth>Add exercise</Button>
                             </CarouselItem>

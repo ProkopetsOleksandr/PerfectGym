@@ -6,7 +6,7 @@ interface CarouselItemProps {
 }
 
 const CarouselItem: React.FC<CarouselItemProps> = ({ children }) => {
-    return <Box style={{ minWidth: '100%', boxSizing: 'border-box', padding: '10px' }}>
+    return <Box style={{ minWidth: '100%', boxSizing: 'border-box', padding: '10px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
         {children}
     </Box>;
 };

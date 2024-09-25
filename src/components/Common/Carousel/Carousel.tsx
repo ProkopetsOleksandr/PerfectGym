@@ -34,7 +34,7 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
     });
 
     return (
-        <Box sx={{ position: 'relative', width: '100%' }}>
+        <Box sx={{ position: 'relative', width: '100%', flex: '1 1 auto', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
             {/* Индикаторы */}
             <Box sx={{
                 display: 'flex',
@@ -52,11 +52,21 @@ const Carousel: React.FC<CarouselProps> = ({ children }) => {
                     }} />
                 ))}
             </Box>
-            <Box {...swipeHandlers} style={{ overflow: 'hidden', width: '100%', background: '#fdfdfd', borderRadius: '12px' }}>
+            <Box {...swipeHandlers} style={{
+                overflowX: 'hidden',
+                overflowY: 'auto',
+                width: '100%',
+                background: '#fdfdfd',
+                borderRadius: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                flex: '1 1 auto'
+            }}>
                 <Box style={{
                     display: 'flex',
                     transition: deltaX === 0 ? 'transform 0.3s ease-out' : 'none',
                     transform: `translateX(calc(-${currentIndex * 100}% + ${deltaX}px))`,
+                    height: '100%'
                 }}>
                     {children}
                 </Box>
