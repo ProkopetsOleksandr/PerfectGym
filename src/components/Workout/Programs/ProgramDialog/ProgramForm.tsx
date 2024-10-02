@@ -4,9 +4,12 @@ import { Box, Button, Card, CardContent, CardHeader, Chip, IconButton, Menu, Men
 import { FormikErrors, useFormik } from 'formik';
 import React, { useState } from 'react';
 import { IProgram, ITrainingProgram } from '../../../../core/models/workout';
+import { useAppDispatch } from '../../../../core/redux/hook';
+import { ProgramAction } from '../../../../core/redux/programs.slice';
 import Carousel from '../../../Common/Carousel/Carousel';
 import CarouselItem from '../../../Common/Carousel/CarouselItem';
 import MoreVertMenu from '../../../Common/MoreVertMenu/MoreVertMenu';
+import AddExerciseDialog from './AddExerciseDialog/AddExerciseDialog';
 import WorkoutList from './WorkoutList';
 
 export interface ProgramFormValues {
@@ -20,6 +23,8 @@ interface ProgramFormProps {
 }
 
 const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
+    const dispatch = useAppDispatch();
+
     const [trainingPrograms, setTrainingPrograms] = useState<ITrainingProgram[]>(() => {
         return selectedProgram?.trainingPrograms ?? [];
     });
@@ -71,6 +76,10 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
 
         setTrainingPrograms(newTrainingPrograms);
     };
+
+    function onAddExerciseButtonClick() {
+        dispatch(ProgramAction.openAddExerciseDialog());
+    }
 
     return (
         <Box sx={{ height: '100%' }}>
@@ -126,11 +135,13 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                                     <WorkoutList workout={trainingProgram.workout} />
                                 </Box>
 
-                                <Button variant='contained' fullWidth sx={{ marginTop: '10px' }}>Add exercise</Button>
+                                <Button variant='contained' fullWidth sx={{ marginTop: '10px' }} onClick={onAddExerciseButtonClick}>Add exercise</Button>
                             </CarouselItem>
                         })}
                     </Carousel>}
             </form>
+
+            <AddExerciseDialog />
         </Box>
     )
 }

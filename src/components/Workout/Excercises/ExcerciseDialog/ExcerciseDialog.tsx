@@ -103,14 +103,7 @@ const ExcerciseDialog = () => {
                     ? <ExcerciseViewMode selectedExercise={selectedExercise} deleteExercise={deleteExercise} />
                     : <ExcerciseForm selectedExercise={selectedExercise} onSubmit={onFormSubmit} onFormValidChange={onFormValidChange} />}
             </DialogContent>
-        </Dialog >
-
-
-        // <AppDialog open={isOpen} onClose={closeExerciseDialog} title={mode === 'create' ? "Add exercise" : mode === 'edit' ? "Edit exercise" : ""}>
-        //     {mode === 'view'
-        //         ? <ExcerciseViewMode selectedExercise={selectedExercise!} setEditMode={switchExerciseDialogEditMode} deleteExercise={deleteExercise} />
-        //         : <ExcerciseForm selectedExercise={selectedExercise} onSubmit={onSubmit} />}
-        // </AppDialog>
+        </Dialog>
     )
 }
 

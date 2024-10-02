@@ -11,6 +11,10 @@ interface ProgramsState {
         editMode: boolean,
         formValid: boolean
         //selectedTrainingProgramIndex?: number /// WTF? Looks like a shit
+        addExerciseDialog: {
+            open: boolean,
+            selectedExerciseIds: number[]
+        }
     }
 }
 
@@ -20,7 +24,11 @@ const initialState: ProgramsState = {
     programDialog: {
         open: false,
         editMode: false,
-        formValid: false
+        formValid: false,
+        addExerciseDialog: {
+            open: false,
+            selectedExerciseIds: []
+        }
     }
 }
 
@@ -306,6 +314,19 @@ const programsSlice = createSlice({
         switchProgramDialogEditMode(state) {
             state.programDialog.editMode = !state.programDialog.editMode;
         },
+        openAddExerciseDialog(state) {
+            state.programDialog.addExerciseDialog.open = true;
+        },
+        closeAddExerciseDialog(state) {
+            state.programDialog.addExerciseDialog.open = false;
+        },
+        switchSelectedExericseInAddExerciseDialog(state, action: PayloadAction<number>) {
+            if (state.programDialog.addExerciseDialog.selectedExerciseIds.includes(action.payload)) {
+                state.programDialog.addExerciseDialog.selectedExerciseIds = state.programDialog.addExerciseDialog.selectedExerciseIds.filter(id => id !== action.payload);
+            } else {
+                state.programDialog.addExerciseDialog.selectedExerciseIds.push(action.payload);
+            }
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(loadPrograms.fulfilled, function (state, action) {
