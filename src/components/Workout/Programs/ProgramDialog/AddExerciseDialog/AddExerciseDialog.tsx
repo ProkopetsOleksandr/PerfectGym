@@ -1,12 +1,18 @@
 import { Search } from '@mui/icons-material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AppBar, Box, Button, Dialog, DialogContent, IconButton, TextField, Toolbar, Typography } from '@mui/material';
+import React from 'react';
+import { IExercise } from '../../../../../core/models/workout';
 import { useAppDispatch, useAppSelector } from '../../../../../core/redux/hook';
 import { ProgramAction } from '../../../../../core/redux/programs.slice';
 import DialogTransition from '../../../../Common/AppDialog/DialogTransition';
 import ExerciseList from './ExerciseList/ExerciseList';
 
-const AddExerciseDialog = () => {
+interface AddExerciseDialogProps {
+    onAddExercise: (exercises: IExercise[], isSuperset: boolean) => void
+}
+
+const AddExerciseDialog: React.FC<AddExerciseDialogProps> = ({ onAddExercise }) => {
     const { open, selectedExerciseIds } = useAppSelector(store => store.programs.programDialog.addExerciseDialog);
     const { exercises } = useAppSelector(store => store.exercises);
     const dispatch = useAppDispatch();
@@ -17,6 +23,18 @@ const AddExerciseDialog = () => {
 
     function onExerciseClick(exerciseId: number) {
         dispatch(ProgramAction.switchSelectedExericseInAddExerciseDialog(exerciseId));
+    }
+
+    function onAddExerciseButtonClick(isSuperset: boolean) {
+        if (!selectedExerciseIds.length) {
+            return;
+        }
+
+        const exercisesToAdd = structuredClone(exercises.filter(exercise => selectedExerciseIds.includes(exercise.id!)));
+
+        onAddExercise(exercisesToAdd, isSuperset);
+
+        dispatch(ProgramAction.closeAddExerciseDialog());
     }
 
     return (
@@ -43,8 +61,8 @@ const AddExerciseDialog = () => {
                         </Box>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                        <Button variant='contained'>Add superset ({selectedExerciseIds.length})</Button>
-                        <Button variant='contained'>Add exercises ({selectedExerciseIds.length})</Button>
+                        <Button variant='contained' onClick={() => onAddExerciseButtonClick(true)}>Add superset ({selectedExerciseIds.length})</Button>
+                        <Button variant='contained' onClick={() => onAddExerciseButtonClick(false)}>Add exercises ({selectedExerciseIds.length})</Button>
                     </Box>
                 </Box>
             </DialogContent>

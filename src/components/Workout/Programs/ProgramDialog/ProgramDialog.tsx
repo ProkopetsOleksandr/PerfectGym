@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../core/redux/hook';
 import { ProgramAction } from '../../../../core/redux/programs.slice';
 import DialogTransition from '../../../Common/AppDialog/DialogTransition';
 import MoreVertMenu from '../../../Common/MoreVertMenu/MoreVertMenu';
-import ProgramForm, { ProgramFormValues } from './ProgramForm';
+import ProgramForm from './ProgramForm';
 import ProgramViewMode from './ProgramViewMode';
 
 const ProgramDialog = () => {

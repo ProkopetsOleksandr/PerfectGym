@@ -50,10 +50,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                         workout: [
                             {
                                 id: 1,
+                                isSuperset: true,
                                 exerciseSet: [
                                     {
                                         id: 1,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 1,
                                             title: 'My fake exercise 1',
                                             description: "short description",
@@ -66,7 +67,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                                     },
                                     {
                                         id: 2,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 2,
                                             title: 'My fake exercise 2',
                                             description: "short description",
@@ -81,10 +82,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 2,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 3,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 3,
                                             title: 'My fake exercise 3',
                                             description: "short description",
@@ -99,10 +101,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 3,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 4,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 4,
                                             title: 'My fake exercise 4',
                                             description: "short description",
@@ -117,10 +120,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 4,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 5,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 5,
                                             title: 'My fake exercise 5',
                                             description: "short description",
@@ -135,10 +139,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 5,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 6,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 6,
                                             title: 'My fake exercise 6',
                                             description: "short description",
@@ -153,10 +158,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 6,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 7,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 7,
                                             title: 'My fake exercise 7',
                                             description: "short description",
@@ -177,10 +183,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                         workout: [
                             {
                                 id: 3,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 4,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 4,
                                             title: 'My fake exercise 4',
                                             description: "short description",
@@ -195,10 +202,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 4,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 5,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 5,
                                             title: 'My fake exercise 5',
                                             description: "short description",
@@ -213,10 +221,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 3,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 4,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 4,
                                             title: 'My fake exercise 4',
                                             description: "short description",
@@ -231,10 +240,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 4,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 5,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 5,
                                             title: 'My fake exercise 5',
                                             description: "short description",
@@ -249,10 +259,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 3,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 4,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 4,
                                             title: 'My fake exercise 4',
                                             description: "short description",
@@ -267,10 +278,11 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             },
                             {
                                 id: 4,
+                                isSuperset: false,
                                 exerciseSet: [
                                     {
                                         id: 5,
-                                        exerciseDetails: {
+                                        exercise: {
                                             id: 5,
                                             title: 'My fake exercise 5',
                                             description: "short description",
@@ -315,6 +327,7 @@ const programsSlice = createSlice({
             state.programDialog.editMode = !state.programDialog.editMode;
         },
         openAddExerciseDialog(state) {
+            state.programDialog.addExerciseDialog.selectedExerciseIds = [];
             state.programDialog.addExerciseDialog.open = true;
         },
         closeAddExerciseDialog(state) {

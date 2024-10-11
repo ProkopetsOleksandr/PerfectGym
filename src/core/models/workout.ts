@@ -19,7 +19,7 @@ export interface IProgram {
 }
 
 export interface ITrainingProgram {
-    id?: number,
+    id: number,
     //programId?: number, // нужна ли эта переменная в этой модели?
     title: string,
     //order: number,
@@ -29,6 +29,7 @@ export interface ITrainingProgram {
 export interface ITrainingProgramWorkout {
     id: number,
     //order: number,
+    isSuperset: boolean,
     exerciseSet: ITrainingProgramExercise[]
 }
 
@@ -39,5 +40,5 @@ export interface ITrainingProgramExercise {
     sets: number,
     reps: number,
     weight: number,
-    exerciseDetails: IExercise,
+    exercise: IExercise
 }
