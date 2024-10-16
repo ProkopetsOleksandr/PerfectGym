@@ -1,3 +1,3 @@
-export function generateTemporaryId() : number {
-    return new Date().getUTCMilliseconds();
+export function generateTemporaryId() : string {
+    return 'temp-' + new Date().getUTCMilliseconds();
 }

@@ -22,6 +22,7 @@ function MapToITrainingProgramWorkoutFormModel(workout: ITrainingProgramWorkout[
         result.push({
             id: workoutItem.id,
             isSuperset: workoutItem.isSuperset,
+            order: workoutItem.order,
             exercises: MapToITrainingProgramExerciseFormModel(workoutItem.exerciseSet)
         });
     });

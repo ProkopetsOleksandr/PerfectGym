@@ -7,8 +7,7 @@ export interface IProgramFormValues {
 }
 
 export interface ITrainingProgramFormModel {
-    id?: number,
-    temporaryId?: number,
+    id: number | string,
     //programId?: number, // нужна ли эта переменная в этой модели?
     title: string,
     //order: number,
@@ -16,16 +15,14 @@ export interface ITrainingProgramFormModel {
 }
 
 export interface ITrainingProgramWorkoutFormModel {
-    id?: number,
-    temporaryId?: number,
+    id: number | string,
     isSuperset: boolean,
-    //order: number,
+    order: number,
     exercises: ITrainingProgramExerciseFormModel[]
 }
 
 export interface ITrainingProgramExerciseFormModel {
-    id?: number,
-    temporaryId?: number
+    id: number | string,
     // order: number,
     // exerciseId: number,
     sets?: number,

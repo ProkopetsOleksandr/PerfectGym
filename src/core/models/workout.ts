@@ -28,7 +28,7 @@ export interface ITrainingProgram {
 
 export interface ITrainingProgramWorkout {
     id: number,
-    //order: number,
+    order: number,
     isSuperset: boolean,
     exerciseSet: ITrainingProgramExercise[]
 }

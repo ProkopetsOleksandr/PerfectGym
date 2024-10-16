@@ -44,7 +44,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
 
     function addTrainingProgram() {
         const newTrainingProgram: ITrainingProgramFormModel = {
-            temporaryId: generateTemporaryId(),
+            id: generateTemporaryId(),
             title: '',
             workout: []
         };
@@ -81,23 +81,25 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
             const exerciseSet: ITrainingProgramExerciseFormModel[] = [];
             exercises.forEach(exercise => {
                 exerciseSet.push({
-                    temporaryId: new Date().getUTCMilliseconds(),
+                    id: generateTemporaryId(),
                     exercise: exercise
                 });
             });
 
             targetTrainingProgram.workout.push({
-                temporaryId: new Date().getUTCMilliseconds(),
+                id: generateTemporaryId(),
                 isSuperset: true,
+                order: targetTrainingProgram.workout.length + 1,
                 exercises: exerciseSet
             });
         } else {
             exercises.forEach(exercise => {
                 targetTrainingProgram.workout.push({
-                    temporaryId: new Date().getUTCMilliseconds(),
+                    id: generateTemporaryId(),
                     isSuperset: false,
+                    order: targetTrainingProgram.workout.length + 1,
                     exercises: [{
-                        temporaryId: new Date().getUTCMilliseconds(),
+                        id: generateTemporaryId(),
                         exercise: exercise
                     }]
                 });
@@ -112,9 +114,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
 
         newTrainingPrograms.forEach(trainingProgram => {
             trainingProgram.workout.forEach(workoutItem => {
-                workoutItem.exercises = workoutItem.exercises.filter(m =>
-                    exercise.id && m.id !== exercise.id ||
-                    exercise.temporaryId && m.temporaryId !== exercise.temporaryId);
+                workoutItem.exercises = workoutItem.exercises.filter(m => m.id !== exercise.id);
             });
 
             trainingProgram.workout = trainingProgram.workout.filter(m => m.exercises.length > 0);
@@ -127,9 +127,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
         let newTrainingPrograms = [...formik.values.trainingPrograms];
 
         newTrainingPrograms.forEach(trainingProgram => {
-            trainingProgram.workout = trainingProgram.workout.filter(m =>
-                workout.id && m.id !== workout.id ||
-                workout.temporaryId && m.temporaryId !== workout.temporaryId)
+            trainingProgram.workout = trainingProgram.workout.filter(m => m.id !== workout.id)
         });
 
         formik.setFieldValue('trainingPrograms', newTrainingPrograms);

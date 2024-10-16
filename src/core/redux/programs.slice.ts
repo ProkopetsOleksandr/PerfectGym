@@ -51,6 +51,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 1,
                                 isSuperset: true,
+                                order: 1,
                                 exerciseSet: [
                                     {
                                         id: 1,
@@ -83,6 +84,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 2,
                                 isSuperset: false,
+                                order: 2,
                                 exerciseSet: [
                                     {
                                         id: 3,
@@ -102,6 +104,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 3,
                                 isSuperset: false,
+                                order: 3,
                                 exerciseSet: [
                                     {
                                         id: 4,
@@ -121,6 +124,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 4,
                                 isSuperset: false,
+                                order: 4,
                                 exerciseSet: [
                                     {
                                         id: 5,
@@ -140,6 +144,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 5,
                                 isSuperset: false,
+                                order: 5,
                                 exerciseSet: [
                                     {
                                         id: 6,
@@ -159,6 +164,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 6,
                                 isSuperset: false,
+                                order: 6,
                                 exerciseSet: [
                                     {
                                         id: 7,
@@ -184,6 +190,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 3,
                                 isSuperset: false,
+                                order: 1,
                                 exerciseSet: [
                                     {
                                         id: 4,
@@ -203,6 +210,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 4,
                                 isSuperset: false,
+                                order: 2,
                                 exerciseSet: [
                                     {
                                         id: 5,
@@ -222,6 +230,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 3,
                                 isSuperset: false,
+                                order: 3,
                                 exerciseSet: [
                                     {
                                         id: 4,
@@ -241,6 +250,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 4,
                                 isSuperset: false,
+                                order: 4,
                                 exerciseSet: [
                                     {
                                         id: 5,
@@ -260,6 +270,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 3,
                                 isSuperset: false,
+                                order: 5,
                                 exerciseSet: [
                                     {
                                         id: 4,
@@ -279,6 +290,7 @@ const loadPrograms = createAsyncThunk<IProgram[], void, {}>("workout/loadProgram
                             {
                                 id: 4,
                                 isSuperset: false,
+                                order: 6,
                                 exerciseSet: [
                                     {
                                         id: 5,
