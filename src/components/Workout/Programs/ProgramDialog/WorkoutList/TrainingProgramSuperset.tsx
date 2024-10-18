@@ -32,10 +32,9 @@ const TrainingProgramSuperset: React.FC<TrainingProgramSupersetProps> = ({ curre
                 </MoreVertMenu>
             </div>
             <ul style={{ marginBottom: '10px' }}>
-                {currentWorkout.exercises.map((trainingProgramExercise, trainingProgramExerciseIndex) =>
-                    <li className={classes.exerciseRow}>
-                        <TrainingProgramExercise key={`exercise-${trainingProgramExerciseIndex}`}
-                            trainingProgramExercise={trainingProgramExercise}
+                {currentWorkout.exercises.map((trainingProgramExercise) =>
+                    <li className={classes.exerciseRow} key={`exercise-${trainingProgramExercise.id}`}>
+                        <TrainingProgramExercise trainingProgramExercise={trainingProgramExercise}
                             onDeleteExercise={onDeleteExercise} />
                     </li>)}
             </ul>

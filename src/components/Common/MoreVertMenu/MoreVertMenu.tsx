@@ -1,5 +1,5 @@
 import { MoreVert } from '@mui/icons-material';
-import { Box, IconButton, Menu } from '@mui/material';
+import { IconButton, Menu } from '@mui/material';
 import React from 'react';
 
 interface MoreVertMenuProps {
@@ -13,6 +13,7 @@ const MoreVertMenu: React.FC<MoreVertMenuProps> = ({ menuName, children, sx }) =
     const menuOpen = Boolean(menuAnchorEl);
 
     const openMenu = (event: React.MouseEvent<HTMLElement>) => {
+        console.log('open menu click');
         setMenuAnchorEl(event.currentTarget);
     };
 

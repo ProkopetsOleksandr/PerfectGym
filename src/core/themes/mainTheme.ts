@@ -4,7 +4,7 @@ const mainTheme = createTheme({
     cssVariables: true,
     palette: {
         primary: {
-            main: 'rgb(39 35 67)', // основной цвет
+            main: 'rgb(39, 35, 67)', // основной цвет
             contrastText: '#fff'
         },
         secondary: {

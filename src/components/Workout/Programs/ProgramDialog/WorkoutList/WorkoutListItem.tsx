@@ -14,7 +14,7 @@ interface WorkoutListItemProps {
 
 const WorkoutListItem: React.FC<WorkoutListItemProps> = ({ currentWorkout, onDeleteExercise, onDeleteSuperset }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: currentWorkout.id })
-    const style = { transition, transform: CSS.Transform.toString(transform) };
+    const style = { transition, transform: CSS.Translate.toString(transform) };
 
     return (
         <li ref={setNodeRef}
