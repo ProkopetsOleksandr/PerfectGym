@@ -72,7 +72,6 @@ const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout, onDeleteE
                 </ul>
             )}
         </div>
-
     )
 }
 

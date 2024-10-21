@@ -8,11 +8,15 @@ import { IProgramFormValues, ITrainingProgramExerciseFormModel, ITrainingProgram
 import { IExercise, IProgram, ITrainingProgram, ITrainingProgramExercise } from '../../../../core/models/workout';
 import { useAppDispatch } from '../../../../core/redux/hook';
 import { ProgramAction } from '../../../../core/redux/programs.slice';
-import Carousel from '../../../Common/Carousel/Carousel';
-import CarouselItem from '../../../Common/Carousel/CarouselItem';
 import MoreVertMenu from '../../../Common/MoreVertMenu/MoreVertMenu';
 import AddExerciseDialog from './AddExerciseDialog/AddExerciseDialog';
 import WorkoutList from './WorkoutList/WorkoutList';
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface ProgramFormProps {
     selectedProgram?: IProgram
@@ -163,37 +167,46 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                 </Box>
 
                 {formik.values.trainingPrograms &&
-                    <Carousel>
-                        {formik.values.trainingPrograms.map((trainingProgram, index) => {
-                            return <CarouselItem key={index}>
-                                <Box className="margin-bottom-1" sx={{ flex: '0 0 auto', display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
-                                    <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
+                    <Box style={{ position: 'relative', height: '100%', flex: '1 1 auto', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+                        <div id="swiper-pagination"></div>
+                        <Swiper
+                            spaceBetween={50}
+                            slidesPerView={1}
+                            pagination={{ clickable: true, el: "#swiper-pagination" }}
+                            modules={[Pagination]}
+                            style={{ position: 'relative', width: '100%', flex: '1 1 auto', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}
+                        >
+                            {formik.values.trainingPrograms.map((trainingProgram, index) => {
+                                return <SwiperSlide key={index} style={{ minWidth: '100%', boxSizing: 'border-box', padding: '10px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+                                    <Box className="margin-bottom-1" sx={{ flex: '0 0 auto', display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
+                                        <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
 
-                                    <TextField
-                                        variant="standard"
-                                        value={trainingProgram.title}
-                                        onChange={(e) => onTrainingProgramTitleChange(e, index)}
-                                        size="small"
-                                        fullWidth
-                                    />
+                                        <TextField
+                                            variant="standard"
+                                            value={trainingProgram.title}
+                                            onChange={(e) => onTrainingProgramTitleChange(e, index)}
+                                            size="small"
+                                            fullWidth
+                                        />
 
-                                    <MoreVertMenu key={index} menuName={'training-program-menu-' + index} sx={{ color: 'primary.main' }}>
-                                        <MenuItem>Change order</MenuItem>
-                                        <MenuItem>Delete</MenuItem>
-                                    </MoreVertMenu>
-                                </Box>
+                                        <MoreVertMenu key={index} menuName={'training-program-menu-' + index} sx={{ color: 'primary.main' }}>
+                                            <MenuItem>Change order</MenuItem>
+                                            <MenuItem>Delete</MenuItem>
+                                        </MoreVertMenu>
+                                    </Box>
 
-                                <Box sx={{ flex: '1 1 auto', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
-                                    <WorkoutList
-                                        workout={trainingProgram.workout}
-                                        onDeleteExercise={onDeleteExercise}
-                                        onDeleteSuperset={onDeleteSuperset} />
-                                </Box>
+                                    <Box sx={{ flex: '1 1 auto', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
+                                        <WorkoutList
+                                            workout={trainingProgram.workout}
+                                            onDeleteExercise={onDeleteExercise}
+                                            onDeleteSuperset={onDeleteSuperset} />
+                                    </Box>
 
-                                <Button variant='contained' fullWidth sx={{ marginTop: '10px' }} onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
-                            </CarouselItem>
-                        })}
-                    </Carousel>}
+                                    <Button variant='contained' fullWidth sx={{ marginTop: '10px' }} onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
+                                </SwiperSlide>
+                            })}
+                        </Swiper>
+                    </Box>}
             </form>
 
             <AddExerciseDialog onAddExercise={onAddExercise} />

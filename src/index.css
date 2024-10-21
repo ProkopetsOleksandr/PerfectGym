@@ -83,3 +83,9 @@ a {
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.2);
 }
+
+#swiper-pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1em;
+}
