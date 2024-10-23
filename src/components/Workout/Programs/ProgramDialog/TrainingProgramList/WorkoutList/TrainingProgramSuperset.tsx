@@ -1,7 +1,7 @@
 import { MenuItem, Typography } from '@mui/material';
 import React from 'react';
-import { ITrainingProgramExerciseFormModel, ITrainingProgramWorkoutFormModel } from '../../../../../core/models/forms';
-import MoreVertMenu from '../../../../Common/MoreVertMenu/MoreVertMenu';
+import { ITrainingProgramExerciseFormModel, ITrainingProgramWorkoutFormModel } from '../../../../../../core/models/forms';
+import MoreVertMenu from '../../../../../Common/MoreVertMenu/MoreVertMenu';
 import TrainingProgramExercise from './TrainingProgramExercise';
 import classes from './WorkoutList.module.css';
 

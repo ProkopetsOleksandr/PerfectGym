@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React from 'react';
-import { ITrainingProgramExerciseFormModel, ITrainingProgramWorkoutFormModel } from '../../../../../core/models/forms';
+import { ITrainingProgramExerciseFormModel, ITrainingProgramWorkoutFormModel } from '../../../../../../core/models/forms';
 import TrainingProgramExercise from './TrainingProgramExercise';
 import TrainingProgramSuperset from './TrainingProgramSuperset';
 import classes from './WorkoutList.module.css';

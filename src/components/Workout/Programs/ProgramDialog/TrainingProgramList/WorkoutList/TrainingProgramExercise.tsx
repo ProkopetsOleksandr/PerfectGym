@@ -1,8 +1,8 @@
 import { MenuItem, Typography } from '@mui/material';
 import React from 'react';
-import { MuscleGroupLabel } from '../../../../../core/models/enums';
-import { ITrainingProgramExerciseFormModel } from '../../../../../core/models/forms';
-import MoreVertMenu from '../../../../Common/MoreVertMenu/MoreVertMenu';
+import { MuscleGroupLabel } from '../../../../../../core/models/enums';
+import { ITrainingProgramExerciseFormModel } from '../../../../../../core/models/forms';
+import MoreVertMenu from '../../../../../Common/MoreVertMenu/MoreVertMenu';
 import classes from './WorkoutList.module.css';
 
 interface TrainingProgramExerciseProps {

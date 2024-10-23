@@ -199,7 +199,7 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                         fullWidth />
                 </Box>
 
-                <Box sx={{ display: 'flex', flexDirection: 'row-reverse' }}>
+                <Box sx={{ textAlign: 'end' }}>
                     <IconButton sx={{ bgcolor: 'secondary.main', color: 'primary.contrastText', "&.MuiButtonBase-root:hover": { bgcolor: "secondary.main" } }} onClick={addTrainingProgram}>
                         <Add />
                     </IconButton>
