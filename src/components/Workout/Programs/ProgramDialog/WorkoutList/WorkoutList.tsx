@@ -17,8 +17,6 @@ const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout, onDeleteE
     );
 
     function onDragOver(event: DragEndEvent) {
-        setIsDragging(false);
-
         const { active, over } = event;
 
         if (over && active.id === over.id) {
@@ -29,49 +27,16 @@ const WorkoutList: React.FC<ProgramDayExerciseListProps> = ({ workout, onDeleteE
         console.log(over);
     }
 
-    const [isDragging, setIsDragging] = useState(false);
-    const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | undefined>(undefined);
-
-    const handleMouseDown = (e: any) => {
-
-        console.log("mouse down")
-
-        // Запускаем таймер на 2 секунды
-        const timer = setTimeout(() => {
-            setIsDragging(true);
-
-            console.log("draggable")
-        }, 1000);
-        setTimeoutId(timer);
-    };
-
-    const handleMouseUp = () => {
-        // Если отпустили до истечения времени, отменяем перетаскивание
-        clearTimeout(timeoutId);
-    };
-
     return (
-        <div
-            onMouseDown={handleMouseDown}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp} // Обрабатываем случай ухода курсора
-        >
-            {isDragging ? (<DndContext collisionDetection={closestCorners} onDragEnd={onDragOver} sensors={sensors}>
-                <ul style={{ padding: '5px' }}>
-                    <SortableContext items={workout} strategy={verticalListSortingStrategy} >
-                        {workout.map((currentWorkout) =>
-                            <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />
-                        )}
-                    </SortableContext>
-                </ul>
-            </DndContext>) : (
-                <ul style={{ padding: '5px' }}>
+        <DndContext collisionDetection={closestCorners} onDragEnd={onDragOver} sensors={sensors}>
+            <ul style={{ padding: '5px' }}>
+                <SortableContext items={workout} strategy={verticalListSortingStrategy} >
                     {workout.map((currentWorkout) =>
                         <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />
                     )}
-                </ul>
-            )}
-        </div>
+                </SortableContext>
+            </ul>
+        </DndContext>
     )
 }
 

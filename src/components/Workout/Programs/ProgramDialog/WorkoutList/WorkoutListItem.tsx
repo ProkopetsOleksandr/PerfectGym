@@ -17,18 +17,13 @@ const WorkoutListItem: React.FC<WorkoutListItemProps> = ({ currentWorkout, onDel
     const style = { transition, transform: CSS.Translate.toString(transform) };
 
     return (
-        <li ref={setNodeRef}
-            {...attributes}
-            {...listeners}
-            style={style}
-            className={currentWorkout.isSuperset ? classes.supersetRow : classes.exerciseRow}
-        >
+        <div ref={setNodeRef} {...attributes} {...listeners} style={style} className={currentWorkout.isSuperset ? classes.supersetRow : classes.exerciseRow}>
             {!currentWorkout.isSuperset &&
                 <TrainingProgramExercise trainingProgramExercise={currentWorkout.exercises[0]} onDeleteExercise={onDeleteExercise} />}
 
             {currentWorkout.isSuperset &&
                 <TrainingProgramSuperset currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />}
-        </li>
+        </div>
     )
 }
 

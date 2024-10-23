@@ -1,7 +1,7 @@
 import { Add, } from '@mui/icons-material';
 import { Box, Button, Chip, IconButton, Menu, MenuItem, TextField } from '@mui/material';
 import { FormikErrors, useFormik } from 'formik';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { generateTemporaryId } from '../../../../core/helpers/common';
 import { MapToITrainingProgramFormModel } from '../../../../core/helpers/mapper';
 import { IProgramFormValues, ITrainingProgramExerciseFormModel, ITrainingProgramFormModel, ITrainingProgramWorkoutFormModel } from '../../../../core/models/forms';
@@ -10,20 +10,27 @@ import { useAppDispatch } from '../../../../core/redux/hook';
 import { ProgramAction } from '../../../../core/redux/programs.slice';
 import MoreVertMenu from '../../../Common/MoreVertMenu/MoreVertMenu';
 import AddExerciseDialog from './AddExerciseDialog/AddExerciseDialog';
-import WorkoutList from './WorkoutList/WorkoutList';
 
+import { closestCorners, DndContext, DragEndEvent, DragStartEvent, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import SwiperCore from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import useDeviceType from '../../../Common/Hooks/useDeviceType';
+import WorkoutListItem from './WorkoutList/WorkoutListItem';
 
 interface ProgramFormProps {
     selectedProgram?: IProgram
 }
 
 const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
+    const isTouchDevice = useDeviceType();
     const [currentDay, setCurrentDay] = useState<number>(0);
+    const swiperRef = useRef<SwiperCore | null>(null);
     const dispatch = useAppDispatch();
 
     const initialValues: IProgramFormValues = {
@@ -137,9 +144,41 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
         formik.setFieldValue('trainingPrograms', newTrainingPrograms);
     }
 
+    const sensor = isTouchDevice ? TouchSensor : PointerSensor;
+
+    const sensors = useSensors(
+        useSensor(sensor, { activationConstraint: { delay: 500, tolerance: 5 } })
+    );
+
+    const handleDragStart = (event: DragStartEvent) => {
+        console.log('Drag started', event);
+        // Отключаем свайп при начале перетаскивания
+        if (swiperRef.current) {
+            swiperRef.current.allowTouchMove = false;
+            console.log("swiperRef.current.allowTouchMove", swiperRef.current.allowTouchMove);
+        }
+    };
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        console.log('Drag ended', event);
+
+        const { active, over } = event;
+
+        if (over && active.id !== over.id) {
+            // const oldIndex = todos.findIndex((item) => item.id === active.id);
+            // const newIndex = todos.findIndex((item) => item.id === over.id);
+
+            // setTodos(arrayMove(todos, oldIndex, newIndex));
+        }
+
+        if (swiperRef.current) {
+            swiperRef.current.allowTouchMove = true;
+        }
+    };
+
     return (
         <Box sx={{ height: '100%' }}>
-            <form onSubmit={formik.handleSubmit} style={{ height: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+            <form onSubmit={formik.handleSubmit} style={{ height: '100%', display: 'flex', flexDirection: 'column', maxWidth: "100%" }}>
                 <Box className="form-group">
                     <TextField
                         {...formik.getFieldProps('title')}
@@ -166,19 +205,21 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                     </IconButton>
                 </Box>
 
+                <div id="swiper-pagination"></div>
+
                 {formik.values.trainingPrograms &&
-                    <Box style={{ position: 'relative', height: '100%', flex: '1 1 auto', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-                        <div id="swiper-pagination"></div>
-                        <Swiper
-                            spaceBetween={50}
-                            slidesPerView={1}
-                            pagination={{ clickable: true, el: "#swiper-pagination" }}
-                            modules={[Pagination]}
-                            style={{ position: 'relative', width: '100%', flex: '1 1 auto', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}
-                        >
-                            {formik.values.trainingPrograms.map((trainingProgram, index) => {
-                                return <SwiperSlide key={index} style={{ minWidth: '100%', boxSizing: 'border-box', padding: '10px', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-                                    <Box className="margin-bottom-1" sx={{ flex: '0 0 auto', display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
+                    <Swiper
+                        onSwiper={(swiper: SwiperCore) => (swiperRef.current = swiper)}
+                        slidesPerView={1}
+                        pagination={{ clickable: true, el: "#swiper-pagination" }}
+                        modules={[Pagination]}
+                        touchStartPreventDefault={false}
+                        style={{ height: '100%', maxWidth: '100%' }}
+                    >
+                        {formik.values.trainingPrograms.map((trainingProgram, index) => {
+                            return <SwiperSlide key={index} style={{ height: '100%' }}>
+                                <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                    <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
                                         <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
 
                                         <TextField
@@ -195,18 +236,24 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                                         </MoreVertMenu>
                                     </Box>
 
-                                    <Box sx={{ flex: '1 1 auto', overflowY: 'auto', display: 'flex', flexDirection: 'column' }}>
-                                        <WorkoutList
-                                            workout={trainingProgram.workout}
-                                            onDeleteExercise={onDeleteExercise}
-                                            onDeleteSuperset={onDeleteSuperset} />
+                                    <Box sx={{ flex: '1 1 auto', overflowY: 'auto', padding: '10px', marginBottom: '10px' }}>
+                                        <DndContext collisionDetection={closestCorners} modifiers={[restrictToVerticalAxis]}
+                                            sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                                            <SortableContext items={trainingProgram.workout} strategy={verticalListSortingStrategy} >
+                                                {trainingProgram.workout.map((currentWorkout) =>
+                                                    <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />
+                                                )}
+                                            </SortableContext>
+                                        </DndContext>
                                     </Box>
 
-                                    <Button variant='contained' fullWidth sx={{ marginTop: '10px' }} onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
-                                </SwiperSlide>
-                            })}
-                        </Swiper>
-                    </Box>}
+                                    <Box style={{ marginTop: 'auto', padding: '10px 10px 0 10px' }}>
+                                        <Button variant='contained' fullWidth onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
+                                    </Box>
+                                </Box>
+                            </SwiperSlide>
+                        })}
+                    </Swiper>}
             </form>
 
             <AddExerciseDialog onAddExercise={onAddExercise} />
