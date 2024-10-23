@@ -205,55 +205,57 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
                     </IconButton>
                 </Box>
 
-                <div id="swiper-pagination"></div>
-
                 {formik.values.trainingPrograms &&
-                    <Swiper
-                        onSwiper={(swiper: SwiperCore) => (swiperRef.current = swiper)}
-                        slidesPerView={1}
-                        pagination={{ clickable: true, el: "#swiper-pagination" }}
-                        modules={[Pagination]}
-                        touchStartPreventDefault={false}
-                        style={{ height: '100%', maxWidth: '100%' }}
-                    >
-                        {formik.values.trainingPrograms.map((trainingProgram, index) => {
-                            return <SwiperSlide key={index} style={{ height: '100%' }}>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                                    <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
-                                        <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
+                    <React.Fragment>
+                        <div id="swiper-pagination"></div>
+                        <Swiper
+                            onSwiper={(swiper: SwiperCore) => (swiperRef.current = swiper)}
+                            slidesPerView={1}
+                            pagination={{ clickable: true, el: "#swiper-pagination" }}
+                            modules={[Pagination]}
+                            touchStartPreventDefault={false}
+                            style={{ height: '100%', maxWidth: '100%' }}
+                        >
 
-                                        <TextField
-                                            variant="standard"
-                                            value={trainingProgram.title}
-                                            onChange={(e) => onTrainingProgramTitleChange(e, index)}
-                                            size="small"
-                                            fullWidth
-                                        />
+                            {formik.values.trainingPrograms.map((trainingProgram, index) => {
+                                return <SwiperSlide key={index} style={{ height: '100%' }}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                        <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
+                                            <Chip label={`Day ${index + 1}`} color="secondary" sx={{ color: 'primary.contrastText' }} />
 
-                                        <MoreVertMenu key={index} menuName={'training-program-menu-' + index} sx={{ color: 'primary.main' }}>
-                                            <MenuItem>Change order</MenuItem>
-                                            <MenuItem>Delete</MenuItem>
-                                        </MoreVertMenu>
+                                            <TextField
+                                                variant="standard"
+                                                value={trainingProgram.title}
+                                                onChange={(e) => onTrainingProgramTitleChange(e, index)}
+                                                size="small"
+                                                fullWidth
+                                            />
+
+                                            <MoreVertMenu key={index} menuName={'training-program-menu-' + index} sx={{ color: 'primary.main' }}>
+                                                <MenuItem>Change order</MenuItem>
+                                                <MenuItem>Delete</MenuItem>
+                                            </MoreVertMenu>
+                                        </Box>
+
+                                        <Box sx={{ flex: '1 1 auto', overflowY: 'auto', padding: '10px', marginBottom: '10px' }}>
+                                            <DndContext collisionDetection={closestCorners} modifiers={[restrictToVerticalAxis]}
+                                                sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+                                                <SortableContext items={trainingProgram.workout} strategy={verticalListSortingStrategy} >
+                                                    {trainingProgram.workout.map((currentWorkout) =>
+                                                        <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />
+                                                    )}
+                                                </SortableContext>
+                                            </DndContext>
+                                        </Box>
+
+                                        <Box style={{ marginTop: 'auto', padding: '10px 10px 0 10px' }}>
+                                            <Button variant='contained' fullWidth onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
+                                        </Box>
                                     </Box>
-
-                                    <Box sx={{ flex: '1 1 auto', overflowY: 'auto', padding: '10px', marginBottom: '10px' }}>
-                                        <DndContext collisionDetection={closestCorners} modifiers={[restrictToVerticalAxis]}
-                                            sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-                                            <SortableContext items={trainingProgram.workout} strategy={verticalListSortingStrategy} >
-                                                {trainingProgram.workout.map((currentWorkout) =>
-                                                    <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />
-                                                )}
-                                            </SortableContext>
-                                        </DndContext>
-                                    </Box>
-
-                                    <Box style={{ marginTop: 'auto', padding: '10px 10px 0 10px' }}>
-                                        <Button variant='contained' fullWidth onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
-                                    </Box>
-                                </Box>
-                            </SwiperSlide>
-                        })}
-                    </Swiper>}
+                                </SwiperSlide>
+                            })}
+                        </Swiper>
+                    </React.Fragment>}
             </form>
 
             <AddExerciseDialog onAddExercise={onAddExercise} />
