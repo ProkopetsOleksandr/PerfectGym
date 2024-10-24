@@ -15,7 +15,9 @@ function useDeviceType() {
         };
     }, []);
 
-    return isTouchDevice;
+    return {
+        isTouchDevice
+    };
 }
 
 export default useDeviceType;

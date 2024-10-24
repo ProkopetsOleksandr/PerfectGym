@@ -4,20 +4,26 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { Box, Button, Chip, MenuItem, TextField } from '@mui/material';
 import React, { useRef } from 'react';
 import SwiperCore from 'swiper';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { ITrainingProgramFormModel } from '../../../../../core/models/forms';
+import { ITrainingProgramExerciseFormModel, ITrainingProgramFormModel, ITrainingProgramWorkoutFormModel } from '../../../../../core/models/forms';
 import useDeviceType from '../../../../Common/Hooks/useDeviceType';
 import MoreVertMenu from '../../../../Common/MoreVertMenu/MoreVertMenu';
 import WorkoutListItem from './WorkoutList/WorkoutListItem';
 
 interface TrainingProgramListProps {
     trainingPrograms: ITrainingProgramFormModel[],
-    onTrainingProgramTitleChange: (e: any, index: number) => void
+    onTrainingProgramTitleChange: (e: any, index: number) => void,
+    onAddExerciseButtonClick: () => void,
+    onDeleteExercise: (exercise: ITrainingProgramExerciseFormModel) => void,
+    onDeleteSuperset: (workout: ITrainingProgramWorkoutFormModel) => void,
+    onSelectedTrainingProgramChange: (index: number) => void
 }
 
-const TrainingProgramList: React.FC<TrainingProgramListProps> = ({ trainingPrograms, onTrainingProgramTitleChange }) => {
-    const isTouchDevice = useDeviceType();
+const TrainingProgramList: React.FC<TrainingProgramListProps> = (props) => {
+    const { isTouchDevice } = useDeviceType();
 
     const swiperRef = useRef<SwiperCore | null>(null);
     const sensorType = isTouchDevice ? TouchSensor : PointerSensor;
@@ -51,18 +57,19 @@ const TrainingProgramList: React.FC<TrainingProgramListProps> = ({ trainingProgr
 
     return (
         <React.Fragment>
-            {trainingPrograms.length &&
+            {props.trainingPrograms.length &&
                 <React.Fragment>
                     <div id="swiper-pagination"></div>
                     <Swiper
-                        onSwiper={(swiper: SwiperCore) => (swiperRef.current = swiper)}
                         slidesPerView={1}
-                        pagination={{ clickable: true, el: "#swiper-pagination" }}
-                        modules={[Pagination]}
                         touchStartPreventDefault={false}
+                        modules={[Pagination]}
+                        pagination={{ clickable: true, el: "#swiper-pagination" }}
                         style={{ height: '100%', maxWidth: '100%' }}
+                        onSwiper={(swiper: SwiperCore) => (swiperRef.current = swiper)}
+                        onActiveIndexChange={(swiper: SwiperCore) => props.onSelectedTrainingProgramChange(swiper.activeIndex)}
                     >
-                        {trainingPrograms.map((trainingProgram, index) => {
+                        {props.trainingPrograms.map((trainingProgram, index) => {
                             return <SwiperSlide key={index} style={{ height: '100%' }}>
                                 <Box sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                                     <Box className="margin-bottom-1" sx={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: 'space-between' }}>
@@ -71,7 +78,7 @@ const TrainingProgramList: React.FC<TrainingProgramListProps> = ({ trainingProgr
                                         <TextField
                                             variant="standard"
                                             value={trainingProgram.title}
-                                            onChange={(e) => onTrainingProgramTitleChange(e, index)}
+                                            onChange={(e) => props.onTrainingProgramTitleChange(e, index)}
                                             size="small"
                                             fullWidth
                                         />
@@ -87,14 +94,14 @@ const TrainingProgramList: React.FC<TrainingProgramListProps> = ({ trainingProgr
                                             sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
                                             <SortableContext items={trainingProgram.workout} strategy={verticalListSortingStrategy} >
                                                 {trainingProgram.workout.map((currentWorkout) =>
-                                                    <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={onDeleteExercise} onDeleteSuperset={onDeleteSuperset} />
+                                                    <WorkoutListItem key={currentWorkout.id} currentWorkout={currentWorkout} onDeleteExercise={props.onDeleteExercise} onDeleteSuperset={props.onDeleteSuperset} />
                                                 )}
                                             </SortableContext>
                                         </DndContext>
                                     </Box>
 
                                     <Box style={{ marginTop: 'auto', padding: '10px 10px 0 10px' }}>
-                                        <Button variant='contained' fullWidth onClick={() => onAddExerciseButtonClick(index)}>Add exercise</Button>
+                                        <Button variant='contained' fullWidth onClick={props.onAddExerciseButtonClick}>Add exercise</Button>
                                     </Box>
                                 </Box>
                             </SwiperSlide>
