@@ -7,13 +7,10 @@ import ProgramDialog from './ProgramDialog/ProgramDialog';
 import ProgramList from './ProgramList/ProgramList';
 
 function Programs() {
-    //const [isProgramDialogOpen, setIsProgramDialogOpen] = useState<boolean>(false);
-
+    const dispatch = useAppDispatch();
+    
     const { status, programs } = useAppSelector(store => store.programs);
     
-    const dispatch = useAppDispatch();
-
-
     useEffect(() => {
         if (status === 'idle') {
             dispatch(ProgramAction.loadPrograms());

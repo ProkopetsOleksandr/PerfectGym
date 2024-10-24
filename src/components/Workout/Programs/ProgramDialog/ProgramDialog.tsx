@@ -9,16 +9,15 @@ import ProgramForm from './ProgramForm';
 import ProgramViewMode from './ProgramViewMode';
 
 const ProgramDialog = () => {
-    const { open, selectedProgram, editMode, formValid } = useAppSelector(store => store.programs.programDialog);
-
     const dispatch = useAppDispatch();
+    
+    const { open, selectedProgram, editMode, formValid } = useAppSelector(store => store.programs.programDialog);
 
     function closeProgramDialog() {
         dispatch(ProgramAction.closeProgramDialog());
     }
 
     function onSave() {
-
     }
 
     // function onSubmit(values: ProgramFormValues) {
@@ -63,7 +62,7 @@ const ProgramDialog = () => {
                     ? <ProgramViewMode selectedProgram={selectedProgram} />
                     : <ProgramForm selectedProgram={selectedProgram} />}
             </DialogContent>
-        </Dialog >
+        </Dialog>
     )
 }
 

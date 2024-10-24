@@ -51,15 +51,12 @@ const ProgramForm: React.FC<ProgramFormProps> = ({ selectedProgram }) => {
         formik.setFieldValue('trainingPrograms', [...formik.values.trainingPrograms, newTrainingProgram]);
     }
 
-    function onTrainingProgramTitleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+    function onTrainingProgramTitleChange(trainingProgramId: number | string, value: string) {
         const newTrainingPrograms = [...formik.values.trainingPrograms];
-        const targetTrainingProgram = newTrainingPrograms.at(selectedTrainingProgramIndex);
+        const targetTrainingProgram = newTrainingPrograms.find(m => m.id === trainingProgramId);
 
         if (targetTrainingProgram) {
-            targetTrainingProgram.title = event.target.value;
-
-            console.log(newTrainingPrograms);
-
+            targetTrainingProgram.title = value;
             formik.setFieldValue('trainingPrograms', newTrainingPrograms);
         }
     }
