@@ -37,8 +37,12 @@ const WorkoutList = (props: WorkoutListProps) => {
     };
 
     return (
-        <DndContext collisionDetection={closestCorners} modifiers={[restrictToVerticalAxis]}
-            sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        <DndContext collisionDetection={closestCorners}
+            modifiers={[restrictToVerticalAxis]}
+            sensors={sensors}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+        >
             <SortableContext items={props.workout} strategy={verticalListSortingStrategy} >
                 {props.workout.map((currentWorkout) =>
                     <WorkoutListItem key={currentWorkout.id}
